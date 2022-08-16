@@ -8,7 +8,9 @@
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "prepare": "husky install",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "update:request": "npx http-request-cli -g",
+    "postupdate:request": "prettier --write \"./src/http/**/*.ts\""
   },
   "commitlint": {
     "extends": [
@@ -22,11 +24,14 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.31.0",
+    "@gopowerteam/http-request": "^0.4.6",
     "@gopowerteam/vue-modal": "^0.1.12",
     "@ngneat/elf": "^2.1.0",
     "@ngneat/elf-devtools": "^1.2.1",
     "@ngneat/elf-persist-state": "^1.1.2",
     "@vue/runtime-core": "^3.2.37",
+    "class-transformer": "^0.5.1",
+    "dayjs": "^1.11.5",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "rxjs": "^7.5.5",
@@ -38,6 +43,7 @@
     "@babel/eslint-parser": "^7.18.2",
     "@commitlint/cli": "17.0.2",
     "@commitlint/config-conventional": "17.0.2",
+    "@gopowerteam/http-request-cli": "^0.4.20",
     "@iconify-json/icon-park": "^1.1.4",
     "@types/nprogress": "^0.2.0",
     "@types/prettier": "^2.6.3",
@@ -62,6 +68,7 @@
     "postcss-html": "^1.4.1",
     "postcss-less": "^6.0.0",
     "prettier": "^2.7.1",
+    "reflect-metadata": "^0.1.13",
     "stylelint": "^14.9.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recess-order": "^3.0.0",

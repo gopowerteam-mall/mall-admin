@@ -9,6 +9,7 @@ import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import unocss from 'unocss/vite'
+import request from '@gopowerteam/http-request/vite-plugin'
 
 // 全局样式变量
 const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'varibles.less')
@@ -19,6 +20,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~/': `${resolve(__dirname, 'src')}/`,
+      '@/': `${resolve(__dirname, 'src')}/`,
     },
   },
   css: {
@@ -77,6 +79,12 @@ export default defineConfig({
         }),
       ],
       include: [/\.vue$/, /\.vue\?vue/],
+    }),
+    request({
+      root: resolve(process.cwd(), 'src'),
+      alias: '~',
+      serviceDir: 'http/services',
+      serviceDeclaration: 'src/types/request.d.ts',
     }),
     // 自动导入图标插件配置
     icons({

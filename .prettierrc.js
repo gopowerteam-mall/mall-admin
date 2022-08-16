@@ -43,5 +43,4 @@ module.exports = {
   embeddedLanguageFormatting: 'auto',
   // 每行一个属性
   singleAttributePerLine: true,
-  eslintIntegration: true,
 }

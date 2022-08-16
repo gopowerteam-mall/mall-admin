@@ -1,17 +1,12 @@
 import { Router } from 'vue-router'
 import { appConfig } from '~/config/app.config'
 import menus from '~/config/menu.config'
-import { appAction } from '~/store/app.store'
-import { userQuery } from '~/store/user.store'
+import { appAction, appQuery } from '~/store/app.store'
+import { userAction, userQuery } from '~/store/user.store'
 import type { Menu } from '~/types/workspace'
-/**
- * 启动websocket
- * @returns
- */
-function websocketLaunch() {
-  return Promise.resolve()
-}
-
+import { useRequest } from 'virtual:http-request'
+import { RequestParams } from '@gopowerteam/http-request'
+import { lastValueFrom } from 'rxjs'
 /**
  * 检测用户菜单权限
  */
@@ -100,14 +95,71 @@ function generateUserMenu(router: Router) {
     }
   }
 }
+
+/**
+ * 更新用户数据
+ */
+function updateCurrentToken() {
+  const appService = useRequest((service) => service.AppService)
+  const accessToken = userQuery.safeAccessToken
+  const refreshToken = userQuery.select((state) => state.refreshToken)
+
+  if (!accessToken && refreshToken) {
+    return lastValueFrom(
+      appService.token(
+        new RequestParams({
+          header: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        }),
+      ),
+    ).then(({ access_token, refresh_token, expires_in }) => {
+      userAction.updateToken({
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        expiresIn: expires_in,
+      })
+    })
+  }
+}
+
+/**
+ * 更新用户数据
+ */
+function updateCurrentUser() {
+  const appService = useRequest((service) => service.AppService)
+  const accessToken = userQuery.select((state) => state.accessToken)
+
+  if (accessToken) {
+    return lastValueFrom(appService.getCurrentUser()).then((data) => {
+      userAction.updateCurrent(data)
+    })
+  }
+}
+
 /**
  * 系统启动列表
  * @returns
  */
 export default function userLaunch(router: Router) {
   router.beforeEach(async (to, from, next) => {
+    // 已登录用户直接跳转
+    if (userQuery.select((state) => state.current)) {
+      return next()
+    }
+
+    // 未登录用户处理
     if (!userQuery.select((state) => state.current)) {
-      // 设置用户状态
+      // 更新用户Token
+      await updateCurrentToken()
+
+      // 更新用户信息
+      await updateCurrentUser()
+    }
+
+    // 登录成功处理
+    if (userQuery.select((state) => state.current)) {
+      // 生成用户菜单
       await generateUserMenu(router)
     }
 

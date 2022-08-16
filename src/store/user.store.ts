@@ -1,14 +1,17 @@
-import { createStore, withProps, setProp } from '@ngneat/elf'
+import { createStore, withProps, setProp, setProps } from '@ngneat/elf'
 import {
   excludeKeys,
   localStorageStrategy,
   persistState,
 } from '@ngneat/elf-persist-state'
+import dayjs from 'dayjs'
 import { map } from 'rxjs'
 import { StoreAction, StoreQuery } from '~/store'
 
 interface State {
-  token: string
+  accessToken: string
+  refreshToken: string
+  expiresTime?: number
   current?: User
 }
 
@@ -21,7 +24,10 @@ const STORE_KEY = 'user'
 
 const userStore = createStore(
   { name: STORE_KEY },
-  withProps<State>({ token: '' }),
+  withProps<State>({
+    accessToken: '',
+    refreshToken: '',
+  }),
 )
 
 /**
@@ -41,8 +47,43 @@ class UserQuery extends StoreQuery<State> {
     super(userStore)
   }
 
+  /**
+   * 获取登录状态
+   */
   get isLogin() {
-    return this.steam$.pipe(map((state) => state.token.length))
+    return this.steam$.pipe(
+      map((state) => !!state.accessToken && !state.refreshToken),
+    )
+  }
+
+  /**
+   * 获取AccessToken
+   */
+  get accessToken() {
+    const { accessToken, expiresTime } = this.select()
+
+    if (accessToken && dayjs().isBefore(dayjs(expiresTime))) {
+      return accessToken
+    } else {
+      return ''
+    }
+  }
+
+  /**
+   * 获取安装AccessToken
+   */
+  get safeAccessToken() {
+    const { accessToken, expiresTime } = this.select()
+    const safeMinute = 5
+
+    if (
+      accessToken &&
+      dayjs().isBefore(dayjs(expiresTime).subtract(safeMinute, 'minutes'))
+    ) {
+      return accessToken
+    } else {
+      return ''
+    }
   }
 }
 
@@ -55,7 +96,7 @@ class UserAction extends StoreAction<State> {
    * 更新用户
    * @param user
    */
-  updateUser(user: User) {
+  updateCurrent(user: User) {
     this.store.update(setProp('current', user))
   }
 
@@ -63,8 +104,25 @@ class UserAction extends StoreAction<State> {
    * 更新用户
    * @param user
    */
-  updateToken(token: string) {
-    this.store.update(setProp('token', token))
+  updateToken({
+    accessToken,
+    refreshToken,
+    expiresIn,
+  }: {
+    accessToken: string
+    refreshToken: string
+    expiresIn: number
+  }) {
+    // 获取过期时间
+    const expiresTime = dayjs().add(expiresIn, 'seconds').valueOf()
+
+    this.store.update(
+      setProps({
+        accessToken,
+        refreshToken,
+        expiresTime,
+      }),
+    )
   }
 }
 
