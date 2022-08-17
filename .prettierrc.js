@@ -43,4 +43,10 @@ module.exports = {
   embeddedLanguageFormatting: 'auto',
   // 每行一个属性
   singleAttributePerLine: true,
+  pugAttributeSeparator: 'none',
+  pugEmptyAttributes: 'none',
+  pugClosingBracketPosition: 'last-line',
+  pugSortAttributes: 'asc',
+  pugClassNotation: 'literal',
+  plugins: [require.resolve('@prettier/plugin-pug')],
 }
