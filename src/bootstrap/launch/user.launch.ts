@@ -1,7 +1,7 @@
 import { Router } from 'vue-router'
 import { appConfig } from '~/config/app.config'
 import menus from '~/config/menu.config'
-import { appAction, appQuery } from '~/store/app.store'
+import { appAction } from '~/store/app.store'
 import { userAction, userQuery } from '~/store/user.store'
 import type { Menu } from '~/types/workspace'
 import { useRequest } from 'virtual:http-request'

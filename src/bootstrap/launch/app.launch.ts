@@ -1,10 +1,17 @@
+import { lastValueFrom } from 'rxjs'
+import { useRequest } from 'virtual:http-request'
 import { Router } from 'vue-router'
 import { appAction, appQuery } from '~/store/app.store'
-import { userQuery } from '~/store/user.store'
 
-// 启动逻辑
-async function appLaunch1() {
-  // TODO 启动示例
+/**
+ * 更新基础信息
+ * @returns
+ */
+async function getAppBase() {
+  const appService = useRequest((service) => service.AppService)
+  return lastValueFrom(appService.appBase()).then(({ base_time }) => {
+    appAction.updateBase({ basetime: base_time })
+  })
 }
 
 /**
@@ -13,14 +20,29 @@ async function appLaunch1() {
  */
 export default async function appLaunch(router: Router) {
   router.beforeEach(async (to, from, next) => {
+    // 当前置页面进入不需要验证状态
+    if (to.name === 'welcome') {
+      return next()
+    }
+
     if (!appQuery.select((state) => state.ready)) {
-      // 系统初始化逻辑
-      await appLaunch1()
+      // 获取应用基础信息
+      await getAppBase().catch(({ ready }) => {
+        if (ready === false) {
+          // 系统未初始化需要进行初始化
+          return next('/welcome')
+        }
+      })
 
       // 设置系统准备状态
       appAction.setReady()
     }
 
-    next()
+    if (
+      appQuery.select((state) => state.ready) &&
+      appQuery.select((state) => state.base)
+    ) {
+      next()
+    }
   })
 }

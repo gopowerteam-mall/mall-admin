@@ -5,7 +5,7 @@
 import { Request, RequestParams } from '@gopowerteam/http-request'
 import type { Observable } from 'rxjs'
 import { AppController } from '~/http/controllers/app.controller'
-import { TokenResponse } from '~/http/model'
+import { AppBaseResponse, TokenResponse, Admin } from '~/http/model'
 
 export class AppService {
   /**
@@ -24,10 +24,11 @@ export class AppService {
    */
   @Request({
     server: AppController.appBase,
+    model: AppBaseResponse,
   })
   public appBase(
     params?: RequestParams | { [key: string]: any },
-  ): Observable<any> {
+  ): Observable<AppBaseResponse> {
     return RequestParams.create(params).request()
   }
   /**
@@ -59,10 +60,11 @@ export class AppService {
    */
   @Request({
     server: AppController.getCurrentUser,
+    model: Admin,
   })
   public getCurrentUser(
     params?: RequestParams | { [key: string]: any },
-  ): Observable<any> {
+  ): Observable<Admin> {
     return RequestParams.create(params).request()
   }
 }

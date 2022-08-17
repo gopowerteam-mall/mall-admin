@@ -6,18 +6,14 @@ import {
 } from '@ngneat/elf-persist-state'
 import dayjs from 'dayjs'
 import { map } from 'rxjs'
+import { Admin } from '~/http/model'
 import { StoreAction, StoreQuery } from '~/store'
 
 interface State {
   accessToken: string
   refreshToken: string
   expiresTime?: number
-  current?: User
-}
-
-interface User {
-  id: string
-  name: string
+  current?: Admin
 }
 
 const STORE_KEY = 'user'
@@ -96,8 +92,8 @@ class UserAction extends StoreAction<State> {
    * 更新用户
    * @param user
    */
-  updateCurrent(user: User) {
-    this.store.update(setProp('current', user))
+  updateCurrent(admin: Admin) {
+    this.store.update(setProp('current', admin))
   }
 
   /**

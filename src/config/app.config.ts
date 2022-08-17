@@ -1,11 +1,11 @@
 import { AppConfig } from '~/types/app.config'
 
 export const appConfig: AppConfig = {
-  app: 'vue-web-template',
-  title: 'VueAdmin',
+  app: 'mall-admin',
+  title: '商城后台管理',
   logo: '/logo.png',
   http: {
-    gateway: '',
+    gateway: import.meta.env.VITE_HTTP_GATEWAY,
     timeout: 3000,
   },
   workspace: {

@@ -2,9 +2,16 @@ import { createStore, withProps, setProp, setProps } from '@ngneat/elf'
 import { StoreAction, StoreQuery } from '~/store'
 import type { Menu, Tab } from '~/types/workspace'
 
+interface AppBase {
+  // 时间戳
+  basetime: number
+}
+
 interface State {
   // 系统准备状态
   ready: boolean
+  // 应用基础信息
+  base?: AppBase
   // 页面标题
   title: string
   // 侧边栏展开状态
@@ -54,6 +61,13 @@ class AppAction extends StoreAction<State> {
    */
   setReady() {
     this.store.update(setProp('ready', true))
+  }
+
+  /**
+   * 更新基础信息
+   */
+  updateBase(base: AppBase) {
+    this.store.update(setProp('base', base))
   }
 
   /**

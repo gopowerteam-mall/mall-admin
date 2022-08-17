@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.31.0",
-    "@gopowerteam/http-request": "^0.4.6",
+    "@gopowerteam/http-request": "^0.4.7",
     "@gopowerteam/vue-modal": "^0.1.12",
     "@ngneat/elf": "^2.1.0",
     "@ngneat/elf-devtools": "^1.2.1",

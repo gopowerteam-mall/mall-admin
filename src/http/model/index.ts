@@ -2,13 +2,27 @@ import { Type } from 'class-transformer'
 import { Model } from '@gopowerteam/http-request'
 
 export class Admin extends Model {
+  public id: string
+  /**
+   * 创建日期
+   */
+  public createdAt: string
+  /**
+   * 用户名
+   */
   public username: string
-  public password: string
 }
 
 export class AppInitDTO extends Model {
   @Type(() => Admin)
   public admin: Admin
+}
+
+export class AppBaseResponse extends Model {
+  /**
+   * 授权Token
+   */
+  public base_time: number
 }
 
 export class LoginDTO extends Model {
