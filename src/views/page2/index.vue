@@ -9,6 +9,7 @@ name: page2
 meta:
   layout: workspace
   auth:
+    required: true
     roles:
       - ADMIN
   menu:

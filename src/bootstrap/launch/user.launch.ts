@@ -7,6 +7,7 @@ import type { Menu } from '~/types/workspace'
 import { useRequest } from 'virtual:http-request'
 import { RequestParams } from '@gopowerteam/http-request'
 import { lastValueFrom } from 'rxjs'
+import { PageMeta } from '~/types/common'
 /**
  * 检测用户菜单权限
  */
@@ -19,6 +20,10 @@ function checkUserMenuRole(menu: Menu) {
  * 生成用户菜单
  */
 function generateUserMenu(router: Router) {
+  if (!userQuery.select((state) => state.current)) {
+    return
+  }
+
   // 获取路由菜单
   const pages = router
     .getRoutes()
@@ -138,13 +143,34 @@ function updateCurrentUser() {
 }
 
 /**
+ *
+ * @param roles
+ * @returns
+ */
+function ValidateUserRole(roles?: string[]) {
+  const current = userQuery.select((state) => state.current)
+
+  if (!current) {
+    return false
+  }
+
+  if (!roles || !roles.length) {
+    return true
+  }
+
+  // TODO:用户权限检验
+  return true
+}
+
+/**
  * 系统启动列表
  * @returns
  */
 export default function userLaunch(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    // 已登录用户直接跳转
-    if (userQuery.select((state) => state.current)) {
+    const meta = to.meta as PageMeta
+    // 非必要授权页面直接进入
+    if (!meta?.auth?.required) {
       return next()
     }
 
@@ -155,14 +181,22 @@ export default function userLaunch(router: Router) {
 
       // 更新用户信息
       await updateCurrentUser()
-    }
 
-    // 登录成功处理
-    if (userQuery.select((state) => state.current)) {
       // 生成用户菜单
       await generateUserMenu(router)
     }
 
-    next()
+    // 未登录用户进行登录
+    if (!userQuery.select((state) => state.current)) {
+      return next('/login')
+    }
+
+    // 已登录用户校验权限
+    if (ValidateUserRole(meta?.auth?.roles)) {
+      return next()
+    } else {
+      // 提示用户权限不足
+      return next('/403')
+    }
   })
 }

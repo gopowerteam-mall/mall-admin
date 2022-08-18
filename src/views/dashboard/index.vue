@@ -24,7 +24,8 @@
 name: dashboard
 meta:
   layout: workspace
-  requiresAuth: true
+  auth:
+    required: true
   menu:
     key: dashboard
     title: 仪表盘

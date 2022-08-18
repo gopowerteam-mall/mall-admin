@@ -72,7 +72,6 @@ code {
 <route lang="yaml">
 name: login
 meta:
-  requiresAuth: false
   menu:
     key: root1.page1
     icon: xxx
