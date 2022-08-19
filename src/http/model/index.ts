@@ -1,6 +1,11 @@
 import { Type } from 'class-transformer'
 import { Model } from '@gopowerteam/http-request'
 
+export class CreateAdminInput extends Model {
+  public username: string
+  public password: string
+}
+
 export class Admin extends Model {
   public id: string
   /**
@@ -8,14 +13,43 @@ export class Admin extends Model {
    */
   public createdAt: string
   /**
+   * 更新日期
+   */
+  public updatedAt: string
+  /**
    * 用户名
    */
   public username: string
+  /**
+   * 姓名
+   */
+  public realname: string
 }
 
-export class AppInitDTO extends Model {
-  @Type(() => Admin)
-  public admin: Admin
+export class UpdateAdminInput extends Model {
+  public realname: string
+}
+
+export class AdminResetPasswordResponse extends Model {
+  /**
+   * 新生成随机密码
+   */
+  public password: string
+}
+
+export class UpdatePasswordInput extends Model {
+  public oldPassword: string
+  public newPassword: string
+}
+
+export class AdminInput extends Model {
+  public username: string
+  public password: string
+}
+
+export class AppInitInput extends Model {
+  @Type(() => AdminInput)
+  public admin: AdminInput
 }
 
 export class AppBaseResponse extends Model {
@@ -25,7 +59,7 @@ export class AppBaseResponse extends Model {
   public base_time: number
 }
 
-export class LoginDTO extends Model {
+export class LoginInput extends Model {
   public username: string
   public password: string
 }
