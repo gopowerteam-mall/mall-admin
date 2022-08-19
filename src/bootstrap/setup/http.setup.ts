@@ -1,8 +1,7 @@
-// config.ts
 import { RequestService } from '@gopowerteam/http-request'
 import { appConfig } from '~/config/app.config'
-// import { TokenService } from '~/http/extends/token.service'
 import { Message } from '@arco-design/web-vue'
+import { TokenService } from '~/http/extends/token.service'
 
 export default function () {
   RequestService.setConfig({
@@ -47,10 +46,8 @@ export default function () {
 
       Message.error(errorMessage)
     }
-
-    return { a: 1 }
   }
 
   // 全局安装扩展服务
-  //   RequestService.installExtendService(new TokenService())
+  RequestService.installExtendService(new TokenService())
 }
