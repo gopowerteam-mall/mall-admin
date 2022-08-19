@@ -1,6 +1,6 @@
 module.exports = {
   name: 'default',
-  gateway: 'http://localhost:3000',
+  gateway: 'https://mall-service.gopowerteam.cn',
   swagger: 'admin/api-docs',
   model: true,
   modelDir: {

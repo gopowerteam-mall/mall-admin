@@ -1,71 +1,58 @@
+<template lang="pug">
+.login.h-screen
+  page-container(title='系统登录')
+    .fixed.w-360px.p-4.bg-white.bg-opacity-40.rounded(
+      class='top-1/2 right-1/8 -translate-y-1/2')
+      h2.bg-white.m-b-2.py-6.text-center.text-3xl.text-gray-800.rounded 管理后台登录
+      a-form.bg-white.p-t-8.p-r-4.p-b-2.rounded(
+        :model='model'
+        :rules='formRules'
+        @submit-success='handleSubmit')
+        a-form-item(field='username' label='账号')
+          a-input(v-model='model.username' placeholder='请输入登录账号')
+        a-form-item(field='password' label='密码')
+          a-input(
+            v-model='model.password'
+            placeholder='请输入登录密码'
+            type='password')
+        a-form-item
+          a-button(html-type='submit' long type='primary') 登录
+</template>
+
 <script setup lang="ts">
-import { useStore } from '~/shared/hooks/use-store'
-import { userQuery } from '~/store/user.store'
+import { useRequest } from 'virtual:http-request'
+import { userAction } from '~/store/user.store'
+const appService = useRequest((service) => service.AppService)
+const model = $ref({
+  username: '',
+  password: '',
+})
+
+const formRules = {
+  username: { required: true, message: '请输入管理员账号' },
+  password: { required: true, message: '请输入管理员登录密码' },
+}
 
 const router = useRouter()
 
-const length = useStore(userQuery.isLogin)
-
-function login() {}
+function handleSubmit() {
+  appService.login(model).subscribe({
+    next: ({ access_token, refresh_token, expires_in }) => {
+      userAction.updateToken({
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        expiresIn: expires_in,
+      })
+      // 替换当前路由到主页面
+      router.replace('/')
+    },
+  })
+}
 </script>
 
-<template>
-  <div
-    css:bg-gray-500
-    css:m="t-10 l-20">
-    <a-button
-      type="primary"
-      @click="login"
-      >User - {{ length }}</a-button
-    >
-    <a-button type="primary">Primary</a-button>
-    <a-button>Secondary</a-button>
-    <a-button
-      type="dashed"
-      @click="() => router.push({ name: 'dashboard' })"
-      >Dashed</a-button
-    >
-    <a-button type="outline">Outline</a-button>
-    <a-button type="text">Text</a-button>
-    <a-space>
-      <a-button type="primary">
-        <template #icon>
-          <icon-park:home />
-
-          <!-- <icon-park-abdominal></icon-park-abdominal> -->
-        </template>
-      </a-button>
-      <a-button type="primary">
-        <template #icon>
-          <!-- <icon-park-abdominal></icon-park-abdominal> -->
-        </template>
-        <!-- Use the default slot to avoid extra spaces -->
-        <template #default>Delete</template>
-      </a-button>
-    </a-space>
-    <p>
-      Edit<code>components/HelloWorld.vue</code>to test hot module replacement.
-    </p>
-  </div>
-</template>
-
 <style lang="less" scoped>
-a {
-  color: #42b983;
-}
-
-label {
-  width: 100px;
-  height: 100px;
-  margin: 0 0.5em;
-  font-weight: bold;
-}
-
-code {
-  padding: 2px 4px;
-  color: #304455;
-  background-color: #eee;
-  border-radius: 4px;
+.login {
+  background: url('/images/login_bg.png') left top / cover no-repeat;
 }
 </style>
 
@@ -76,4 +63,5 @@ meta:
     key: root1.page1
     icon: xxx
     title: Page1
+  layout: blank
 </route>
