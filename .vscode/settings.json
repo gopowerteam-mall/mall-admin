@@ -16,6 +16,6 @@
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass"],
   "stylelint.packageManager": "pnpm",
   "[vue]": {
-    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
