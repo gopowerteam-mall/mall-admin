@@ -45,6 +45,15 @@ export default defineConfig({
         'vue/macros',
         '@vueuse/head',
         '@vueuse/core',
+        {
+          '@/shared/common': ['get', 'set'],
+          '@/shared/hooks': [
+            'useStore',
+            'useInstance',
+            'useLogger',
+            'useUploader',
+          ],
+        },
       ],
       dts: 'src/types/auto-imports.d.ts',
       dirs: [],
@@ -68,6 +77,7 @@ export default defineConfig({
     // 自动引入组件插件配置
     components({
       dts: 'src/types/components.d.ts',
+      dirs: ['src/shared/components'],
       resolvers: [
         ArcoResolver({
           sideEffect: true,
@@ -76,8 +86,9 @@ export default defineConfig({
           prefix: 'icon',
           alias: {
             park: 'icon-park',
+            'park-outline': 'icon-park-outline',
           },
-          enabledCollections: ['icon-park'],
+          enabledCollections: ['icon-park', 'icon-park-outline'],
         }),
       ],
       include: [/\.vue$/, /\.vue\?vue/],

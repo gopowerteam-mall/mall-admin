@@ -21,7 +21,7 @@ export class AdminService {
     return RequestParams.create(params).request()
   }
   /**
-   * 查询管理员
+   * 查询管理员列表
    */
   @Request({
     server: AdminController.findAdmin,

@@ -2,6 +2,7 @@ import { RequestService } from '@gopowerteam/http-request'
 import { appConfig } from '~/config/app.config'
 import { Message } from '@arco-design/web-vue'
 import { TokenService } from '~/http/extends/token.service'
+import { userAction } from '~/store/user.store'
 
 export default function () {
   RequestService.setConfig({
@@ -46,6 +47,24 @@ export default function () {
 
       Message.error(errorMessage)
     }
+    switch (response.status) {
+      case 401:
+        onResponse401()
+        break
+    }
+  }
+
+  /**
+   * 401错误码处理
+   * 仅处理登陆过期问题
+   * @param response
+   */
+  function onResponse401() {
+    // 登录过期处理
+    userAction.logout()
+
+    // 跳转根页面
+    location.href = '/'
   }
 
   // 全局安装扩展服务

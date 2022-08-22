@@ -9,8 +9,8 @@ import { appAction, appQuery } from '~/store/app.store'
  */
 async function getAppBase() {
   const appService = useRequest((service) => service.AppService)
-  return lastValueFrom(appService.appBase()).then(({ base_time }) => {
-    appAction.updateBase({ basetime: base_time })
+  return lastValueFrom(appService.appBase()).then(({ base_time, qiniu }) => {
+    appAction.updateBase({ basetime: base_time, qiniu })
   })
 }
 

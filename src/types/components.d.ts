@@ -6,11 +6,20 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
-    AForm: typeof import('@arco-design/web-vue')['Form']
-    AFormItem: typeof import('@arco-design/web-vue')['FormItem']
-    AInput: typeof import('@arco-design/web-vue')['Input']
+    ACard: typeof import('@arco-design/web-vue')['Card']
+    AImage: typeof import('@arco-design/web-vue')['Image']
+    AImagePreviewGroup: typeof import('@arco-design/web-vue')['ImagePreviewGroup']
+    'IconPark:plus': typeof import('~icons/icon-park/plus')['default']
+    'IconParkOutline:delete': typeof import('~icons/icon-park-outline/delete')['default']
+    ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
+    MediaGallery: typeof import('./../shared/components/media-gallery.vue')['default']
+    MediaGalleryItem: typeof import('./../shared/components/media-gallery-item.vue')['default']
+    PageContainer: typeof import('./../shared/components/page-container.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UploadContainer: typeof import('./../shared/components/upload-container.vue')['default']
+    UploadProgress: typeof import('./../shared/components/upload-progress.vue')['default']
+    VideoPreview: typeof import('./../shared/components/video-preview.vue')['default']
   }
 }
 
