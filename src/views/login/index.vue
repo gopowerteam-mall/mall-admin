@@ -22,6 +22,7 @@
 <script setup lang="ts">
 import { useRequest } from 'virtual:http-request'
 import { userAction } from '~/store/user.store'
+import { assets } from 'virtual:assets'
 const appService = useRequest((service) => service.AppService)
 const model = $ref({
   username: '',
@@ -32,6 +33,8 @@ const formRules = {
   username: { required: true, message: '请输入管理员账号' },
   password: { required: true, message: '请输入管理员登录密码' },
 }
+
+const background = computed(() => `url(${assets.images.login_bg})`)
 
 const router = useRouter()
 
@@ -52,7 +55,7 @@ function handleSubmit() {
 
 <style lang="less" scoped>
 .login {
-  background: url('/images/login_bg.png') left top / cover no-repeat;
+  background: v-bind(background) left top / cover no-repeat;
 }
 </style>
 

@@ -4,3 +4,4 @@ src/http/model/*
 src/types/*
 
 logger.service.ts
+scripts/**/*

@@ -49,6 +49,7 @@ module.exports = {
         // 'vue/max-attributes-per-line': ['off'],
         // 'vue/html-indent': ['off']
         // 'vue/attributes-order': ['off'],
+        'no-console': ['warn'],
       },
     },
   ],

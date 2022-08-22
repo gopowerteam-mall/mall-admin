@@ -6,11 +6,9 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
-    ACard: typeof import('@arco-design/web-vue')['Card']
-    AImage: typeof import('@arco-design/web-vue')['Image']
-    AImagePreviewGroup: typeof import('@arco-design/web-vue')['ImagePreviewGroup']
-    'IconPark:plus': typeof import('~icons/icon-park/plus')['default']
-    'IconParkOutline:delete': typeof import('~icons/icon-park-outline/delete')['default']
+    AForm: typeof import('@arco-design/web-vue')['Form']
+    AFormItem: typeof import('@arco-design/web-vue')['FormItem']
+    AInput: typeof import('@arco-design/web-vue')['Input']
     ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
     MediaGallery: typeof import('./../shared/components/media-gallery.vue')['default']
     MediaGalleryItem: typeof import('./../shared/components/media-gallery-item.vue')['default']

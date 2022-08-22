@@ -12,7 +12,7 @@ import unocss from 'unocss/vite'
 import request from '@gopowerteam/http-request/vite-plugin'
 import extractorPug from '@unocss/extractor-pug'
 import { extractorSplit } from '@unocss/core'
-
+import assets from './scripts/vite/asset.plugin'
 // 全局样式变量
 const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'varibles.less')
 import ArcoDesignVueTheme from './src/styles/theme.json'
@@ -105,6 +105,12 @@ export default defineConfig({
     }),
     unocss({
       extractors: [extractorPug(), extractorSplit],
+    }),
+    assets({
+      dts: 'src/types/assets.d.ts',
+      dirs: {
+        images: 'images',
+      },
     }),
   ],
 })
