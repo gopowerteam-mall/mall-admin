@@ -12,7 +12,7 @@ import unocss from 'unocss/vite'
 import request from '@gopowerteam/http-request/vite-plugin'
 import extractorPug from '@unocss/extractor-pug'
 import { extractorSplit } from '@unocss/core'
-
+import assets from './scripts/vite/asset.plugin'
 // 全局样式变量
 const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'varibles.less')
 import ArcoDesignVueTheme from './src/styles/theme.json'
@@ -45,6 +45,15 @@ export default defineConfig({
         'vue/macros',
         '@vueuse/head',
         '@vueuse/core',
+        {
+          '@/shared/common': ['get', 'set'],
+          '@/shared/hooks': [
+            'useStore',
+            'useInstance',
+            'useLogger',
+            'useUploader',
+          ],
+        },
       ],
       dts: 'src/types/auto-imports.d.ts',
       dirs: [],
@@ -68,6 +77,7 @@ export default defineConfig({
     // 自动引入组件插件配置
     components({
       dts: 'src/types/components.d.ts',
+      dirs: ['src/shared/components'],
       resolvers: [
         ArcoResolver({
           sideEffect: true,
@@ -76,8 +86,9 @@ export default defineConfig({
           prefix: 'icon',
           alias: {
             park: 'icon-park',
+            'park-outline': 'icon-park-outline',
           },
-          enabledCollections: ['icon-park'],
+          enabledCollections: ['icon-park', 'icon-park-outline'],
         }),
       ],
       include: [/\.vue$/, /\.vue\?vue/],
@@ -94,6 +105,12 @@ export default defineConfig({
     }),
     unocss({
       extractors: [extractorPug(), extractorSplit],
+    }),
+    assets({
+      dts: 'src/types/assets.d.ts',
+      dirs: {
+        images: 'images',
+      },
     }),
   ],
 })

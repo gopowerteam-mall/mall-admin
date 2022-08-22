@@ -21,7 +21,9 @@
 </template>
 
 <script lang="ts" setup>
+import { assets } from 'virtual:assets'
 import { useRequest } from 'virtual:http-request'
+const background = computed(() => `url(${assets.images.welcome_bg})`)
 
 const form = $ref({
   username: '',
@@ -58,6 +60,7 @@ function gotoLogin() {
 <style scoped>
 .welcome {
   background: url('/images/welcome_bg.jpg') center / cover no-repeat;
+  background: v-bind(background) center / cover no-repeat;
 }
 </style>
 

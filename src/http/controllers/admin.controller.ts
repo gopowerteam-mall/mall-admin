@@ -19,7 +19,7 @@ export const AdminController = {
     action: 'createAdmin',
     type: RequestMethod.Post,
   },
-  // 查询管理员
+  // 查询管理员列表
   findAdmin: {
     gateway,
     service,

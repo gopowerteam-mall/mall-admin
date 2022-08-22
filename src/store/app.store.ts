@@ -1,10 +1,15 @@
 import { createStore, withProps, setProp, setProps } from '@ngneat/elf'
-import { StoreAction, StoreQuery } from '~/store'
+import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state'
+import { includeKeys, StoreAction, StoreQuery } from '~/store'
 import type { Menu, Tab } from '~/types/workspace'
 
 interface AppBase {
   // 时间戳
   basetime: number
+  // 七牛配置
+  qiniu: {
+    domain: string
+  }
 }
 
 interface State {
@@ -142,6 +147,15 @@ class AppAction extends StoreAction<State> {
     )
   }
 }
+
+/**
+ * 持久化存储
+ */
+persistState(appStore, {
+  key: STORE_KEY,
+  storage: localStorageStrategy,
+  source: () => appStore.pipe(includeKeys(['base'])),
+})
 
 export const appQuery = new AppQuery()
 export const appAction = new AppAction()

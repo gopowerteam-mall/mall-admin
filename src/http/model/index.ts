@@ -52,11 +52,22 @@ export class AppInitInput extends Model {
   public admin: AdminInput
 }
 
+export class QiniuConfig extends Model {
+  /**
+   * 域名
+   */
+  public domain: string
+}
+
 export class AppBaseResponse extends Model {
   /**
    * 授权Token
    */
   public base_time: number
+  /**
+   * 七牛配置
+   */
+  public qiniu: QiniuConfig
 }
 
 export class LoginInput extends Model {
@@ -81,4 +92,11 @@ export class TokenResponse extends Model {
    * Token来源
    */
   public token_origin: string
+}
+
+export class GetUploadTokenResponse extends Model {
+  /**
+   * 七牛 Upload Token
+   */
+  public token: string
 }

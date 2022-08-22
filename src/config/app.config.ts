@@ -3,7 +3,7 @@ import { AppConfig } from '~/types/app.config'
 export const appConfig: AppConfig = {
   app: 'mall-admin',
   title: '商城后台管理',
-  logo: '/logo.png',
+  logo: '/favicon.ico',
   http: {
     gateway: import.meta.env.VITE_HTTP_GATEWAY,
     timeout: 3000,

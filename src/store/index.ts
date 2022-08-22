@@ -1,4 +1,5 @@
-import { select, Store, StoreDef } from '@ngneat/elf'
+import { select, Store, StoreDef, StoreValue } from '@ngneat/elf'
+import { OperatorFunction, pipe, map } from 'rxjs'
 
 export abstract class StoreAction<T> {
   protected store!: Store<StoreDef, T>
@@ -26,4 +27,20 @@ export abstract class StoreQuery<T> {
 
     return selector ? selector(state) : state
   }
+}
+
+export function includeKeys<S extends Store, State extends StoreValue<S>>(
+  keys: Array<keyof State>,
+): OperatorFunction<State, Partial<State>> {
+  return pipe(
+    map((state) => {
+      return Object.keys(state).reduce<State>((toSave, key) => {
+        if (keys.includes(key)) {
+          toSave[key] = state[key]
+        }
+
+        return toSave
+      }, {} as State)
+    }),
+  )
 }

@@ -45,44 +45,44 @@ module.exports = {
   singleAttributePerLine: true,
   pugAttributeSeparator: 'none',
   pugEmptyAttributes: 'none',
-  pugClosingBracketPosition: 'last-line',
-  pugSortAttributes: 'asc',
+  pugBracketSameLine: true,
+  pugSortAttributes: 'as-is',
   pugClassNotation: 'literal',
-  pugSortAttributesBeginning: [
-    // DEFINITION
-    'is',
-    'v-is',
-    // LIST_RENDERING
-    'v-for',
-    // CONDITIONALS
-    'v-if',
-    'v-else-if',
-    'v-else',
-    'v-show',
-    'v-cloak',
-    // RENDER_MODIFIERS
-    'v-once',
-    'v-pre',
-    // GLOBAL
-    'id',
-    // UNIQUE
-    'ref',
-    'key',
-    // SLOT
-    'v-slot',
-    'slot',
-    // TWO_WAY_BINDING
-    'v-model',
-    // OTHER_DIRECTIVES
-    'v-.*',
-  ],
-  pugSortAttributesEnd: [
-    // EVENTS
-    '@.*',
-    'v-on:.*',
-    // CONTENT
-    'v-text',
-    'v-html',
-  ],
+  // pugSortAttributesBeginning: [
+  //   // DEFINITION
+  //   'is',
+  //   'v-is',
+  //   // LIST_RENDERING
+  //   'v-for',
+  //   // CONDITIONALS
+  //   'v-if',
+  //   'v-else-if',
+  //   'v-else',
+  //   'v-show',
+  //   'v-cloak',
+  //   // RENDER_MODIFIERS
+  //   'v-once',
+  //   'v-pre',
+  //   // GLOBAL
+  //   'id',
+  //   // UNIQUE
+  //   'ref',
+  //   'key',
+  //   // SLOT
+  //   'v-slot',
+  //   'slot',
+  //   // TWO_WAY_BINDING
+  //   'v-model',
+  //   // OTHER_DIRECTIVES
+  //   'v-.*',
+  // ],
+  // pugSortAttributesEnd: [
+  //   // EVENTS
+  //   '@.*',
+  //   'v-on:.*',
+  //   // CONTENT
+  //   'v-text',
+  //   'v-html',
+  // ],
   plugins: [require.resolve('@prettier/plugin-pug')],
 }

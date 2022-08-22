@@ -27,15 +27,6 @@ const userStore = createStore(
 )
 
 /**
- * 持久化存储
- */
-persistState(userStore, {
-  key: STORE_KEY,
-  storage: localStorageStrategy,
-  source: () => userStore.pipe(excludeKeys(['current'])),
-})
-
-/**
  * 查询操作
  */
 class UserQuery extends StoreQuery<State> {
@@ -120,7 +111,30 @@ class UserAction extends StoreAction<State> {
       }),
     )
   }
+
+  /**
+   * 清空用户登录信息
+   */
+  logout() {
+    this.store.update(
+      setProps({
+        current: undefined,
+        accessToken: undefined,
+        refreshToken: undefined,
+        expiresTime: undefined,
+      }),
+    )
+  }
 }
+
+/**
+ * 持久化存储
+ */
+persistState(userStore, {
+  key: STORE_KEY,
+  storage: localStorageStrategy,
+  source: () => userStore.pipe(excludeKeys(['current'])),
+})
 
 export const userQuery = new UserQuery()
 export const userAction = new UserAction()
