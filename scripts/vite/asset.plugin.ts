@@ -253,14 +253,16 @@ function generateDeclaration(dts: string) {
 async function generateCode() {
   const data = Object.entries(assets).reduce((result, [key, files]) => {
     result[key] = Object.entries(files).reduce((result, [key, file]) => {
+      const name = key.replace(/\-/g, '_')
+
       if (isProduction) {
         // 生产环境使用网络图片
         result[
-          key
+          name
         ] = `${ASSET_QINIU_DOMAIN}/${ASSET_QINIU_PREFIX}/${file.key}!normal`
       } else {
         // 开发环境使用静态图片
-        result[key.replace(/\-/g, '_')] = `/${file.key}`
+        result[name] = `/${file.key}`
       }
       return result
     }, {} as any)
