@@ -1,6 +1,6 @@
 <template lang="pug">
 a-card(title='上传示例')
-  upload-container(:filetype='FileType.image' @upload='onUploadFile')
+  upload-container(:filetype='FileType.Image' @upload='onUploadFile')
     a-button 上传图片
   image-preview(
     v-for='task in tasks'
@@ -12,7 +12,7 @@ a-card(title='画廊示例')
     media-gallery-item(
       v-for='image in images'
       :key='image'
-      :type='FileType.image'
+      :type='FileType.Image'
       :src='image'
       @delete='onDeleteFile')
     media-gallery-item(
@@ -21,11 +21,27 @@ a-card(title='画廊示例')
       :task='task'
       :type='task.type'
       @delete='onDeleteFile')
+a-card(title='字典示例')
+  // 字典列表
+  a-select(placeholder='字典列表示例')
+    a-option(
+      v-for='[value,label] of Array.from(BannerTypeDict)'
+      :key='value'
+      :value='value'
+      :label='label')
+  // 字典转换
+  a-select(placeholder='字典转换示例')
+    a-option(
+      v-for='key of ["PAGE","PRODUCT","URL"]'
+      :key='key'
+      :value='key'
+      :label='BannerTypeDict.get(key)')
 </template>
 
 <script setup lang="ts">
 import { UploadTask } from '~/shared/utils/upload.service'
 import { FileType } from '@/config/enum.config'
+import { BannerTypeDict } from '@/config/dict.config'
 const images = ref<string[]>(['2022070812033'])
 const tasks = ref<UploadTask[]>()
 

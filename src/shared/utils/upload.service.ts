@@ -41,7 +41,7 @@ export class UploadTask {
   public meta: unknown
 
   public get type() {
-    if (!this.file) return FileType.other
+    if (!this.file) return FileType.Other
     const imageSuffix = ['gif', 'jpeg', 'jpg', 'bmp', 'png']
     const videoSuffix = [
       'avi',
@@ -62,13 +62,13 @@ export class UploadTask {
 
     switch (true) {
       case checkSuffixType(this.filename, imageSuffix):
-        return FileType.image
+        return FileType.Image
       case checkSuffixType(this.filename, videoSuffix):
-        return FileType.video
+        return FileType.Video
       case checkSuffixType(this.filename, documentSuffix):
-        return FileType.document
+        return FileType.Document
       default:
-        return FileType.other
+        return FileType.Other
     }
   }
 

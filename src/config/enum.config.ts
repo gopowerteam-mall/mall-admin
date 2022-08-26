@@ -1,18 +1,36 @@
+//#region 系统字典
+/**
+ * Tab操作
+ */
 export enum TabAction {
   CLOSE_OTHER,
   CLOSE_RIGHT,
 }
 
 export enum DisplayScene {
-  list = 'LIST',
-  cover = 'COVER',
-  normal = 'Normal',
-  avatar = 'Avatar',
+  List = 'LIST',
+  Cover = 'COVER',
+  Normal = 'NORMAL',
+  Avatar = 'AVATAR',
 }
 
 export enum FileType {
-  image = 'image',
-  video = 'video',
-  document = 'document',
-  other = 'other',
+  Image = 'IMAGE',
+  Video = 'VIDEO',
+  Document = 'DOCUMENT',
+  Other = 'OTHER',
 }
+
+//#endregion
+
+// #region 业务字典
+
+/**
+ * Banner类型
+ */
+export enum BannerType {
+  Url = 'URL',
+  Page = 'PAGE',
+  Product = 'PRODUCT',
+}
+// #endregion
