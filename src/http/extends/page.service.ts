@@ -5,17 +5,13 @@ export class PageService extends ExtendService {
     pageSize: 10,
     pageIndex: 1,
     total: 0,
-    pageSizeOptions: [10, 20, 50, 100],
+    pageSizeOpts: ['10', '20', '50', '100'],
   }
   public pageSize = 0
   public pageIndex = 0
   public total = 0
-  public pageSizeOptions: number[] = []
+  public pageSizeOpts: string[] = []
   public finished = false
-
-  // 分页组件默认数据，显示分页配置和总数
-  public showTotal = true
-  public showPageSize = true
 
   constructor(data?: any) {
     super()
@@ -25,7 +21,7 @@ export class PageService extends ExtendService {
     this.pageSize = this.default.pageSize
     this.pageIndex = this.default.pageIndex || 1
     this.total = this.default.total
-    this.pageSizeOptions = this.default.pageSizeOptions
+    this.pageSizeOpts = this.default.pageSizeOpts
   }
 
   public before = (params: RequestParams) => {
@@ -41,8 +37,8 @@ export class PageService extends ExtendService {
     params: RequestParams,
     setData: (data: any) => void,
   ) => {
-    this.total = response.total
-    setData(response.data)
+    this.total = response.totalElements
+    setData(response.content)
     this.updateFinished()
   }
 

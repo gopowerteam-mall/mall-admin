@@ -1,9 +1,5 @@
 <template lang="pug">
-a-form(
-  ref='refForm'
-  :model='form'
-  :rules='formRules'
-  @submit-success='handleSubmit')
+a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
   a-form-item(field='username' label='账号')
     a-input(v-model='form.username' allow-clear placeholder='请输入账号')
   a-form-item(field='password' label='密码')
@@ -21,7 +17,6 @@ a-form(
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
 import { useRequest } from 'virtual:http-request'
-const refForm = $ref()
 
 const form = $ref({
   username: '',
@@ -39,7 +34,6 @@ const emits = defineEmits(['close', 'success'])
 
 function onCancel() {
   emits('close')
-  refForm.resetFields()
 }
 
 function onSuncess() {
