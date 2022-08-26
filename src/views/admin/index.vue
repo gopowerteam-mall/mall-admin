@@ -38,17 +38,16 @@ page-container(title='管理员列表')
 <script setup lang="ts">
 import { RequestParams } from '@gopowerteam/http-request'
 import { useRequest } from 'virtual:http-request'
-import { Admin } from '~/http/model'
+import { Administrator } from '~/http/model'
 import { PageService } from '~/http/extends/page.service'
-import { AdminService } from '~/http/services/admin.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'
 import dayjs from 'dayjs'
 
 // 管理员列表
-let dataList = $ref<Admin[]>([])
+let dataList = $ref<Administrator[]>([])
 
-const adminService = useRequest<AdminService>((service) => service.AdminService)
+const adminService = useRequest((service) => service.AdministratorService)
 const pageService = new PageService()
 
 onMounted(refreshData)
@@ -59,7 +58,7 @@ function dateTimeFormat(date: string) {
 
 function refreshData() {
   adminService
-    .findAdmin(
+    .findAdministrator(
       new RequestParams({
         page: pageService,
       }),
@@ -77,7 +76,7 @@ const showDelete = computed(() => dataList.length > 1)
 // 删除管理员
 function onDelete(id: string) {
   adminService
-    .removeAdmin(
+    .removeAdministrator(
       new RequestParams({
         append: { id },
       }),
@@ -88,7 +87,7 @@ function onDelete(id: string) {
 // 重置密码
 function onResetPwd(id: string) {
   adminService
-    .resetAdminPassword(
+    .resetAdministratorPassword(
       new RequestParams({
         append: { id },
       }),
@@ -111,7 +110,7 @@ const modifyData = $ref({
 })
 
 // 点击修改
-function onUpdate(data: Admin) {
+function onUpdate(data: Administrator) {
   modifyData.id = data.id
   modifyData.name = data.realname
   dialog.modify = true
@@ -124,7 +123,7 @@ function onDialogBeforOk(done: Function) {
     return done(false)
   }
   adminService
-    .updateAdmin(
+    .updateAdministrator(
       new RequestParams({
         data: {
           realname: modifyData.name,

@@ -45,8 +45,8 @@ function onSuncess() {
 
 function handleSubmit() {
   saving = true
-  useRequest((service) => service.AdminService)
-    .createAdmin(form)
+  useRequest((service) => service.AdministratorService)
+    .createAdministrator(form)
     .subscribe({
       next: onSuncess,
       error: () => (saving = false),
