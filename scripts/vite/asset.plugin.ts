@@ -10,7 +10,7 @@ const ASSET_ROOT_PATH = 'public'
 const ASSET_QINIU_PREFIX = 'static-assets/mall.admin'
 const ASSET_QINIU_BUCKET = 'gopowerteam'
 const ASSET_OUTPUT_DIR = 'dist'
-const ASSET_QINIU_DOMAIN = 'https://file.gopowerteam.com'
+const ASSET_QINIU_DOMAIN = 'https://file.gopowerteam.cn'
 
 type Option = {
   // 静态资源目录
@@ -84,7 +84,7 @@ function loadAssetFiles(dirs: Record<string, string>) {
         return !stat.isDirectory()
       })
       .forEach((file) => {
-        const name = path.parse(file).name.replace(/\-/g, '_')
+        const name = path.parse(file).name
         values[name] = {
           name: file,
           key: `${key}/${file}`,
@@ -188,7 +188,6 @@ async function qiniuUploader() {
         prefix: ASSET_QINIU_PREFIX,
       },
       (_, files) => {
-        console.log(files)
         return resolve(files.items)
       },
     ),
@@ -236,7 +235,9 @@ function generateDeclaration(dts: string) {
     type assetsType = {
         ${Object.entries(assets).map(
           ([key, files]) => `${key}: {
-            ${Object.entries(files).map(([key, file]) => `${key}: string\n`)}
+            ${Object.entries(files)
+              .map(([key, file]) => `${key.replace(/\-/g, '_')}: string`)
+              .join('\n' + ' '.repeat(12))}
         }`,
         )}
     }
@@ -259,7 +260,7 @@ async function generateCode() {
         ] = `${ASSET_QINIU_DOMAIN}/${ASSET_QINIU_PREFIX}/${file.key}!normal`
       } else {
         // 开发环境使用静态图片
-        result[key] = `/${file.key}`
+        result[key.replace(/\-/g, '_')] = `/${file.key}`
       }
       return result
     }, {} as any)
