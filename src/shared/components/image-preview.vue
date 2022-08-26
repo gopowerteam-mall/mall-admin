@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
   width: 'auto',
   height: 'auto',
   src: '',
-  scene: DisplayScene.normal,
+  scene: DisplayScene.Normal,
   title: '',
   description: '',
 })
@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
 function getImageSuffix(scene: DisplayScene) {
   // TODO:获取图片样式
 
-  return scene === DisplayScene.normal ? '' : ''
+  return scene === DisplayScene.Normal ? '' : ''
 }
 
 /**

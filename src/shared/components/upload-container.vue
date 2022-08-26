@@ -27,11 +27,11 @@ const props = withDefaults(
 
 const accept = computed(() => {
   switch (props.filetype) {
-    case FileType.image:
+    case FileType.Image:
       return 'image/*'
-    case FileType.video:
+    case FileType.Video:
       return 'video/*'
-    case FileType.document:
+    case FileType.Document:
       return 'application/*;text/*'
     default:
       return props.filetype

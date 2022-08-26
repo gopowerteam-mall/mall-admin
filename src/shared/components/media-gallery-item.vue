@@ -2,7 +2,7 @@
 .media-gallery-item
   upload-progress(:task='task')
     .media-wrapper.flex-center
-      .image-gallery-item(v-if='type === FileType.image')
+      .image-gallery-item(v-if='type === FileType.Image')
         image-preview(:width='width' :height='height' :src='task?.url || src')
   .action.flex.justify-end.space-x-2.p-1
     .remove(@click='emits("delete", src || task?.key || "")')
