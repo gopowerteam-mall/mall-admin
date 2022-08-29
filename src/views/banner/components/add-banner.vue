@@ -4,15 +4,11 @@ a-form(
   :model='form'
   :rules='formRules'
   @submit-success='handleSubmit')
-  a-form-item(field='username' label='账号')
-    a-input(v-model='form.username' allow-clear placeholder='请输入账号')
-  a-form-item(field='password' label='密码')
-    a-input(
-      v-model='form.password'
-      allow-clear
-      autocomplete='new-password'
-      placeholder='请输入登录密码'
-      type='password')
+  a-form-item(field='title' label='名称')
+    a-input(v-model='form.title' allow-clear placeholder='Banner图的名称')
+  a-form-item(field='type' label='类型')
+    a-select(v-model='form.type' placeholder='请选择Banner类型')
+      a-option(v-for='item of BannerTypeDict' :key='item[0]' :label='item[0]')
   a-form-item(content-class='!justify-end')
     a-button(@click='onCancel') 取消
     a-button.m-l-4(:loading='saving' html-type='submit' type='primary') 提交
@@ -21,12 +17,13 @@ a-form(
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
 import { useRequest } from 'virtual:http-request'
+import { BannerTypeDict } from '~/config/dict.config'
 
 const refForm = $ref<any>()
 
 const form = $ref({
-  username: '',
-  password: '',
+  title: '',
+  type: '',
 })
 
 const formRules = {

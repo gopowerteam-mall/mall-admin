@@ -1,11 +1,13 @@
 declare module 'virtual:http-request' {
-  import { AdminService } from '~/http/services/admin.service'
+  import { AdministratorService } from '~/http/services/administrator.service'
   import { AppService } from '~/http/services/app.service'
+  import { BannerService } from '~/http/services/banner.service'
   import { QiniuService } from '~/http/services/qiniu.service'
 
   const serviceMap = {
-      AdminService,
+      AdministratorService,
     AppService,
+    BannerService,
     QiniuService
     }
 

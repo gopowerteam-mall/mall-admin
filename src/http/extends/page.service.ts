@@ -5,12 +5,12 @@ export class PageService extends ExtendService {
     pageSize: 10,
     pageIndex: 1,
     total: 0,
-    pageSizeOpts: ['10', '20', '50', '100'],
+    pageSizeOptions: [10, 20, 50, 100],
   }
   public pageSize = 0
   public pageIndex = 0
   public total = 0
-  public pageSizeOpts: string[] = []
+  public pageSizeOptions: number[] = []
   public finished = false
 
   constructor(data?: any) {
@@ -21,7 +21,7 @@ export class PageService extends ExtendService {
     this.pageSize = this.default.pageSize
     this.pageIndex = this.default.pageIndex || 1
     this.total = this.default.total
-    this.pageSizeOpts = this.default.pageSizeOpts
+    this.pageSizeOptions = this.default.pageSizeOptions
   }
 
   public before = (params: RequestParams) => {
@@ -37,8 +37,8 @@ export class PageService extends ExtendService {
     params: RequestParams,
     setData: (data: any) => void,
   ) => {
-    this.total = response.totalElements
-    setData(response.content)
+    this.total = response.total
+    setData(response.data)
     this.updateFinished()
   }
 

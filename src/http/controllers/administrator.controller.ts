@@ -5,72 +5,72 @@
 import { RequestMethod } from '@gopowerteam/http-request'
 
 // 控制器名称
-const controller = 'admin'
+const controller = 'administrator'
 const service = ''
 const gateway = 'default'
 
-export const AdminController = {
+export const AdministratorController = {
   // 创建管理员
-  createAdmin: {
+  createAdministrator: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin',
-    action: 'createAdmin',
+    path: '/api/admin/administrator',
+    action: 'createAdministrator',
     type: RequestMethod.Post,
   },
   // 查询管理员列表
-  findAdmin: {
+  findAdministrator: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin',
-    action: 'findAdmin',
+    path: '/api/admin/administrator',
+    action: 'findAdministrator',
     type: RequestMethod.Get,
   },
   // 更新管理员
-  updateAdmin: {
+  updateAdministrator: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin/{id}',
-    action: 'updateAdmin',
+    path: '/api/admin/administrator/{id}',
+    action: 'updateAdministrator',
     type: RequestMethod.Put,
   },
   // 获取管理员
-  getAdmin: {
+  getAdministrator: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin/{id}',
-    action: 'getAdmin',
+    path: '/api/admin/administrator/{id}',
+    action: 'getAdministrator',
     type: RequestMethod.Get,
   },
   // 删除用户
-  removeAdmin: {
+  removeAdministrator: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin/{id}',
-    action: 'removeAdmin',
+    path: '/api/admin/administrator/{id}',
+    action: 'removeAdministrator',
     type: RequestMethod.Delete,
   },
   // 重置管理员密码
-  resetAdminPassword: {
+  resetAdministratorPassword: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin/reset-password/{id}',
-    action: 'resetAdminPassword',
+    path: '/api/admin/administrator/reset-password/{id}',
+    action: 'resetAdministratorPassword',
     type: RequestMethod.Patch,
   },
   // 更新管理员密码
-  updateAdminPassword: {
+  updateAdministratorPassword: {
     gateway,
     service,
     controller,
-    path: '/api/admin/admin/update-password/{id}',
-    action: 'updateAdminPassword',
+    path: '/api/admin/administrator/update-password/{id}',
+    action: 'updateAdministratorPassword',
     type: RequestMethod.Patch,
   },
 }

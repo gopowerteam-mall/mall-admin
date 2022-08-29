@@ -9,15 +9,15 @@ import { GetUploadTokenResponse } from '~/http/model'
 
 export class QiniuService {
   /**
-   *
+   * 
    */
   @Request({
     server: QiniuController.getUploadToken,
-    model: GetUploadTokenResponse,
+    model: GetUploadTokenResponse
   })
   public getUploadToken(
-    params?: RequestParams | { [key: string]: any },
+    params?: RequestParams | { [key: string]: any }
   ): Observable<GetUploadTokenResponse> {
-    return RequestParams.create(params).request()
+    return RequestParams.create(params).request();
   }
 }
