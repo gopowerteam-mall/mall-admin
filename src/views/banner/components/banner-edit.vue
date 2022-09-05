@@ -1,0 +1,135 @@
+<template lang="pug">
+a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
+  a-form-item(field='title' label='名称')
+    a-input(v-model='form.title' allow-clear placeholder='请输入标题名称')
+  a-form-item(field='type' label='类型')
+    a-select(v-model='form.type' placeholder='请选择Banner类型' allow-clear)
+      a-option(
+        v-for='[value,label] of Array.from(BannerTypeDict)'
+        :key='value'
+        :value='value'
+        :label='label')
+  a-form-item(field='image' label='图片')
+    media-gallery(:upload-button='!form.image' @upload='onUpload')
+      media-gallery-item(
+        v-if='form.image'
+        :task='uploadTask'
+        :type='FileType.Image'
+        :src='form.image'
+        @delete='onDeleteFile') 
+  a-form-item(field='target' label='目标')
+    a-input(v-model='form.target' allow-clear placeholder='请输入目标地址或参数')
+  a-form-item(content-class='!justify-end')
+    a-button(@click='onCancel') 取消
+    a-button.m-l-4(:loading='saving' html-type='submit' type='primary') 提交
+</template>
+
+<script lang="ts" setup>
+import { Message } from '@arco-design/web-vue'
+import { RequestParams } from '@gopowerteam/http-request'
+import { useModal } from '@gopowerteam/vue-modal'
+import { useRequest } from 'virtual:http-request'
+import { BannerTypeDict } from '~/config/dict.config'
+import { FileType } from '~/config/enum.config'
+import { UploadTask } from '~/shared/utils/upload.service'
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
+})
+
+const uploader = useUploader()
+const uploadTask = ref<UploadTask>()
+
+const form = $ref({
+  title: '',
+  type: '',
+  image: '',
+  target: '',
+})
+
+const formRules = {
+  image: { required: true, message: '请上传一张Banner图片' },
+  type: { required: true, message: '请选择Banner类型' },
+  target: { required: true, message: '请输入目标地址或参数' },
+}
+
+let saving = $ref(false)
+
+const modal = useModal()
+
+function onCancel() {
+  modal.close(null)
+}
+
+const service = useRequest((service) => service.BannerService)
+
+onBeforeMount(() => {
+  if (!props.id) return
+  service
+    .getBanner(
+      new RequestParams({
+        append: { id: props.id },
+      }),
+    )
+    .subscribe({
+      next: (data) => {
+        form.title = data.title
+        form.type = data.type
+        form.image = data.image
+        form.target = data.target
+      },
+    })
+})
+
+function handleSubmit() {
+  if (!form.image && uploadTask.value != undefined) {
+    Message.info('请等待上传完毕再试')
+    return
+  }
+
+  if (!props.id) createBanner()
+  else updateBanner()
+}
+
+function createBanner() {
+  saving = true
+  service.createBanner(form).subscribe({
+    next: () => {
+      Message.success('添加成功')
+      modal.close({})
+    },
+    error: () => (saving = false),
+  })
+}
+
+function updateBanner() {
+  saving = true
+  service
+    .updateBanner(
+      new RequestParams({
+        data: form,
+        append: { id: props.id! },
+      }),
+    )
+    .subscribe({
+      next: () => {
+        Message.success('修改成功')
+        modal.close({})
+      },
+      error: () => (saving = false),
+    })
+}
+
+function onUpload(files: FileList) {
+  uploadTask.value = uploader.upload(files)[0]
+  uploadTask.value.onComplete((key) => (form.image = key))
+}
+
+function onDeleteFile() {
+  form.image = ''
+  uploadTask.value = undefined
+}
+</script>

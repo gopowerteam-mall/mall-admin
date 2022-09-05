@@ -47,12 +47,12 @@ export const AppController = {
     type: RequestMethod.Get,
   },
   // 获取当前用户信息
-  getCurrentUser: {
+  getCurrentAdmin: {
     gateway,
     service,
     controller,
-    path: '/api/admin/app/current-user',
-    action: 'getCurrentUser',
+    path: '/api/admin/app/current',
+    action: 'getCurrentAdmin',
     type: RequestMethod.Get,
   },
 }
