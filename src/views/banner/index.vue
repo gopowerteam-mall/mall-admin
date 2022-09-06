@@ -8,7 +8,19 @@ page-container(title='Banner管理')
       @page-size-change='onPageSizeChange')
       template(#columns)
         a-table-column(data-index='title' title='名称')
+        a-table-column(cell-class='banner-order-setting' title='排序')
+          template(#cell='{ rowIndex }')
+            BannerSortIcon(
+              :row-index='rowIndex'
+              :total='dataList.length'
+              @change='(type) => onOrderChange(type, rowIndex)')
         a-table-column(data-index='image' title='图片')
+          template(#cell='{ record }')
+            image-preview(
+              :src='record.image'
+              width='80px'
+              height='40px'
+              :scene='DisplayScene.List')
         a-table-column(title='类型')
           template(#cell='{ record }')
             div {{ bannerTypeFormat(record['type']) }}
@@ -21,22 +33,11 @@ page-container(title='Banner管理')
             div {{ dateTimeFormat(record['updatedAt']) }}
         a-table-column(align='center')
           template(#title)
-            a-button(
-              status='success'
-              type='outline'
-              @click='dialog.add = true') 添加Banner
+            a-button(status='success' type='outline' @click='openEdit()') 添加Banner
           template(#cell='{ record }')
+            a-button(type='text' @click='openEdit(record.id)') 修改
             a-popconfirm(content='是否删除该Banner' @ok='onDelete(record.id)')
               a-button(status='danger' type='text') 删除
-  //- 编辑模态框
-  //- a-modal(
-  //-   v-model:visible='dialog.modify'
-  //-   title='管理员姓名'
-  //-   @before-ok='onDialogBeforOk')
-  //-   a-input(v-model.trim='modifyData.name' placeholder='请输入管理员姓名')
-  //- //- 新增模态框
-  a-modal(v-model:visible='dialog.add' :footer='false' title='添加Banner') 
-    AddBanner(@close='dialog.add = false' @success='refreshData')
 </template>
 
 <script setup lang="ts">
@@ -44,16 +45,18 @@ import { RequestParams } from '@gopowerteam/http-request'
 import { useRequest } from 'virtual:http-request'
 import { Banner } from '~/http/model'
 import { PageService } from '~/http/extends/page.service'
-// import { Message } from '@arco-design/web-vue'
 import { LoadingService } from '~/http/extends/loading.service'
-import { dateTimeFormat } from '~/utils/format.hooks'
+import { dateTimeFormat } from '~/utils/format.help'
 import { BannerTypeDict } from '~/config/dict.config'
-import AddBanner from './components/add-banner.vue'
+import BannerEdit from './components/banner-edit.vue'
+import { useModal } from '@gopowerteam/vue-modal'
+import { DisplayScene } from '~/config/enum.config'
+import BannerSortIcon from './components/banner-sort-icon.vue'
 
 // 列表
 let dataList = $ref<Banner[]>([])
 
-const adminService = useRequest((service) => service.BannerService)
+const bannerService = useRequest((service) => service.BannerService)
 const pageService = new PageService()
 const loadingStatus = ref(false)
 const loadingService = new LoadingService(loadingStatus)
@@ -65,7 +68,7 @@ function bannerTypeFormat(type: string) {
 }
 
 function refreshData() {
-  adminService
+  bannerService
     .findBanner(
       new RequestParams({
         page: pageService,
@@ -81,7 +84,7 @@ function refreshData() {
 
 // 删除
 function onDelete(id: string) {
-  adminService
+  bannerService
     .removeBanner(
       new RequestParams({
         append: { id },
@@ -91,43 +94,19 @@ function onDelete(id: string) {
     .subscribe(refreshData)
 }
 
-const dialog = $ref({
-  modify: false,
-  add: false,
-})
+const modal = useModal()
 
-// 点击修改
-// function onUpdate(data: Administrator) {
-//   modifyData.id = data.id
-//   modifyData.name = data.realname
-//   dialog.modify = true
-// }
-
-// 修改模态框点击保存时
-// function onDialogBeforOk(done: Function) {
-//   if (!modifyData.name) {
-//     Message.error('请输入管理员姓名')
-//     return done(false)
-//   }
-//   adminService
-//     .updateAdministrator(
-//       new RequestParams({
-//         data: {
-//           realname: modifyData.name,
-//         },
-//         append: { id: modifyData.id },
-//         loading: loadingService,
-//       }),
-//     )
-//     .subscribe({
-//       next: () => {
-//         done()
-//         Message.success('修改成功')
-//         refreshData()
-//       },
-//       error: () => done(false),
-//     })
-// }
+function openEdit(id?: string) {
+  const title = id ? '修改Banner' : '添加Banner图片'
+  modal
+    .open({
+      component: BannerEdit,
+      width: 500,
+      props: { id },
+      title,
+    })
+    .then((data) => data && refreshData())
+}
 
 function onPageChange(index: number) {
   pageService.update(index, pageService.pageSize).then(refreshData)
@@ -135,7 +114,40 @@ function onPageChange(index: number) {
 function onPageSizeChange(size: number) {
   pageService.update(pageService.default.pageIndex, size).then(refreshData)
 }
+
+// 更改顺序
+function onOrderChange(type: 'down' | 'up', index: number) {
+  let targetRow: Banner
+  const sourceId = dataList[index].id
+  if (type === 'down') {
+    targetRow = dataList[index + 1]
+  } else {
+    targetRow = dataList[index - 1]
+  }
+
+  const target = targetRow.id
+  bannerService
+    .changeBannerOrder(
+      new RequestParams({
+        data: {
+          target,
+        },
+        append: {
+          id: sourceId,
+        },
+      }),
+    )
+    .subscribe({
+      next: refreshData,
+    })
+}
 </script>
+
+<style lang="less" scoped>
+.banner-order-setting {
+  display: flex;
+}
+</style>
 
 <route lang="yaml">
 name: banner

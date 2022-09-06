@@ -59,10 +59,10 @@ export class AppService {
    * 获取当前用户信息
    */
   @Request({
-    server: AppController.getCurrentUser,
+    server: AppController.getCurrentAdmin,
     model: Administrator
   })
-  public getCurrentUser(
+  public getCurrentAdmin(
     params?: RequestParams | { [key: string]: any }
   ): Observable<Administrator> {
     return RequestParams.create(params).request();

@@ -6,7 +6,6 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
-    ACard: typeof import('@arco-design/web-vue')['Card']
     ADoption: typeof import('@arco-design/web-vue')['Doption']
     ADropdown: typeof import('@arco-design/web-vue')['Dropdown']
     AForm: typeof import('@arco-design/web-vue')['Form']
@@ -21,7 +20,6 @@ declare module '@vue/runtime-core' {
     ALayoutSider: typeof import('@arco-design/web-vue')['LayoutSider']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
-    AModal: typeof import('@arco-design/web-vue')['Modal']
     AOption: typeof import('@arco-design/web-vue')['Option']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     ASelect: typeof import('@arco-design/web-vue')['Select']
@@ -34,6 +32,8 @@ declare module '@vue/runtime-core' {
     'IconPark:menuFold': typeof import('~icons/icon-park/menu-fold')['default']
     'IconPark:menuUnfold': typeof import('~icons/icon-park/menu-unfold')['default']
     'IconPark:plus': typeof import('~icons/icon-park/plus')['default']
+    'IconPark:sortAmountDown': typeof import('~icons/icon-park/sort-amount-down')['default']
+    'IconPark:sortAmountUp': typeof import('~icons/icon-park/sort-amount-up')['default']
     'IconParkOutline:delete': typeof import('~icons/icon-park-outline/delete')['default']
     ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
     MediaGallery: typeof import('./../shared/components/media-gallery.vue')['default']

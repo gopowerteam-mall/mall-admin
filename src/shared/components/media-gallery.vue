@@ -6,24 +6,29 @@
       .upload-button(v-if='uploadButton')
         upload-container(
           :multiple='multiple'
+          :filetype='fileType'
           @upload='(files) => emits("upload", files)')
           .upload-button-wrapper.flex-center
             icon-park:plus.text-2xl
 </template>
 
 <script setup lang="ts">
+import { FileType } from '~/config/enum.config'
+
 const props = withDefaults(
   defineProps<{
     width?: string
     height?: string
     uploadButton?: boolean
     multiple?: boolean
+    fileType?: FileType
   }>(),
   {
     multiple: false,
     uploadButton: true,
     width: '150px',
     height: '150px',
+    fileType: FileType.Image,
   },
 )
 

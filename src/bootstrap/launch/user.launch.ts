@@ -136,7 +136,7 @@ function updateCurrentUser() {
   const accessToken = userQuery.select((state) => state.accessToken)
 
   if (accessToken) {
-    return lastValueFrom(appService.getCurrentUser()).then((data) => {
+    return lastValueFrom(appService.getCurrentAdmin()).then((data) => {
       userAction.updateCurrent(data)
     })
   }

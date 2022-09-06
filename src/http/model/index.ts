@@ -166,6 +166,80 @@ export class ChangeBannerOrderInput extends Model {
   public target : string
 }
 
+export class CreateCategoryInput extends Model {
+  /**
+   * 标题
+   */
+  public title : string
+  /**
+   * 分类图片
+   */
+  public image : string
+  /**
+   * 是否推荐
+   */
+  public recommended : boolean
+  /**
+   * 父ID
+   */
+  public parentId : string
+}
+
+export class Category extends Model {
+  public id : string
+  /**
+   * 创建日期
+   */
+  public createdAt : string
+  /**
+   * 更新日期
+   */
+  public updatedAt : string
+  /**
+   * 排序
+   */
+  public sort : number
+  /**
+   * 标题
+   */
+  public title : string
+  /**
+   * 图片
+   */
+  public image : string
+  /**
+   * 推荐
+   */
+  public recommended : boolean
+  /**
+   * 父节点
+   */
+  public parent : Category
+  /**
+   * 子节点
+   */
+  public children : string[]
+}
+
+export class UpdateCategoryInput extends Model {
+  /**
+   * 标题
+   */
+  public title : string
+  /**
+   * 分类图片
+   */
+  public image : string
+  /**
+   * 是否推荐
+   */
+  public recommended : boolean
+  /**
+   * 父ID
+   */
+  public parentId : string
+}
+
 export class GetUploadTokenResponse extends Model {
   /**
    * 七牛 Upload Token
