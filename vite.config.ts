@@ -49,7 +49,6 @@ export default defineConfig({
         '@vueuse/head',
         '@vueuse/core',
         {
-          '@/shared/common': ['get', 'set'],
           '@/shared/hooks': [
             'useStore',
             'useInstance',

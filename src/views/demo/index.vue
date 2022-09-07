@@ -8,19 +8,7 @@ a-card(title='上传示例')
     width='200px'
     :src='task.url')
 a-card(title='画廊示例')
-  media-gallery(multiple @upload='onUploadGallery')
-    media-gallery-item(
-      v-for='image in images'
-      :key='image'
-      :type='FileType.Image'
-      :src='image'
-      @delete='onDeleteFile')
-    media-gallery-item(
-      v-for='task in tasks'
-      :key='task.key'
-      :task='task'
-      :type='task.type'
-      @delete='onDeleteFile')
+  media-gallery(v-model='photos' multiple)
 a-card(title='字典示例')
   // 字典列表
   a-select(placeholder='字典列表示例')
@@ -42,8 +30,9 @@ a-card(title='字典示例')
 import { UploadTask } from '~/shared/utils/upload.service'
 import { FileType } from '@/config/enum.config'
 import { BannerTypeDict } from '@/config/dict.config'
-const images = ref<string[]>(['2022070812033'])
-const tasks = ref<UploadTask[]>()
+
+let photos = $ref<string[]>(['2022070812033'])
+let tasks = $shallowRef<UploadTask[]>([])
 
 const uploader = useUploader()
 
@@ -51,22 +40,7 @@ const uploader = useUploader()
  * 上传文件
  */
 function onUploadFile(files: FileList) {
-  set(tasks, (value) => [...(value || []), ...uploader.upload(files)])
-}
-/**
- * 上传文件
- */
-function onUploadGallery(files: FileList) {
-  set(tasks, (value) => [...(value || []), ...uploader.upload(files)])
-}
-
-/**
- * 删除文件
- */
-function onDeleteFile(key: string) {
-  set(images, (value) => (value || []).filter((image) => image !== key))
-
-  set(tasks, (value) => (value || []).filter((task) => task.key !== key))
+  tasks = [...tasks, ...uploader.upload(files)]
 }
 </script>
 
