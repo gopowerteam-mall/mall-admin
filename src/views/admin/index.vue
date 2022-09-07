@@ -48,7 +48,7 @@ import { PageService } from '~/http/extends/page.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'
 import { LoadingService } from '~/http/extends/loading.service'
-import { dateTimeFormat } from '~/utils/format.help'
+import { dateTimeFormat } from '~/shared/common'
 
 // 管理员列表
 let dataList = $ref<Administrator[]>([])
