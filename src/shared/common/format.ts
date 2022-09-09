@@ -43,3 +43,11 @@ export function currency(value: number, config?: Partial<CurrencyConfig>) {
       : {}),
   })
 }
+
+/** 真假值格式化
+ * @params trueLabel 真值显示内容
+ * @params falseLabel 假值显示内容
+ */
+export function yesNoFormat(trueLabel: string, falseLabel: string) {
+  return (value?: boolean) => (value ? trueLabel : falseLabel)
+}

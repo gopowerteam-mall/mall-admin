@@ -32,7 +32,6 @@
     "eagerComputed": true,
     "effectScope": true,
     "extendRef": true,
-    "format": true,
     "getCurrentInstance": true,
     "getCurrentScope": true,
     "h": true,

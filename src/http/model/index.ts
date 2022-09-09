@@ -240,6 +240,66 @@ export class UpdateCategoryInput extends Model {
   public parentId : string
 }
 
+export class CreateMaterialInput extends Model {
+  public key : string
+  public group : string
+}
+
+export class Material extends Model {
+  public id : string
+  /**
+   * 创建日期
+   */
+  public createdAt : string
+  /**
+   * 更新日期
+   */
+  public updatedAt : string
+  /**
+   * 素材Key
+   */
+  public key : string
+  /**
+   * 素材类型
+   */
+  public type : string
+  /**
+   * 来源
+   */
+  public origin : string
+  /**
+   * 分组
+   */
+  public group : string
+}
+
+export class MaterialGroupResponse extends Model {
+  public id : string
+  /**
+   * 素材分组名称
+   */
+  public name : string
+  /**
+   * 分类素材数量
+   */
+  public count : number
+}
+
+export class CreateMaterialGroupInput extends Model {
+  public name : string
+}
+
+export class UpdateMaterialGroupInput extends Model {
+  public name : string
+}
+
+export class DeleteMaterialGroupInput extends Model {
+  /**
+   * 删除后移动到的目标分组ID
+   */
+  public target : string
+}
+
 export class GetUploadTokenResponse extends Model {
   /**
    * 七牛 Upload Token
