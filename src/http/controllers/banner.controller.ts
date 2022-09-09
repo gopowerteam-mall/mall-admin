@@ -47,12 +47,12 @@ export const BannerController = {
     type: RequestMethod.Get,
   },
   // 删除Banner
-  removeBanner: {
+  deleteBanner: {
     gateway,
     service,
     controller,
     path: '/api/admin/banner/{id}',
-    action: 'removeBanner',
+    action: 'deleteBanner',
     type: RequestMethod.Delete,
   },
   // 交换Banner位置

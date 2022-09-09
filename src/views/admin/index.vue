@@ -81,7 +81,7 @@ const showDelete = computed(() => dataList.length > 1)
 // 删除管理员
 function onDelete(id: string) {
   adminService
-    .removeAdministrator(
+    .deleteAdministrator(
       new RequestParams({
         append: { id },
         loading: loadingService,

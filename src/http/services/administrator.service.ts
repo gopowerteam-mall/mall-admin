@@ -60,9 +60,9 @@ export class AdministratorService {
    * 删除用户
    */
   @Request({
-    server: AdministratorController.removeAdministrator,
+    server: AdministratorController.deleteAdministrator,
   })
-  public removeAdministrator(
+  public deleteAdministrator(
     params?: RequestParams | { [key: string]: any }
   ): Observable<any> {
     return RequestParams.create(params).request();

@@ -85,7 +85,7 @@ function refreshData() {
 // 删除
 function onDelete(id: string) {
   bannerService
-    .removeBanner(
+    .deleteBanner(
       new RequestParams({
         append: { id },
         loading: loadingService,

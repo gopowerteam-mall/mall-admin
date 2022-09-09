@@ -60,9 +60,9 @@ export class BannerService {
    * 删除Banner
    */
   @Request({
-    server: BannerController.removeBanner,
+    server: BannerController.deleteBanner,
   })
-  public removeBanner(
+  public deleteBanner(
     params?: RequestParams | { [key: string]: any }
   ): Observable<any> {
     return RequestParams.create(params).request();

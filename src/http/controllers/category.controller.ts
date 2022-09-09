@@ -47,12 +47,12 @@ export const CategoryController = {
     type: RequestMethod.Get,
   },
   // 删除分类
-  removeCategory: {
+  deleteCategory: {
     gateway,
     service,
     controller,
     path: '/api/admin/category/{id}',
-    action: 'removeCategory',
+    action: 'deleteCategory',
     type: RequestMethod.Delete,
   },
 }

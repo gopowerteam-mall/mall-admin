@@ -60,9 +60,9 @@ export class CategoryService {
    * 删除分类
    */
   @Request({
-    server: CategoryController.removeCategory,
+    server: CategoryController.deleteCategory,
   })
-  public removeCategory(
+  public deleteCategory(
     params?: RequestParams | { [key: string]: any }
   ): Observable<any> {
     return RequestParams.create(params).request();

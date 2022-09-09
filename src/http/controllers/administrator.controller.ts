@@ -47,12 +47,12 @@ export const AdministratorController = {
     type: RequestMethod.Get,
   },
   // 删除用户
-  removeAdministrator: {
+  deleteAdministrator: {
     gateway,
     service,
     controller,
     path: '/api/admin/administrator/{id}',
-    action: 'removeAdministrator',
+    action: 'deleteAdministrator',
     type: RequestMethod.Delete,
   },
   // 重置管理员密码
