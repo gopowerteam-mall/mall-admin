@@ -273,6 +273,18 @@ export class Material extends Model {
   public group : string
 }
 
+export class MaterialGroupResponse extends Model {
+  public id : string
+  /**
+   * 素材分组名称
+   */
+  public name : string
+  /**
+   * 分类素材数量
+   */
+  public count : number
+}
+
 export class CreateMaterialGroupInput extends Model {
   public name : string
 }

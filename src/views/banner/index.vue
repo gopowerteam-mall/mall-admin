@@ -8,7 +8,7 @@ page-container(title='Banner管理')
       @page-size-change='onPageSizeChange')
       template(#columns)
         a-table-column(data-index='title' title='名称')
-        a-table-column(cell-class='banner-order-setting' title='排序')
+        a-table-column(title='排序')
           template(#cell='{ rowIndex }')
             BannerSortIcon(
               :row-index='rowIndex'
@@ -142,12 +142,6 @@ function onOrderChange(type: 'down' | 'up', index: number) {
     })
 }
 </script>
-
-<style lang="less" scoped>
-.banner-order-setting {
-  display: flex;
-}
-</style>
 
 <route lang="yaml">
 name: banner

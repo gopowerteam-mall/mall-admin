@@ -10,13 +10,7 @@ a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
         :value='value'
         :label='label')
   a-form-item(field='image' label='图片')
-    media-gallery(:upload-button='!form.image' @upload='onUpload')
-      media-gallery-item(
-        v-if='form.image'
-        :task='uploadTask'
-        :type='FileType.Image'
-        :src='form.image'
-        @delete='onDeleteFile') 
+    media-gallery(v-model='uploadImages' :upload-button='!form.image')
   a-form-item(field='target' label='目标')
     a-input(v-model='form.target' allow-clear placeholder='请输入目标地址或参数')
   a-form-item(content-class='!justify-end')
@@ -30,7 +24,6 @@ import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
 import { useRequest } from 'virtual:http-request'
 import { BannerTypeDict } from '~/config/dict.config'
-import { FileType } from '~/config/enum.config'
 import { UploadTask } from '~/shared/utils/upload.service'
 
 const props = defineProps({
@@ -40,7 +33,6 @@ const props = defineProps({
   },
 })
 
-const uploader = useUploader()
 const uploadTask = ref<UploadTask>()
 
 const form = $ref({
@@ -48,6 +40,11 @@ const form = $ref({
   type: '',
   image: '',
   target: '',
+})
+
+const uploadImages = computed<string[]>({
+  get: () => (form.image !== '' ? [form.image] : []),
+  set: (val) => (form.image = val[0] || ''),
 })
 
 const formRules = {
@@ -121,15 +118,5 @@ function updateBanner() {
       },
       error: () => (saving = false),
     })
-}
-
-function onUpload(files: FileList) {
-  uploadTask.value = uploader.upload(files)[0]
-  uploadTask.value.onComplete((key) => (form.image = key))
-}
-
-function onDeleteFile() {
-  form.image = ''
-  uploadTask.value = undefined
 }
 </script>

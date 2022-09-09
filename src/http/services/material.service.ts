@@ -5,7 +5,7 @@
 import { Request, RequestParams } from '@gopowerteam/http-request'
 import type { Observable } from 'rxjs'
 import { MaterialController } from '~/http/controllers/material.controller'
-import { Material } from '~/http/model'
+import { Material, MaterialGroupResponse } from '~/http/model'
 
 export class MaterialService {
   /**
@@ -48,11 +48,11 @@ export class MaterialService {
    */
   @Request({
     server: MaterialController.findMaterialGroup,
-    model: Material
+    model: MaterialGroupResponse
   })
   public findMaterialGroup(
     params?: RequestParams | { [key: string]: any }
-  ): Observable<Material> {
+  ): Observable<MaterialGroupResponse[]> {
     return RequestParams.create(params).request();
   }
   /**
