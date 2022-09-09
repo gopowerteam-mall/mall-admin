@@ -45,7 +45,7 @@ module.exports = {
   singleAttributePerLine: true,
   pugAttributeSeparator: 'none',
   pugEmptyAttributes: 'none',
-  pugBracketSameLine: true,
+  pugBracketSameLine: 'true',
   pugSortAttributes: 'as-is',
   pugClassNotation: 'literal',
   // pugSortAttributesBeginning: [
