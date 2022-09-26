@@ -13,9 +13,17 @@ import request from '@gopowerteam/http-request/vite-plugin'
 import extractorPug from '@unocss/extractor-pug'
 import { extractorSplit } from '@unocss/core'
 import assets from './scripts/vite/asset.plugin'
+import lessToJs from 'less-vars-to-js'
+import { readFileSync } from 'node:fs'
+
 // 全局样式变量
-const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'varibles.less')
-import ArcoDesignVueTheme from './src/styles/theme.json'
+const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'variables.less')
+const globalLessTheme = resolve(__dirname, 'src', 'styles', 'theme.less')
+
+const themeVaribles = lessToJs(readFileSync(globalLessTheme, 'utf8'), {
+  resolveVariables: true,
+  stripPrefix: true,
+})
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -32,7 +40,7 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         additionalData: `@import "${globalLessVaribles}";`,
-        modifyVars: ArcoDesignVueTheme,
+        modifyVars: themeVaribles,
         javascriptEnabled: true,
       },
     },
