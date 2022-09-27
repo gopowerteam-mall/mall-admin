@@ -13,3 +13,5 @@ export type PageMeta = {
   auth: PageMetaAuth
   menu: PageMetaMenu
 }
+
+export type InstallModule = (ctx: ViteSSGContext) => void
