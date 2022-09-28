@@ -21,7 +21,7 @@ module.exports = {
   // 大括号内的首尾需要空格
   bracketSpacing: true,
   // jsx 标签的反尖括号需要换行
-  bracketSameLine: true,
+  bracketSameLine: false,
   // 箭头函数，只有一个参数的时候，也需要括号
   arrowParens: 'always',
   // 每个文件格式化的范围是文件的全部内容
@@ -45,7 +45,7 @@ module.exports = {
   singleAttributePerLine: true,
   pugAttributeSeparator: 'none',
   pugEmptyAttributes: 'none',
-  pugBracketSameLine: 'true',
+  pugBracketSameLine: true,
   pugSortAttributes: 'as-is',
   pugClassNotation: 'literal',
   // pugSortAttributesBeginning: [

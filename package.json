@@ -49,6 +49,7 @@
     "@iconify-json/icon-park": "1.1.6",
     "@iconify-json/icon-park-outline": "1.1.6",
     "@prettier/plugin-pug": "2.2.0",
+    "@types/node": "16",
     "@types/nprogress": "0.2.0",
     "@types/prettier": "2.7.1",
     "@typescript-eslint/eslint-plugin": "5.38.0",
