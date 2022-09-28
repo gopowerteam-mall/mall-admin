@@ -48,6 +48,8 @@ module.exports = {
   pugBracketSameLine: true,
   pugSortAttributes: 'as-is',
   pugClassNotation: 'literal',
+  pugSingleQuote: true,
+  pugFramework: 'vue',
   // pugSortAttributesBeginning: [
   //   // DEFINITION
   //   'is',
