@@ -8,9 +8,17 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('@arco-design/web-vue')['Button']
+    ACard: typeof import('@arco-design/web-vue')['Card']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AInput: typeof import('@arco-design/web-vue')['Input']
+    AModal: typeof import('@arco-design/web-vue')['Modal']
+    AOption: typeof import('@arco-design/web-vue')['Option']
+    APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
+    ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASpin: typeof import('@arco-design/web-vue')['Spin']
+    ATable: typeof import('@arco-design/web-vue')['Table']
+    ATableColumn: typeof import('@arco-design/web-vue')['TableColumn']
     ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
     MediaGallery: typeof import('./../shared/components/media-gallery.vue')['default']
     MediaGalleryItem: typeof import('./../shared/components/media-gallery-item.vue')['default']
