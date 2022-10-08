@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "commit": "git-cz",
     "update:request": "npx http-request-cli -g",
-    "postupdate:request": "prettier --write \"./src/http/**/*.ts\""
+    "postupdate:request": "prettier --config ./.prettierrc-cli.js --write \"./src/http/**/*.ts\""
   },
   "commitlint": {
     "extends": [
