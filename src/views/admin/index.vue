@@ -43,7 +43,7 @@ page-container(title='管理员列表')
 <script setup lang="ts">
 import { RequestParams } from '@gopowerteam/http-request'
 import { useRequest } from 'virtual:http-request'
-import { Administrator } from '~/http/model'
+import type { Administrator } from '~/http/model'
 import { PageService } from '~/http/extends/page.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'

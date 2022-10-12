@@ -1,21 +1,25 @@
 import 'reflect-metadata'
-import { ViteSSG, ViteSSGContext } from 'vite-ssg'
-import router from '~/router'
+import { ViteSSG, type ViteSSGContext } from 'vite-ssg'
+import router from '@/router'
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
 import '~/styles/index.less'
 import '@arco-design/web-vue/dist/arco.css'
 import App from './App.vue'
 import { bootstrap } from './bootstrap'
+import type { InstallModule } from './types/common'
 
 /**
  * 加载模块
  * @param ctx
  */
 function installModules(ctx: ViteSSGContext) {
-  Object.values(import.meta.globEager('./modules/*.ts')).forEach((i) =>
-    i.install?.(ctx),
-  )
+  Object.values(
+    import.meta.glob('./modules/*.ts', { eager: true }) as Record<
+      string,
+      { install: InstallModule }
+    >,
+  ).forEach((i) => i.install?.(ctx))
 }
 
 export const createApp = ViteSSG(App, router, async (ctx) => {

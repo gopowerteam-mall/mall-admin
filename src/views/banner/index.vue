@@ -43,7 +43,7 @@ page-container(title='Banner管理')
 <script setup lang="ts">
 import { RequestParams } from '@gopowerteam/http-request'
 import { useRequest } from 'virtual:http-request'
-import { Banner } from '~/http/model'
+import type { Banner } from '~/http/model'
 import { PageService } from '~/http/extends/page.service'
 import { LoadingService } from '~/http/extends/loading.service'
 import { dateTimeFormat } from '~/shared/common'

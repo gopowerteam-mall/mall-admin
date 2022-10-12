@@ -1,7 +1,7 @@
 import { lastValueFrom } from 'rxjs'
 import { useRequest } from 'virtual:http-request'
-import { Router } from 'vue-router'
-import { appAction, appQuery } from '~/store/app.store'
+import type { Router } from 'vue-router'
+import { appAction, appQuery } from '@/store/app.store'
 
 /**
  * 更新基础信息
