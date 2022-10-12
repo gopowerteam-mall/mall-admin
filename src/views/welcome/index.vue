@@ -40,7 +40,7 @@ const router = useRouter()
 
 function handleSubmit() {
   useRequest((service) => service.AppService)
-    .appInit({ admin: unref(form) })
+    .appInit({ administrator: unref(form) })
     .subscribe({
       next: gotoLogin,
       error: (err) => {
