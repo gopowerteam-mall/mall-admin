@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { FileType } from '~/config/enum.config'
-import { UploadTask } from '../utils/upload.service'
+import type { UploadTask } from '../utils/upload.service'
 
 const props = withDefaults(
   defineProps<{
