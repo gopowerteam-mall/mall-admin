@@ -13,48 +13,48 @@ export class AdministratorService {
    */
   @Request({
     server: AdministratorController.createAdministrator,
-    model: Administrator
+    model: Administrator,
   })
   public createAdministrator(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Administrator> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 查询管理员列表
    */
   @Request({
     server: AdministratorController.findAdministrator,
-    model: Administrator
+    model: Administrator,
   })
   public findAdministrator(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Administrator[]> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 更新管理员
    */
   @Request({
     server: AdministratorController.updateAdministrator,
-    model: Administrator
+    model: Administrator,
   })
   public updateAdministrator(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Administrator> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 获取管理员
    */
   @Request({
     server: AdministratorController.getAdministrator,
-    model: Administrator
+    model: Administrator,
   })
   public getAdministrator(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Administrator> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 删除用户
@@ -63,21 +63,21 @@ export class AdministratorService {
     server: AdministratorController.deleteAdministrator,
   })
   public deleteAdministrator(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 重置管理员密码
    */
   @Request({
     server: AdministratorController.resetAdministratorPassword,
-    model: AdministratorResetPasswordResponse
+    model: AdministratorResetPasswordResponse,
   })
   public resetAdministratorPassword(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<AdministratorResetPasswordResponse> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 更新管理员密码
@@ -86,8 +86,8 @@ export class AdministratorService {
     server: AdministratorController.updateAdministratorPassword,
   })
   public updateAdministratorPassword(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
 }

@@ -13,24 +13,24 @@ export class MaterialService {
    */
   @Request({
     server: MaterialController.createMaterial,
-    model: Material
+    model: Material,
   })
   public createMaterial(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Material> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 获取素材列表
    */
   @Request({
     server: MaterialController.findMaterial,
-    model: Material
+    model: Material,
   })
   public findMaterial(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Material[]> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 删除素材
@@ -39,57 +39,57 @@ export class MaterialService {
     server: MaterialController.deleteMaterialBatch,
   })
   public deleteMaterialBatch(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 获取素材分组
    */
   @Request({
     server: MaterialController.findMaterialGroup,
-    model: MaterialGroupResponse
+    model: MaterialGroupResponse,
   })
   public findMaterialGroup(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<MaterialGroupResponse[]> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 创建素材分组
    */
   @Request({
     server: MaterialController.createMaterialGroup,
-    model: Material
+    model: Material,
   })
   public createMaterialGroup(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Material> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 更新素材分组
    */
   @Request({
     server: MaterialController.updateMaterialGroup,
-    model: Material
+    model: Material,
   })
   public updateMaterialGroup(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Material> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 删除素材分组
    */
   @Request({
     server: MaterialController.deleteMaterialGroup,
-    model: Material
+    model: Material,
   })
   public deleteMaterialGroup(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Material> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 修改素材分组
@@ -98,8 +98,8 @@ export class MaterialService {
     server: MaterialController.changeGroupBatch,
   })
   public changeGroupBatch(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
 }

@@ -13,48 +13,48 @@ export class BannerService {
    */
   @Request({
     server: BannerController.createBanner,
-    model: Banner
+    model: Banner,
   })
   public createBanner(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Banner> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 查询Banner列表
    */
   @Request({
     server: BannerController.findBanner,
-    model: Banner
+    model: Banner,
   })
   public findBanner(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Banner[]> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 更新Banner
    */
   @Request({
     server: BannerController.updateBanner,
-    model: Banner
+    model: Banner,
   })
   public updateBanner(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Banner> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 获取Banner
    */
   @Request({
     server: BannerController.getBanner,
-    model: Banner
+    model: Banner,
   })
   public getBanner(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Banner> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 删除Banner
@@ -63,9 +63,9 @@ export class BannerService {
     server: BannerController.deleteBanner,
   })
   public deleteBanner(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 交换Banner位置
@@ -74,8 +74,8 @@ export class BannerService {
     server: BannerController.changeBannerOrder,
   })
   public changeBannerOrder(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
 }

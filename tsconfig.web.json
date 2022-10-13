@@ -14,7 +14,9 @@
       "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
-    ]
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "vueCompilerOptions": {
     "plugins": ["@volar/vue-language-plugin-pug"]

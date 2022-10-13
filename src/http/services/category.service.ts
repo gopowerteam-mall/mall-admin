@@ -13,48 +13,48 @@ export class CategoryService {
    */
   @Request({
     server: CategoryController.createCategory,
-    model: Category
+    model: Category,
   })
   public createCategory(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Category> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 查询分类
    */
   @Request({
     server: CategoryController.findCategory,
-    model: Category
+    model: Category,
   })
   public findCategory(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Category[]> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 更新分类
    */
   @Request({
     server: CategoryController.updateCategory,
-    model: Category
+    model: Category,
   })
   public updateCategory(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Category> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 获取分类
    */
   @Request({
     server: CategoryController.getCategory,
-    model: Category
+    model: Category,
   })
   public getCategory(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<Category> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
   /**
    * 删除分类
@@ -63,8 +63,8 @@ export class CategoryService {
     server: CategoryController.deleteCategory,
   })
   public deleteCategory(
-    params?: RequestParams | { [key: string]: any }
+    params?: RequestParams | { [key: string]: any },
   ): Observable<any> {
-    return RequestParams.create(params).request();
+    return RequestParams.create(params).request()
   }
 }
