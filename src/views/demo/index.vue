@@ -27,7 +27,7 @@ a-card(title='字典示例')
 </template>
 
 <script setup lang="ts">
-import { UploadTask } from '~/shared/utils/upload.service'
+import type { UploadTask } from '@/shared/utils/upload.service'
 import { FileType } from '@/config/enum.config'
 import { BannerTypeDict } from '@/config/dict.config'
 

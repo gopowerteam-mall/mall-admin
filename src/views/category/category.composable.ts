@@ -1,5 +1,5 @@
 import { useRequest } from 'virtual:http-request'
-import { Category } from '~/http/model'
+import type { Category } from '~/http/model'
 
 /**
  * 分类数据

@@ -16,7 +16,8 @@
       "vite-plugin-vue-layouts/client"
     ],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false
   },
   "vueCompilerOptions": {
     "plugins": ["@volar/vue-language-plugin-pug"]

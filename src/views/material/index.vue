@@ -1,7 +1,7 @@
 <template lang="pug">
 page-container(title='素材分组管理')
   a-spin(:loading='loadingStatus' class='!flex')
-    a-table.p-4.flex-1( :data='dataList' :expandable="expandable" row-key="id" )
+    a-table.p-4.flex-1(:data='dataList' :expandable='expandable' row-key='id')
       template(#columns)
         a-table-column(data-index='name' title='分组名称')
         a-table-column(data-index='count' title='素材数量')
@@ -17,7 +17,7 @@ page-container(title='素材分组管理')
 <script setup lang="ts">
 import { RequestParams } from '@gopowerteam/http-request'
 import { useRequest } from 'virtual:http-request'
-import { MaterialGroupResponse } from '~/http/model'
+import type { MaterialGroupResponse } from '~/http/model'
 import { PageService } from '~/http/extends/page.service'
 import { LoadingService } from '~/http/extends/loading.service'
 import { useModal } from '@gopowerteam/vue-modal'
@@ -75,7 +75,7 @@ function openEdit(record?: MaterialGroupResponse) {
     .then((data) => data && refreshData())
 }
 
-const expandable = $ref({
+const expandable: any = {
   title: '展开',
   width: 100,
   expandedRowRender: (record: MaterialGroupResponse) => {
@@ -85,7 +85,7 @@ const expandable = $ref({
       })
     }
   },
-})
+}
 </script>
 
 <route lang="yaml">
@@ -97,7 +97,7 @@ meta:
     roles:
       - ADMIN
   menu:
-    key: root1.material
+    key: mall-setting.material
     icon: xxx
     title: 素材管理
 </route>

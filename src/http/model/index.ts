@@ -217,7 +217,8 @@ export class Category extends Model {
   /**
    * 子节点
    */
-  public children: string[]
+  @Type(() => Category)
+  public children: Category[]
 }
 
 export class UpdateCategoryInput extends Model {

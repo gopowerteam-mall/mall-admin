@@ -170,7 +170,7 @@ meta:
     roles:
       - ADMIN
   menu:
-    key: root1.admin
+    key: system-setting.admin
     icon: xxx
     title: 系统管理员
 </route>

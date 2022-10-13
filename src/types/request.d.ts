@@ -4,6 +4,7 @@ declare module 'virtual:http-request' {
   import { BannerService } from '~/http/services/banner.service'
   import { CategoryService } from '~/http/services/category.service'
   import { MaterialService } from '~/http/services/material.service'
+  import { ProductService } from '~/http/services/product.service'
   import { QiniuService } from '~/http/services/qiniu.service'
 
   const serviceMap = {
@@ -12,6 +13,7 @@ declare module 'virtual:http-request' {
     BannerService,
     CategoryService,
     MaterialService,
+    ProductService,
     QiniuService
     }
 

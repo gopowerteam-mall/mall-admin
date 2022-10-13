@@ -94,7 +94,7 @@ meta:
     roles:
       - ADMIN
   menu:
-    key: root1.category
+    key: mall-setting.category
     icon: xxx
     title: 分类管理
 </route>

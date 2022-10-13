@@ -152,7 +152,7 @@ meta:
     roles:
       - ADMIN
   menu:
-    key: root1.banner
+    key: mall-setting.banner
     icon: xxx
     title: Banner管理
 </route>
