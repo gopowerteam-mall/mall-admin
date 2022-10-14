@@ -1,21 +1,21 @@
 <template lang="pug">
 .media-gallery
   a-image-preview-group(infinite)
-    .flex.flex-wrap.space-x-2
-      media-gallery-item(
+    .flex.flex-wrap
+      media-gallery-item.m-5px(
         v-for='media in medias'
         :key='media'
         :type='type'
         :src='media'
         @delete='onDeleteMedia')
-      media-gallery-item(
+      media-gallery-item.m-5px(
         v-for='task in tasks'
         :key='task.key'
         :task='task'
         :type='type'
         @delete='onDeleteTask')
       .upload-button(v-if='uploadButton')
-        upload-container(
+        upload-container.m-5px(
           :multiple='multiple'
           :filetype='type'
           @upload='onAddMedia')
@@ -48,6 +48,11 @@ const props = withDefaults(
 const uploader = useUploader()
 let tasks = $shallowRef<UploadTask[]>([])
 let medias = $ref<string[]>([...props.modelValue])
+
+// 需要导出tasks的所有上传状态
+defineExpose({
+  uploaded: () => tasks.every((x) => x.completed.value === true),
+})
 
 const emit = defineEmits(['update:modelValue'])
 useVModel(props, 'modelValue', emit)
