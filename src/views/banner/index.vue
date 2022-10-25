@@ -51,7 +51,6 @@ import { useModal } from '@gopowerteam/vue-modal'
 import { DisplayScene } from '~/config/enum.config'
 import BannerSortIcon from './components/banner-sort-icon.vue'
 import type { Banner } from '@/http/models/Banner'
-import { ImagePreview } from '@arco-design/web-vue'
 
 // 列表
 let dataList = $ref<Banner[]>([])
@@ -68,7 +67,7 @@ function bannerTypeFormat(type: string) {
 }
 
 function refreshData() {
-  bannerService.findBanner({}, [pageService, loadingService]).then((data) => {
+  bannerService.findBanner({}, [loadingService]).then((data) => {
     dataList = data
   })
 }
