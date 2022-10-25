@@ -20,7 +20,7 @@ a-form(
 
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 
 const refForm = $ref<any>()
 
@@ -54,9 +54,7 @@ function handleSubmit() {
   saving = true
   useRequest((service) => service.AdministratorService)
     .createAdministrator(form)
-    .subscribe({
-      next: onSuncess,
-      error: () => (saving = false),
-    })
+    .then(onSuncess)
+    .catch(() => (saving = false))
 }
 </script>

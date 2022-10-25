@@ -1,37 +1,33 @@
-import { RequestService } from '@gopowerteam/http-request'
-import { appConfig } from '~/config/app.config'
+import { appConfig } from '@/config/app.config'
+import { TokenService } from '@/http/extends/token.service'
+import { userAction } from '@/store/user.store'
 import { Message } from '@arco-design/web-vue'
-import { TokenService } from '~/http/extends/token.service'
-import { userAction } from '~/store/user.store'
+import {
+  type AdapterResponse,
+  type ResponseInterceptor,
+  setup,
+} from '@gopowerteam/request'
+import { AxiosAdapter } from '@gopowerteam/request/adapters'
+class StatusInterceptors implements ResponseInterceptor {
+  exec(respone: AdapterResponse) {
+    return respone.status < 400
+  }
+}
 
-export default function () {
-  RequestService.setConfig({
-    gateway: {
-      default: appConfig.http.gateway as string,
-    },
-    timeout: 30000,
-    qs: {
-      arrayFormat: 'repeat',
-      skipNulls: true,
-      allowDots: true,
-      encodeValuesOnly: true,
-      encode: true,
-    },
-  })
-
-  RequestService.interceptors.status.use((response) => {
-    return true
-  })
-
-  RequestService.interceptors.success.use((response) => {
+class SuccessInterceptors implements ResponseInterceptor {
+  exec(response: AdapterResponse) {
     return response.data
-  })
+  }
+}
 
-  RequestService.interceptors.error.use((response) => {
-    return response
-  })
+class ErrorInterceptors implements ResponseInterceptor {
+  exec(response: AdapterResponse) {
+    return response.data
+  }
+}
 
-  RequestService.requestCatchHandle = (response) => {
+class ExceptionInterceptors implements ResponseInterceptor {
+  exec(response: AdapterResponse) {
     const defaultError = '服务通讯连接失败'
     const messageList: { [key: number]: string | undefined } = {
       400: '请求参数错误',
@@ -39,7 +35,6 @@ export default function () {
       500: '服务器内部错误',
       403: '没有权限，请重新登陆',
     }
-
     if (response) {
       const responseMessage = (response.data || {}).message
       const errorMessage =
@@ -53,20 +48,34 @@ export default function () {
         break
     }
   }
+}
 
-  /**
-   * 401错误码处理
-   * 仅处理登陆过期问题
-   * @param response
-   */
-  function onResponse401() {
-    // 登录过期处理
-    userAction.logout()
+function onResponse401() {
+  // 登录过期处理
+  userAction.logout()
 
-    // 跳转根页面
-    location.href = '/'
-  }
+  // 跳转根页面
+  location.href = '/'
+}
 
-  // 全局安装扩展服务
-  RequestService.installExtendService(new TokenService())
+export default function () {
+  // 配置服务端信息
+  setup({
+    gateway: appConfig.http.gateway,
+    adapter: new AxiosAdapter(),
+    qs: {
+      arrayFormat: 'repeat',
+      skipNulls: true,
+      allowDots: true,
+      encodeValuesOnly: true,
+      encode: true,
+    },
+    interceptors: {
+      status: new StatusInterceptors(),
+      success: new SuccessInterceptors(),
+      error: new ErrorInterceptors(),
+      exception: new ExceptionInterceptors(),
+    },
+    plugins: [new TokenService()],
+  })
 }

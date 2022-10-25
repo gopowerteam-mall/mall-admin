@@ -14,15 +14,14 @@ page-container(title='素材分组管理')
               a-button(status='danger' type='text') 删除
 </template>
 
-<script setup lang="ts">
-import { RequestParams } from '@gopowerteam/http-request'
-import { useRequest } from 'virtual:http-request'
-import type { MaterialGroupResponse } from '~/http/model'
+<script setup lang="tsx">
+import { useRequest } from 'virtual:request'
 import { PageService } from '~/http/extends/page.service'
 import { LoadingService } from '~/http/extends/loading.service'
 import { useModal } from '@gopowerteam/vue-modal'
 import MaterialGroupEdit from './components/material-group-edit.vue'
 import MaterialGrid from './components/material-grid.vue'
+import type { MaterialGroupResponse } from '@/http/models/MaterialGroupResponse'
 
 // 列表
 let dataList = $ref<MaterialGroupResponse[]>([])
@@ -35,30 +34,17 @@ const loadingService = new LoadingService(loadingStatus)
 onMounted(refreshData)
 
 function refreshData() {
-  materialService
-    .findMaterialGroup(
-      new RequestParams({
-        page: pageService,
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: (data) => {
-        dataList = data
-      },
-    })
+  materialService.findMaterialGroup([loadingService]).then((data) => {
+    dataList = data
+  })
 }
 
 // 删除
 function onDelete(id: string) {
   materialService
-    .deleteMaterialGroup(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe(refreshData)
+    // TODO: 设置TARGET
+    .deleteMaterialGroup(id, { target: '' }, [loadingService])
+    .then(refreshData)
 }
 
 const modal = useModal()
@@ -80,9 +66,7 @@ const expandable: any = {
   width: 100,
   expandedRowRender: (record: MaterialGroupResponse) => {
     if (record.count > 0) {
-      return h(MaterialGrid, {
-        groupId: record.id,
-      })
+      return h(MaterialGrid, { groupId: record.id! })
     }
   },
 }

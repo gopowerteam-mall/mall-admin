@@ -9,12 +9,12 @@ import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'
 import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import unocss from 'unocss/vite'
-import request from '@gopowerteam/http-request/vite-plugin'
 import extractorPug from '@unocss/extractor-pug'
 import { extractorSplit } from '@unocss/core'
 import assets from './scripts/vite/asset.plugin'
 import lessToJs from 'less-vars-to-js'
 import { readFileSync } from 'node:fs'
+import request from '@gopowerteam/request-generate/vite-plugin'
 
 // 全局样式变量
 const globalLessVaribles = resolve(__dirname, 'src', 'styles', 'variables.less')
@@ -104,10 +104,9 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/],
     }),
     request({
-      root: resolve(process.cwd(), 'src'),
       alias: '~',
-      serviceDir: 'http/services',
-      serviceDeclaration: 'src/types/request.d.ts',
+      dir: 'src/http/services',
+      dts: 'src/types/request.d.ts',
     }),
     // 自动导入图标插件配置
     icons({

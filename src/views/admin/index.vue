@@ -41,14 +41,13 @@ page-container(title='管理员列表')
 </template>
 
 <script setup lang="ts">
-import { RequestParams } from '@gopowerteam/http-request'
-import { useRequest } from 'virtual:http-request'
-import type { Administrator } from '~/http/model'
+import { useRequest } from 'virtual:request'
 import { PageService } from '~/http/extends/page.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'
 import { LoadingService } from '~/http/extends/loading.service'
 import { dateTimeFormat } from '~/shared/common'
+import type { Administrator } from '@/http/models/Administrator'
 
 // 管理员列表
 let dataList = $ref<Administrator[]>([])
@@ -62,16 +61,9 @@ onMounted(refreshData)
 
 function refreshData() {
   adminService
-    .findAdministrator(
-      new RequestParams({
-        page: pageService,
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: (data) => {
-        dataList = data
-      },
+    .findAdministrator({}, [pageService, loadingService])
+    .then((data) => {
+      dataList = data
     })
 }
 
@@ -80,33 +72,19 @@ const showDelete = computed(() => dataList.length > 1)
 
 // 删除管理员
 function onDelete(id: string) {
-  adminService
-    .deleteAdministrator(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe(refreshData)
+  adminService.deleteAdministrator(id, [loadingService]).then(refreshData)
 }
 
 // 重置密码
 function onResetPwd(id: string) {
   adminService
-    .resetAdministratorPassword(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: ({ password }) => {
-        Message.success({
-          content: `重置成功，新密码【${password}】,请牢记`,
-          duration: 5000,
-          closable: true,
-        })
-      },
+    .resetAdministratorPassword(id, [loadingService])
+    .then(({ password }) => {
+      Message.success({
+        content: `重置成功，新密码【${password}】,请牢记`,
+        duration: 5000,
+        closable: true,
+      })
     })
 }
 
@@ -135,22 +113,18 @@ function onDialogBeforOk(done: Function) {
   }
   adminService
     .updateAdministrator(
-      new RequestParams({
-        data: {
-          realname: modifyData.name,
-        },
-        append: { id: modifyData.id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: () => {
-        done()
-        Message.success('修改成功')
-        refreshData()
+      modifyData.id,
+      {
+        realname: modifyData.name,
       },
-      error: () => done(false),
+      [loadingService],
+    )
+    .then(() => {
+      done()
+      Message.success('修改成功')
+      refreshData()
     })
+    .catch(() => done(false))
 }
 
 function onPageChange(index: number) {

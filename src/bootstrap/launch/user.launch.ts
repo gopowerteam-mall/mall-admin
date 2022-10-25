@@ -1,13 +1,12 @@
-import { Router } from 'vue-router'
+import type { Router } from 'vue-router'
 import { appConfig } from '~/config/app.config'
 import menus from '~/config/menu.config'
 import { appAction } from '~/store/app.store'
 import { userAction, userQuery } from '~/store/user.store'
 import type { Menu } from '~/types/workspace'
-import { useRequest } from 'virtual:http-request'
-import { RequestParams } from '@gopowerteam/http-request'
+import { useRequest } from 'virtual:request'
 import { lastValueFrom } from 'rxjs'
-import { PageMeta } from '~/types/common'
+import type { PageMeta } from '~/types/common'
 /**
  * 检测用户菜单权限
  */
@@ -105,26 +104,13 @@ function generateUserMenu(router: Router) {
  * 更新用户数据
  */
 function updateCurrentToken() {
+  // TODO： update token
   const appService = useRequest((service) => service.AppService)
   const accessToken = userQuery.safeAccessToken
   const refreshToken = userQuery.select((state) => state.refreshToken)
 
   if (!accessToken && refreshToken) {
-    return lastValueFrom(
-      appService.token(
-        new RequestParams({
-          header: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }),
-      ),
-    ).then(({ access_token, refresh_token, expires_in }) => {
-      userAction.updateToken({
-        accessToken: access_token,
-        refreshToken: refresh_token,
-        expiresIn: expires_in,
-      })
-    })
+    return
   }
 }
 
@@ -136,7 +122,7 @@ function updateCurrentUser() {
   const accessToken = userQuery.select((state) => state.accessToken)
 
   if (accessToken) {
-    return lastValueFrom(appService.getCurrentAdmin()).then((data) => {
+    return appService.getCurrentAdmin().then((data) => {
       userAction.updateCurrent(data)
     })
   }

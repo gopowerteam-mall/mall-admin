@@ -1,22 +1,15 @@
-import { ExtendService, RequestParams } from '@gopowerteam/http-request'
+import type { RequestPlugin, RequestSendOptions } from '@gopowerteam/request'
 import { userQuery } from '~/store/user.store'
 
-export class TokenService extends ExtendService {
-  public before = (params: RequestParams) => {
+export class TokenService implements RequestPlugin {
+  public before(options: RequestSendOptions) {
     const accessToken = userQuery.select((state) => state.accessToken)
-    const options = params.getOptions()
 
     if (accessToken) {
-      const header = {
+      options.headers = {
+        ...options.headers,
         ['Authorization']: `Bearer ${accessToken}`,
-        ...(options.header || {}),
       }
-
-      // 更新header配置
-      params.setOptions({
-        ...options,
-        header,
-      })
     }
   }
 }

@@ -35,8 +35,7 @@ page-container(title='分类管理')
 </template>
 
 <script setup lang="ts">
-import { RequestParams } from '@gopowerteam/http-request'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 import { LoadingService } from '~/http/extends/loading.service'
 import { dateTimeFormat, yesNoFormat } from '~/shared/common'
 import CategoryEdit from './components/category-edit.vue'
@@ -55,14 +54,7 @@ onMounted(refreshData)
 
 // 删除
 function onDelete(id: string) {
-  categoryService
-    .deleteCategory(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe(refreshData)
+  categoryService.deleteCategory(id, [loadingService]).then(refreshData)
 }
 
 const modal = useModal()

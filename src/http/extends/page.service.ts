@@ -1,6 +1,10 @@
-import { ExtendService, RequestParams } from '@gopowerteam/http-request'
+import type {
+  AdapterResponse,
+  RequestPlugin,
+  RequestSendOptions,
+} from '@gopowerteam/request'
 
-export class PageService extends ExtendService {
+export class PageService implements RequestPlugin {
   public default = {
     pageSize: 10,
     pageIndex: 1,
@@ -14,8 +18,6 @@ export class PageService extends ExtendService {
   public finished = false
 
   constructor(data?: any) {
-    super()
-
     if (data) this.default = { ...this.default, ...data }
 
     this.pageSize = this.default.pageSize
@@ -24,21 +26,16 @@ export class PageService extends ExtendService {
     this.pageSizeOptions = this.default.pageSizeOptions
   }
 
-  public before = (params: RequestParams) => {
-    params.setData({
-      ...(params.getData() || {}),
+  public before(options: RequestSendOptions) {
+    options.paramsQuery = {
+      ...options.paramsQuery,
       size: this.pageSize,
       page: this.pageIndex - 1,
-    })
+    }
   }
 
-  public after = (
-    response: any,
-    params: RequestParams,
-    setData: (data: any) => void,
-  ) => {
-    this.total = response.total
-    setData(response.data)
+  public after(response: AdapterResponse, options: RequestSendOptions) {
+    this.total = response.data.total
     this.updateFinished()
   }
 

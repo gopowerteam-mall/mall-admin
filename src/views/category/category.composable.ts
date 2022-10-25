@@ -1,5 +1,5 @@
-import { useRequest } from 'virtual:http-request'
-import type { Category } from '~/http/model'
+import type { Category } from '@/http/models/Category'
+import { useRequest } from 'virtual:request'
 
 /**
  * 分类数据
@@ -16,7 +16,5 @@ export function refreshData() {
     .findCategory({
       recursion: true,
     })
-    .subscribe({
-      next: (data) => (dataList.value = data),
-    })
+    .then((data) => (dataList.value = data))
 }

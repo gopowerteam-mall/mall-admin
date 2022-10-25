@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid/non-secure'
-import { QiniuService } from '@/http/services/qiniu.service'
 import { useLogger } from '../hooks/use-logger'
 import * as qiniu from 'qiniu-js'
 import { FileType } from '~/config/enum.config'
+import { QiniuService } from '@/http/services/QiniuService'
 
 // 七牛服务
 const qiniuService = new QiniuService()
@@ -139,7 +139,7 @@ export class QiniuStorageService implements IStorageService {
 
   private requestToken() {
     // 获取存储服务Token
-    qiniuService.getUploadToken().subscribe(({ token }) => {
+    qiniuService.getUploadToken().then(({ token }) => {
       this.token = token
     })
   }

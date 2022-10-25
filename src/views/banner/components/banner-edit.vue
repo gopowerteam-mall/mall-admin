@@ -20,11 +20,10 @@ a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
 
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
-import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 import { BannerTypeDict } from '~/config/dict.config'
-import { UploadTask } from '~/shared/utils/upload.service'
+import type { UploadTask } from '~/shared/utils/upload.service'
 
 const props = defineProps({
   id: {
@@ -65,20 +64,12 @@ const service = useRequest((service) => service.BannerService)
 
 onBeforeMount(() => {
   if (!props.id) return
-  service
-    .getBanner(
-      new RequestParams({
-        append: { id: props.id },
-      }),
-    )
-    .subscribe({
-      next: (data) => {
-        form.title = data.title
-        form.type = data.type
-        form.image = data.image
-        form.target = data.target
-      },
-    })
+  service.getBanner(props.id).then((data) => {
+    form.title = data.title
+    form.type = data.type
+    form.image = data.image
+    form.target = data.target
+  })
 })
 
 function handleSubmit() {
@@ -93,30 +84,25 @@ function handleSubmit() {
 
 function createBanner() {
   saving = true
-  service.createBanner(form).subscribe({
-    next: () => {
+  service
+    // TODO: form 类型待修复
+    .createBanner(form as any)
+    .then(() => {
       Message.success('添加成功')
       modal.close({})
-    },
-    error: () => (saving = false),
-  })
+    })
+    .catch(() => (saving = false))
 }
 
 function updateBanner() {
   saving = true
+  // TODO: form类型待修复
   service
-    .updateBanner(
-      new RequestParams({
-        data: form,
-        append: { id: props.id! },
-      }),
-    )
-    .subscribe({
-      next: () => {
-        Message.success('修改成功')
-        modal.close({})
-      },
-      error: () => (saving = false),
+    .updateBanner(props.id!, form as any)
+    .then(() => {
+      Message.success('修改成功')
+      modal.close({})
     })
+    .catch(() => (saving = false))
 }
 </script>

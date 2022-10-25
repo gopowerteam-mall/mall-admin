@@ -41,9 +41,7 @@ page-container(title='Banner管理')
 </template>
 
 <script setup lang="ts">
-import { RequestParams } from '@gopowerteam/http-request'
-import { useRequest } from 'virtual:http-request'
-import type { Banner } from '~/http/model'
+import { useRequest } from 'virtual:request'
 import { PageService } from '~/http/extends/page.service'
 import { LoadingService } from '~/http/extends/loading.service'
 import { dateTimeFormat } from '~/shared/common'
@@ -52,6 +50,8 @@ import BannerEdit from './components/banner-edit.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { DisplayScene } from '~/config/enum.config'
 import BannerSortIcon from './components/banner-sort-icon.vue'
+import type { Banner } from '@/http/models/Banner'
+import { ImagePreview } from '@arco-design/web-vue'
 
 // 列表
 let dataList = $ref<Banner[]>([])
@@ -68,30 +68,14 @@ function bannerTypeFormat(type: string) {
 }
 
 function refreshData() {
-  bannerService
-    .findBanner(
-      new RequestParams({
-        page: pageService,
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: (data) => {
-        dataList = data
-      },
-    })
+  bannerService.findBanner({}, [pageService, loadingService]).then((data) => {
+    dataList = data
+  })
 }
 
 // 删除
 function onDelete(id: string) {
-  bannerService
-    .deleteBanner(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe(refreshData)
+  bannerService.deleteBanner(id, [loadingService]).then(refreshData)
 }
 
 const modal = useModal()
@@ -127,19 +111,10 @@ function onOrderChange(type: 'down' | 'up', index: number) {
 
   const target = targetRow.id
   bannerService
-    .changeBannerOrder(
-      new RequestParams({
-        data: {
-          target,
-        },
-        append: {
-          id: sourceId,
-        },
-      }),
-    )
-    .subscribe({
-      next: refreshData,
+    .changeBannerOrder(sourceId, {
+      target,
     })
+    .then(refreshData)
 }
 </script>
 
