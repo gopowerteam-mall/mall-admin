@@ -1,11 +1,11 @@
 <template>
-  <data-table
+  <dynamic-table
     :pagination="pageService"
     row-key="id"
     :load-data="loadData"
     :forms="forms"
     :columns="columns"
-  ></data-table>
+  ></dynamic-table>
 </template>
 
 <script lang="ts" setup>

@@ -15,6 +15,7 @@
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
     ],
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false
