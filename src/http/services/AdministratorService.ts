@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { CreateAdministratorInput } from '../models/CreateAdministratorInput'
 import type { Administrator } from '../models/Administrator'
+import type { PageAdministrator } from '../models/PageAdministrator'
 import type { UpdateAdministratorInput } from '../models/UpdateAdministratorInput'
 import type { AdministratorResetPasswordResponse } from '../models/AdministratorResetPasswordResponse'
 import type { UpdatePasswordInput } from '../models/UpdatePasswordInput'
@@ -38,7 +39,7 @@ export class AdministratorService {
   public findAdministrator(
     requestQuery: RequestQueryParams.FindAdministrator,
     requestPlugins: RequestPlugin[] = [],
-  ): Promise<Administrator[]> {
+  ): Promise<PageAdministrator> {
     // 请求数据
     const result = this.request.send(
       {
