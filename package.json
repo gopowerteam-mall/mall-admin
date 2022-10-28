@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "2.37.4",
-    "@gopowerteam/request": "^0.1.6",
+    "@gopowerteam/request": "^0.1.8",
+    "@gopowerteam/vue-dynamic-table": "^0.0.1",
     "@gopowerteam/vue-modal": "0.1.12",
     "@ngneat/elf": "2.1.0",
     "@ngneat/elf-devtools": "1.2.1",
@@ -38,7 +39,8 @@
     "qiniu-js": "3.4.1",
     "rxjs": "7.5.7",
     "vue": "3.2.41",
-    "vue-router": "4.1.6"
+    "vue-router": "4.1.6",
+    "vxe-table": "^4.3.5"
   },
   "devDependencies": {
     "@babel/core": "7.19.6",

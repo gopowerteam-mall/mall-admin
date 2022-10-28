@@ -49,5 +49,6 @@ declare module '@vue/runtime-core' {
     UploadContainer: typeof import('./../shared/components/upload-container.vue')['default']
     UploadProgress: typeof import('./../shared/components/upload-progress.vue')['default']
     VideoPreview: typeof import('./../shared/components/video-preview.vue')['default']
+    DataTable: typeof import('@gopowerteam/vue-dynamic-table')['DynamicTable']
   }
 }

@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import componentSetup from './component.setup'
 import httpSetup from './http.setup'
 

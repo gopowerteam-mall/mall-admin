@@ -5,8 +5,11 @@ import type { InstallModule } from '@/types/common'
 export const install: InstallModule = ({
   isClient,
   router,
+  app,
 }: ViteSSGContext) => {
   if (isClient) {
+    console.log('zz')
+
     NProgress.configure({
       easing: 'ease',
       speed: 500,
