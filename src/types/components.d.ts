@@ -35,7 +35,7 @@ declare module '@vue/runtime-core' {
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']
     ATabs: typeof import('@arco-design/web-vue')['Tabs']
     ATreeSelect: typeof import('@arco-design/web-vue')['TreeSelect']
-    DynamicTable: typeof import('@gopowerteam/vue-dynamic-table')['DynamicTable']
+    DataTable: typeof import('@gopowerteam/vue-dynamic-table')['DynamicTable']
     'IconPark:menuFold': typeof import('~icons/icon-park/menu-fold')['default']
     'IconPark:menuUnfold': typeof import('~icons/icon-park/menu-unfold')['default']
     'IconPark:plus': typeof import('~icons/icon-park/plus')['default']
