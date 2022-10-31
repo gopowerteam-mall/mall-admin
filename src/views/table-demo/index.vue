@@ -5,7 +5,11 @@
     :load-data="loadData"
     :forms="forms"
     :columns="columns"
-  ></data-table>
+  >
+    <template #actions>
+      <div>测试自定义Action</div>
+    </template>
+  </data-table>
 </template>
 
 <script lang="ts" setup>
