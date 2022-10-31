@@ -1,14 +1,12 @@
-import { ExtendService } from '@gopowerteam/http-request'
-import { Ref } from 'vue'
+import type { RequestPlugin } from '@gopowerteam/request'
+import type { Ref } from 'vue'
 
-export class LoadingService extends ExtendService {
+export class LoadingService implements RequestPlugin {
   /**
    * Http loading
    * @param loadingStatus
    */
-  constructor(private loadingStatus: Ref<boolean>) {
-    super()
-  }
+  constructor(private loadingStatus: Ref<boolean>) {}
 
   /**
    * 请求前置操作

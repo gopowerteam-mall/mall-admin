@@ -1,21 +1,23 @@
-declare module 'virtual:http-request' {
-  import { AdministratorService } from '~/http/services/administrator.service'
-  import { AppService } from '~/http/services/app.service'
-  import { BannerService } from '~/http/services/banner.service'
-  import { CategoryService } from '~/http/services/category.service'
-  import { MaterialService } from '~/http/services/material.service'
-  import { QiniuService } from '~/http/services/qiniu.service'
+declare module 'virtual:request' {
+import { AdministratorService } from '~/http/services/AdministratorService'
+import { AppService } from '~/http/services/AppService'
+import { BannerService } from '~/http/services/BannerService'
+import { CategoryService } from '~/http/services/CategoryService'
+import { MaterialService } from '~/http/services/MaterialService'
+import { ProductService } from '~/http/services/ProductService'
+import { QiniuService } from '~/http/services/QiniuService'
 
-  const serviceMap = {
-      AdministratorService,
-    AppService,
-    BannerService,
-    CategoryService,
-    MaterialService,
-    QiniuService
-    }
+const serviceMap = {
+  AdministratorService,
+  AppService,
+  BannerService,
+  CategoryService,
+  MaterialService,
+  ProductService,
+  QiniuService,
+}
 
   export function useRequest<T>(
-    select: (services: typeof serviceMap) => { new (): T }
-  ): T
+  select: (services: typeof serviceMap) => { new (): T }
+): T
 }

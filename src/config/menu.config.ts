@@ -1,23 +1,12 @@
 export default [
   {
-    key: 'root1',
+    key: 'mall-setting',
     icon: '',
-    title: '目录1',
+    title: '商城配置',
   },
   {
-    key: 'root2',
+    key: 'system-setting',
     icon: '',
-    title: '目录2',
-  },
-  {
-    key: 'root3',
-    icon: '',
-    title: '目录3',
-  },
-
-  {
-    key: 'root2.test',
-    icon: '',
-    title: '目录5',
+    title: '系统配置',
   },
 ]

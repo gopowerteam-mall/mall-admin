@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 import { userAction } from '~/store/user.store'
 import { assets } from 'virtual:assets'
 const appService = useRequest((service) => service.AppService)
@@ -39,8 +39,9 @@ const background = computed(() => `url(${assets.images.login_bg})`)
 const router = useRouter()
 
 function handleSubmit() {
-  appService.login(model).subscribe({
-    next: ({ access_token, refresh_token, expires_in }) => {
+  appService
+    .login(model)
+    .then(({ access_token, refresh_token, expires_in }) => {
       userAction.updateToken({
         accessToken: access_token,
         refreshToken: refresh_token,
@@ -48,8 +49,7 @@ function handleSubmit() {
       })
       // 替换当前路由到主页面
       router.replace('/')
-    },
-  })
+    })
 }
 </script>
 

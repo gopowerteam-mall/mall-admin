@@ -25,17 +25,14 @@ a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
 
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
-import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 import { dataList } from '../category.composable'
 
-interface EditProp {
+const props = defineProps<{
   id?: string
   parentId?: string
-}
-
-const props = defineProps<EditProp>()
+}>()
 
 const form = $ref({
   title: '',
@@ -66,20 +63,12 @@ const service = useRequest((service) => service.CategoryService)
 
 onBeforeMount(() => {
   if (props.id) {
-    service
-      .getCategory(
-        new RequestParams({
-          append: { id: props.id },
-        }),
-      )
-      .subscribe({
-        next: (data) => {
-          form.title = data.title
-          form.recommended = data.recommended
-          form.image = data.image
-          form.parentId = data.parent?.id
-        },
-      })
+    service.getCategory(props.id).then((data) => {
+      form.title = data.title
+      form.recommended = data.recommended
+      form.image = data.image
+      form.parentId = data.parent?.id
+    })
   } else {
     form.parentId = props.parentId ?? ''
     isDisabledTree = true
@@ -96,31 +85,24 @@ function handleSubmit() {
 
 function createCategory() {
   saving = true
-  service.createCategory(form).subscribe({
-    next: () => {
+  service
+    .createCategory(form)
+    .then(() => {
       Message.success('添加成功')
       modal.close({})
-    },
-    error: () => (saving = false),
-  })
+    })
+    .catch(() => (saving = false))
 }
 
 function updateCategory() {
   saving = true
   service
-    .updateCategory(
-      new RequestParams({
-        data: form,
-        append: { id: props.id! },
-      }),
-    )
-    .subscribe({
-      next: () => {
-        Message.success('修改成功')
-        modal.close({})
-      },
-      error: () => (saving = false),
+    .updateCategory(props.id!, form)
+    .then(() => {
+      Message.success('修改成功')
+      modal.close({})
     })
+    .catch(() => (saving = false))
 }
 
 function onRecommandChange(val: boolean) {

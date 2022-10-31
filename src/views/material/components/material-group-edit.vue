@@ -12,16 +12,13 @@ a-form(:model='form' @submit-success='handleSubmit')
 
 <script lang="ts" setup>
 import { Message } from '@arco-design/web-vue'
-import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 
-type PropInterface = {
+const props = defineProps<{
   id?: string
   name?: string
-}
-
-const props = defineProps<PropInterface>()
+}>()
 
 const form = $ref({
   name: '',
@@ -50,23 +47,14 @@ function handleSubmit() {
   const service = useRequest((service) => service.MaterialService)
   if (props.id) {
     service
-      .updateMaterialGroup(
-        new RequestParams({
-          data: form,
-          append: {
-            id: props.id,
-          },
-        }),
-      )
-      .subscribe({
-        next: onSuncess,
-        error: () => (saving = false),
-      })
+      .updateMaterialGroup(props.id!, form)
+      .then(onSuncess)
+      .catch(() => (saving = false))
   } else {
-    service.createMaterialGroup(form).subscribe({
-      next: onSuncess,
-      error: () => (saving = false),
-    })
+    service
+      .createMaterialGroup(form)
+      .then(onSuncess)
+      .catch(() => (saving = false))
   }
 }
 </script>

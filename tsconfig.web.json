@@ -14,7 +14,11 @@
       "vue/ref-macros",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client"
-    ]
+    ],
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false
   },
   "vueCompilerOptions": {
     "plugins": ["@volar/vue-language-plugin-pug"]

@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import { assets } from 'virtual:assets'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 
 const background = computed(() => `url(${assets.images.welcome_bg})`)
 
@@ -41,12 +41,10 @@ const router = useRouter()
 function handleSubmit() {
   useRequest((service) => service.AppService)
     .appInit({ administrator: unref(form) })
-    .subscribe({
-      next: gotoLogin,
-      error: (err) => {
-        const code: number = err.statusCode
-        if (code === 417) gotoLogin()
-      },
+    .then(gotoLogin)
+    .catch((err) => {
+      const code: number = err.statusCode
+      if (code === 417) gotoLogin()
     })
 }
 

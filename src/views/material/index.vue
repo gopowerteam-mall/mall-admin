@@ -59,13 +59,9 @@ function refreshData() {
 // 删除
 function onDelete(id: string) {
   materialService
-    .deleteMaterialGroup(
-      new RequestParams({
-        append: { id },
-        loading: loadingService,
-      }),
-    )
-    .subscribe(refreshData)
+    // TODO: 设置TARGET
+    .deleteMaterialGroup(id, { target: '' }, [loadingService])
+    .then(refreshData)
 }
 
 const modal = useModal()
@@ -101,7 +97,7 @@ meta:
     roles:
       - ADMIN
   menu:
-    key: root1.material
+    key: mall-setting.material
     icon: xxx
     title: 素材管理
 </route>

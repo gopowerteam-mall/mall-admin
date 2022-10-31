@@ -1,5 +1,4 @@
-import { lastValueFrom } from 'rxjs'
-import { useRequest } from 'virtual:http-request'
+import { useRequest } from 'virtual:request'
 import type { Router } from 'vue-router'
 import { appAction, appQuery } from '@/store/app.store'
 
@@ -9,7 +8,7 @@ import { appAction, appQuery } from '@/store/app.store'
  */
 async function getAppBase() {
   const appService = useRequest((service) => service.AppService)
-  return lastValueFrom(appService.appBase()).then(({ base_time, qiniu }) => {
+  return appService.appBase().then(({ base_time, qiniu }) => {
     appAction.updateBase({ basetime: base_time, qiniu })
   })
 }
