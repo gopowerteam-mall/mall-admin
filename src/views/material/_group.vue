@@ -7,18 +7,12 @@ page-container(:title='`素材组-${n}`')
       a-button(type='text' @click='onAddClick') 上传素材
     a-empty(v-if='!photos.length')
     .flex.flex-wrap(v-else)
-      //- MaterialPreviewItem(
-      //-   v-for='{key,id} of photos'
-      //-   :key='key'
-      //-   :src='key'
-      //-   @delete='onPhotoDelete(id)')
       a-image-preview-group(infinite)
-        image-preview(
-          v-for='{key} of photos'
+        MaterialPreviewItem(
+          v-for='{key,id} of photos'
           :key='key'
           :src='key'
-          width='150px'
-          height='150px')
+          @delete='onPhotoDelete(id)')
 </template>
 
 <script setup lang="ts">
@@ -58,9 +52,10 @@ onMounted(() => {
 
 // 清空改组下所有素材
 function onDelete() {
+  const ids = photos.map((x) => x.id)
   materialService
     .deleteMaterialBatch({
-      ids: photos,
+      ids,
     })
     .subscribe({
       next: () => {

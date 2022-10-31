@@ -4,7 +4,14 @@ page-container(title='素材分组管理')
     a-table.p-4.flex-1(:data='dataList' row-key='id')
       template(#columns)
         a-table-column(data-index='name' title='分组名称')
-        a-table-column(data-index='count' title='素材数量')
+        a-table-column
+          template(#title)
+            .flex.flex-center
+              .p-r-2 素材数量
+              a-button(type='text' title='刷新数据' @click='refreshData')
+                icon-park-outline:refresh.text-xs
+          template(#cell='{ record }')
+            div {{ record.count }}
         a-table-column
           template(#title)
             a-button(status='success' type='outline' @click='openEdit()') 添加分组

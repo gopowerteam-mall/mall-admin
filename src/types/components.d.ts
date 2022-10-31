@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     'IconPark:quistion': typeof import('~icons/icon-park/quistion')['default']
     'IconPark:sortAmountDown': typeof import('~icons/icon-park/sort-amount-down')['default']
     'IconParkOutline:delete': typeof import('~icons/icon-park-outline/delete')['default']
+    'IconParkOutline:refresh': typeof import('~icons/icon-park-outline/refresh')['default']
     ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
     MediaGallery: typeof import('./../shared/components/media-gallery.vue')['default']
     MediaGalleryItem: typeof import('./../shared/components/media-gallery-item.vue')['default']
