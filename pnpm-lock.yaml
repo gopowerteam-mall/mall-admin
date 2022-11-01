@@ -11,7 +11,7 @@ specifiers:
   '@commitlint/config-conventional': 17.1.0
   '@gopowerteam/request': ^0.1.10
   '@gopowerteam/request-generate': ^0.1.7
-  '@gopowerteam/vue-dynamic-table': ^0.0.2
+  '@gopowerteam/vue-dynamic-table': ^0.0.7
   '@gopowerteam/vue-modal': 0.1.12
   '@iconify-json/icon-park': 1.1.6
   '@iconify-json/icon-park-outline': 1.1.6
@@ -89,7 +89,7 @@ specifiers:
 dependencies:
   '@arco-design/web-vue': 2.37.4_vue@3.2.41
   '@gopowerteam/request': 0.1.10
-  '@gopowerteam/vue-dynamic-table': 0.0.2
+  '@gopowerteam/vue-dynamic-table': 0.0.7_vue@3.2.41
   '@gopowerteam/vue-modal': 0.1.12_vue@3.2.41
   '@ngneat/elf': 2.1.0_typescript@4.8.4
   '@ngneat/elf-devtools': 1.2.1
@@ -126,7 +126,7 @@ devDependencies:
   '@unocss/transformer-directives': 0.45.30
   '@vitejs/plugin-vue': 3.1.2_vite@3.1.8+vue@3.2.41
   '@volar/vue-language-plugin-pug': 1.0.9
-  '@vue/babel-preset-app': 5.0.8_vue@3.2.41
+  '@vue/babel-preset-app': 5.0.8_genhgqfldeht5lc44ermi4hj7i
   '@vue/eslint-config-typescript': 11.0.2_dssioqymv64e7t7ogoe3tncpcu
   '@vue/tsconfig': 0.1.3_@types+node@16.18.2
   '@vueuse/core': 9.3.1_vue@3.2.41
@@ -1553,28 +1553,6 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /@commitlint/load/17.2.0:
-    resolution: {integrity: sha512-HDD57qSqNrk399R4TIjw31AWBG8dBjNj1MrDKZKmC/wvimtnIFlqzcu1+sxfXIOHj/+M6tcMWDtvknGUd7SU+g==}
-    engines: {node: '>=v14'}
-    dependencies:
-      '@commitlint/config-validator': 17.1.0
-      '@commitlint/execute-rule': 17.0.0
-      '@commitlint/resolve-extends': 17.1.0
-      '@commitlint/types': 17.0.0
-      '@types/node': 14.18.33
-      chalk: 4.1.2
-      cosmiconfig: 7.0.1
-      cosmiconfig-typescript-loader: 4.1.1_gbbg4brkmakf6m5nuj7scelzny
-      lodash: 4.17.21
-      resolve-from: 5.0.0
-      ts-node: 10.9.1_yodorn5kzjgomblrsstrk2spaa
-      typescript: 4.8.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-    dev: true
-    optional: true
-
   /@commitlint/message/17.0.0:
     resolution: {integrity: sha512-LpcwYtN+lBlfZijHUdVr8aNFTVpHjuHI52BnfoV01TF7iSLnia0jttzpLkrLmI8HNQz6Vhr9UrxDWtKZiMGsBw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@commitlint/message/-/message-17.0.0.tgz}
     engines: {node: '>=v14'}
@@ -1717,8 +1695,10 @@ packages:
       - debug
     dev: false
 
-  /@gopowerteam/vue-dynamic-table/0.0.2:
-    resolution: {integrity: sha512-Bdi8rur86HSJNhPV4WYwPfcRiwf4z8qpEwUDMJb28c8KoZlaLAW+QMMxvpm+H2tOR6+F+SbbCOGUVdHylrZJcQ==}
+  /@gopowerteam/vue-dynamic-table/0.0.7_vue@3.2.41:
+    resolution: {integrity: sha512-hFKvUy3YPgOH+/mGEfzYKyn9oCWq67uMAlQR1PZtsyPWTtRsf2M4g/Oc04OY3B5cYgXbL5CDfjbfy0x8UeGC4g==}
+    peerDependencies:
+      vue: ^3.1.0
     dependencies:
       dayjs: 1.11.6
       mitt: 3.0.0
@@ -2413,9 +2393,11 @@ packages:
       svg-tags: 1.0.0
     dev: true
 
-  /@vue/babel-preset-app/5.0.8_vue@3.2.41:
+  /@vue/babel-preset-app/5.0.8_genhgqfldeht5lc44ermi4hj7i:
     resolution: {integrity: sha512-yl+5qhpjd8e1G4cMXfORkkBlvtPCIgmRf3IYCWYDKIQ7m+PPa5iTm4feiNmCMD6yGqQWMhhK/7M3oWGL9boKwg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/@vue/babel-preset-app/-/babel-preset-app-5.0.8.tgz}
     peerDependencies:
+      '@babel/core': '*'
+      core-js: ^3
       vue: ^2 || ^3.2.13
     peerDependenciesMeta:
       core-js:
@@ -3421,7 +3403,7 @@ packages:
     dev: true
 
   /core-js/2.6.12:
-    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
+    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/core-js/-/core-js-2.6.12.tgz}
     deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
@@ -3528,7 +3510,7 @@ packages:
       longest: 2.0.1
       word-wrap: 1.2.3
     optionalDependencies:
-      '@commitlint/load': 17.2.0
+      '@commitlint/load': 17.1.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

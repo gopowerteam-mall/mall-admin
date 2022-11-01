@@ -1,34 +1,13 @@
 <template lang="pug">
 page-container(title='管理员列表')
-  a-spin(:loading='loadingStatus' class='!flex')
-    a-table.p-4.flex-1(
-      :data='dataList'
-      :pagination='pageService'
-      @page-change='onPageChange'
-      @page-size-change='onPageSizeChange')
-      template(#columns)
-        a-table-column(data-index='username' title='用户名')
-        a-table-column(data-index='realname' title='姓名')
-        a-table-column(align='center' data-index='createdAt' title='创建时间')
-          template(#cell='{ record }')
-            div {{ dateTimeFormat(record['createdAt']) }}
-        a-table-column(align='center' data-index='updatedAt' title='更新时间')
-          template(#cell='{ record }')
-            div {{ dateTimeFormat(record['updatedAt']) }}
-        a-table-column(align='center')
-          template(#title)
-            a-button(
-              status='success'
-              type='outline'
-              @click='dialog.add = true') 添加管理员
-          template(#cell='{ record }')
-            a-popconfirm(
-              v-if='showDelete'
-              content='是否删除该管理员'
-              @ok='onDelete(record.id)')
-              a-button(status='danger' type='text') 删除
-            a-button(type='text' @click='onResetPwd(record.id)') 重置密码
-            a-button(type='text' @click='onUpdate(record)') 修改
+  data-table(
+    ref='table'
+    row-key='id'
+    :pagination='pageService'
+    :load-data='loadData'
+    :columns='columns')
+    template(#actions)
+      a-button(status='success' type='outline' @click='dialog.add = true') 添加管理员
   //- 编辑模态框
   a-modal(
     v-model:visible='dialog.modify'
@@ -37,55 +16,96 @@ page-container(title='管理员列表')
     a-input(v-model.trim='modifyData.name' placeholder='请输入管理员姓名')
   //- 新增模态框
   a-modal(v-model:visible='dialog.add' :footer='false' title='添加管理员') 
-    AddAdmin(@close='dialog.add = false' @success='refreshData')
+    AddAdmin(@close='dialog.add = false' @success='() => table.reload()')
 </template>
 
 <script setup lang="ts">
+import { useTable } from '@gopowerteam/vue-dynamic-table'
 import { useRequest } from 'virtual:request'
 import { PageService } from '~/http/extends/page.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'
-import { LoadingService } from '~/http/extends/loading.service'
-import { dateTimeFormat } from '~/shared/common'
 import type { Administrator } from '@/http/models/Administrator'
-
-// 管理员列表
-let dataList = $ref<Administrator[]>([])
+import type {
+  LoadDataParams,
+  TableColumnsOptions,
+} from '@gopowerteam/vue-dynamic-table'
 
 const adminService = useRequest((service) => service.AdministratorService)
 const pageService = new PageService()
-const loadingStatus = ref(false)
-const loadingService = new LoadingService(loadingStatus)
 
-onMounted(refreshData)
+const table = $(useTable('table'))
 
-function refreshData() {
+const columns: TableColumnsOptions<Administrator> = [
+  {
+    key: 'username',
+    title: '用户名',
+    form: {
+      render: (r) => r.input(),
+    },
+  },
+  {
+    key: 'realname',
+    title: '姓名',
+  },
+  {
+    key: 'createAt',
+    title: '创建时间',
+    render: (r) => r.date(),
+  },
+  {
+    key: 'updateAt',
+    title: '更新时间',
+    render: (r) => r.date(),
+  },
+  {
+    key: 'action',
+    title: '操作',
+    render: (r) =>
+      r.button({
+        buttons: [
+          {
+            text: '删除',
+            confirm: true,
+            confirmText: '是否确认删除?',
+            callback: (record) => onDelete(record.id),
+          },
+          {
+            text: '重置密码',
+            callback: (record) => onResetPwd(record.id),
+          },
+          {
+            text: '修改',
+            callback: (record) => onUpdate(record),
+          },
+        ],
+      }),
+  },
+]
+/**
+ * 加载表单数据
+ * @param param0
+ */
+function loadData({ form, update }: LoadDataParams) {
   adminService
-    .findAdministrator({}, [pageService, loadingService])
-    .then((data) => {
-      dataList = data
-    })
+    .findAdministrator(form, [pageService])
+    .then(({ data }) => update(data))
 }
-
-// 大于一个管理员的时候才允许删除
-const showDelete = computed(() => dataList.length > 1)
 
 // 删除管理员
 function onDelete(id: string) {
-  adminService.deleteAdministrator(id, [loadingService]).then(refreshData)
+  adminService.deleteAdministrator(id, []).then(() => table.reload())
 }
 
 // 重置密码
 function onResetPwd(id: string) {
-  adminService
-    .resetAdministratorPassword(id, [loadingService])
-    .then(({ password }) => {
-      Message.success({
-        content: `重置成功，新密码【${password}】,请牢记`,
-        duration: 5000,
-        closable: true,
-      })
+  adminService.resetAdministratorPassword(id, []).then(({ password }) => {
+    Message.success({
+      content: `重置成功，新密码【${password}】,请牢记`,
+      duration: 5000,
+      closable: true,
     })
+  })
 }
 
 const dialog = $ref({
@@ -117,21 +137,13 @@ function onDialogBeforOk(done: Function) {
       {
         realname: modifyData.name,
       },
-      [loadingService],
+      [],
     )
     .then(() => {
       done()
       Message.success('修改成功')
-      refreshData()
     })
     .catch(() => done(false))
-}
-
-function onPageChange(index: number) {
-  pageService.update(index, pageService.pageSize).then(refreshData)
-}
-function onPageSizeChange(size: number) {
-  pageService.update(pageService.default.pageIndex, size).then(refreshData)
 }
 </script>
 
