@@ -26,34 +26,25 @@ page-container(title='素材分组管理')
 </template>
 
 <script setup lang="ts">
-import { RequestParams } from '@gopowerteam/http-request'
-import { useRequest } from 'virtual:http-request'
-import type { MaterialGroupResponse } from '~/http/model'
+import type { MaterialGroupResponse } from '~/http/models/MaterialGroupResponse'
 import { LoadingService } from '~/http/extends/loading.service'
 import { useModal } from '@gopowerteam/vue-modal'
 import MaterialGroupEdit from './components/material-group-edit.vue'
+import { MaterialService } from '@/http/services/MaterialService'
 
 // 列表
 let dataList = $ref<MaterialGroupResponse[]>([])
 
-const materialService = useRequest((service) => service.MaterialService)
+const materialService = new MaterialService()
 const loadingStatus = ref(false)
 const loadingService = new LoadingService(loadingStatus)
 
 onMounted(refreshData)
 
 function refreshData() {
-  materialService
-    .findMaterialGroup(
-      new RequestParams({
-        loading: loadingService,
-      }),
-    )
-    .subscribe({
-      next: (data) => {
-        dataList = data
-      },
-    })
+  materialService.findMaterialGroup([loadingService]).then((data) => {
+    dataList = data
+  })
 }
 
 // 删除

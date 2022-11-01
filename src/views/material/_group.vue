@@ -16,12 +16,11 @@ page-container(:title='`素材组-${n}`')
 </template>
 
 <script setup lang="ts">
-import { PageService } from '@/http/extends/page.service'
-import type { Material } from '@/http/model'
+// import { PageService } from '@/http/extends/page.service'
+import type { Material } from '@/http/models/Material'
+import { MaterialService } from '@/http/services/MaterialService'
 import { Message } from '@arco-design/web-vue'
-import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
-import { useRequest } from 'virtual:http-request'
 import AddMaterial from './components/add-material.vue'
 import MaterialPreviewItem from './components/material-preview-item.vue'
 
@@ -32,22 +31,18 @@ const { group } = route.params
 
 let photos = $ref<Material[]>([])
 
-const pageService = new PageService({ pageSize: 999 })
+// const pageService = new PageService(1, 999)
 
-const materialService = useRequest((service) => service.MaterialService)
+const materialService = new MaterialService()
 onMounted(() => {
   materialService
     .findMaterial(
-      new RequestParams({
-        data: {
-          group,
-        },
-        page: pageService,
-      }),
+      {
+        group: group.toString(),
+      },
+      // [pageService],
     )
-    .subscribe({
-      next: (data) => (photos = data),
-    })
+    .then((data) => (photos = data.data))
 })
 
 // 清空改组下所有素材
@@ -55,13 +50,11 @@ function onDelete() {
   const ids = photos.map((x) => x.id)
   materialService
     .deleteMaterialBatch({
-      ids,
+      ids: ids,
     })
-    .subscribe({
-      next: () => {
-        Message.success('已全部删除')
-        photos = []
-      },
+    .then(() => {
+      Message.success('已全部删除')
+      photos = []
     })
 }
 
@@ -78,11 +71,9 @@ function onAddClick() {
 }
 
 function onPhotoDelete(id: string) {
-  materialService.deleteMaterialBatch({ ids: [id] }).subscribe({
-    next: () => {
-      const index = photos.findIndex((x) => x.id === id)
-      if (index > -1) photos.splice(index, 1)
-    },
+  materialService.deleteMaterialBatch({ ids: [id] }).then(() => {
+    const index = photos.findIndex((x) => x.id === id)
+    if (index > -1) photos.splice(index, 1)
   })
 }
 </script>

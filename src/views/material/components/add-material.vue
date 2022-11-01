@@ -4,28 +4,28 @@ a-form(:model='form' @submit='handleSubmit')
     media-gallery(ref='mediaGallyRef' v-model='form.keys' multiple)
   a-form-item(content-class='!justify-end')
     a-button(@click='onCancel') 取消
-    a-button.m-l-4(:loading='saving' html-type='submit' type='primary') 提交
+    a-button.m-l-4(:loading='loadingStatus' html-type='submit' type='primary') 提交
 </template>
 
 <script lang="ts" setup>
-import type { Material } from '@/http/model'
+import { LoadingService } from '@/http/extends/loading.service'
+import { MaterialService } from '@/http/services/MaterialService'
 import { Message } from '@arco-design/web-vue'
-import { RequestParams } from '@gopowerteam/http-request'
 import { useModal } from '@gopowerteam/vue-modal'
-import { useRequest } from 'virtual:http-request'
 
-type PropInterface = {
+const loadingStatus = ref(false)
+const props = defineProps<{
   groupId: string
-}
-
-let saving = $ref(false)
-const props = defineProps<PropInterface>()
+}>()
 
 const form = $ref({
   keys: [],
 })
 
 const mediaGallyRef = $ref<{ uploaded: () => boolean }>()
+
+const materialService = new MaterialService()
+const loadingService = new LoadingService(loadingStatus)
 
 function handleSubmit() {
   // check whether the upload tasks are completed ?
@@ -34,30 +34,22 @@ function handleSubmit() {
     return
   }
 
-  saving = true
-  useRequest((service) => service.MaterialService)
+  materialService
     .createMaterial(
-      new RequestParams({
-        data: {
-          keys: form.keys,
-          group: props.groupId,
-        },
-      }),
+      {
+        keys: form.keys,
+        group: props.groupId,
+      },
+      [loadingService],
     )
-    .subscribe({
-      next: onSuncess,
-      error: () => (saving = false),
+    .then((data) => {
+      Message.success('添加成功')
+      modal.close(data)
     })
 }
 
 const modal = useModal()
 function onCancel() {
   modal.close(null)
-}
-
-function onSuncess(data: Material[]) {
-  saving = false
-  Message.success('添加成功')
-  modal.close(data)
 }
 </script>
