@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AAffix: typeof import('@arco-design/web-vue')['Affix']
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     ADoption: typeof import('@arco-design/web-vue')['Doption']
@@ -28,6 +29,7 @@ declare module '@vue/runtime-core' {
     AOption: typeof import('@arco-design/web-vue')['Option']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASpace: typeof import('@arco-design/web-vue')['Space']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
     ASwitch: typeof import('@arco-design/web-vue')['Switch']
@@ -35,6 +37,7 @@ declare module '@vue/runtime-core' {
     ATableColumn: typeof import('@arco-design/web-vue')['TableColumn']
     ATabPane: typeof import('@arco-design/web-vue')['TabPane']
     ATabs: typeof import('@arco-design/web-vue')['Tabs']
+    ATag: typeof import('@arco-design/web-vue')['Tag']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATreeSelect: typeof import('@arco-design/web-vue')['TreeSelect']
     'IconPark:help': typeof import('~icons/icon-park/help')['default']
@@ -43,6 +46,9 @@ declare module '@vue/runtime-core' {
     'IconPark:plus': typeof import('~icons/icon-park/plus')['default']
     'IconPark:quistion': typeof import('~icons/icon-park/quistion')['default']
     'IconPark:sortAmountDown': typeof import('~icons/icon-park/sort-amount-down')['default']
+    'IconParkOutline:add': typeof import('~icons/icon-park-outline/add')['default']
+    'IconParkOutline:checkSmall': typeof import('~icons/icon-park-outline/check-small')['default']
+    'IconParkOutline:completed': typeof import('~icons/icon-park-outline/completed')['default']
     'IconParkOutline:delete': typeof import('~icons/icon-park-outline/delete')['default']
     'IconParkOutline:refresh': typeof import('~icons/icon-park-outline/refresh')['default']
     ImagePreview: typeof import('./../shared/components/image-preview.vue')['default']
