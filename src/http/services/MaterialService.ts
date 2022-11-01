@@ -39,7 +39,7 @@ export class MaterialService {
   public findMaterial(
     requestQuery: RequestQueryParams.FindMaterial,
     requestPlugins: RequestPlugin[] = [],
-  ): Promise<Material[]> {
+  ): Promise<{ total: number; data: Material[] }> {
     // 请求数据
     const result = this.request.send(
       {
