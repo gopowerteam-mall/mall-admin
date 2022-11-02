@@ -5,14 +5,11 @@ page-container(:title='`素材组-${n}`')
       a-popconfirm(content='是否删除该分组下所有素材' @ok='onDelete')
         a-button(status='danger' type='text') 清空素材
       a-button(type='text' @click='onAddClick') 上传素材
-    a-empty(v-if='!photos.length')
-    .flex.flex-wrap(v-else)
-      a-image-preview-group(infinite)
-        MaterialPreviewItem(
-          v-for='{key,id} of photos'
-          :key='key'
-          :src='key'
-          @delete='onPhotoDelete(id)')
+    MaterialPreview(:data='photos')
+      template(#default='{ id }')
+        a-popconfirm(content='是否删除该素材' @ok='onPhotoDelete(id)')
+          a-button(type='text')
+            icon-park-outline:delete.text-xs(@click='onPhotoDelete(id)')
 </template>
 
 <script setup lang="ts">
@@ -22,7 +19,7 @@ import { MaterialService } from '@/http/services/MaterialService'
 import { Message } from '@arco-design/web-vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import AddMaterial from './components/add-material.vue'
-import MaterialPreviewItem from './components/material-preview-item.vue'
+import MaterialPreview from './components/material-preview.vue'
 
 const route = useRoute()
 
