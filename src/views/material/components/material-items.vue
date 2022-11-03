@@ -1,46 +1,50 @@
 <template lang="pug">
-page-container(:title='`素材组-${n}`')
-  a-card(:title='`共有素材：${photos.length} 张`')
-    template(#extra)
-      a-popconfirm(content='是否删除该分组下所有素材' @ok='onDelete')
-        a-button(status='danger' type='text') 清空素材
-      a-button(type='text' @click='onAddClick') 上传素材
-    MaterialPreview(:data='photos')
-      template(#default='{ id }')
-        a-popconfirm(content='是否删除该素材' @ok='onPhotoDelete(id)')
-          a-button(type='text')
-            icon-park-outline:delete.text-xs(@click='onPhotoDelete(id)')
+a-card(:title='`共有素材：${photos.length} 张`')
+  template(#extra)
+    a-popconfirm(content='是否删除该分组下所有素材' @ok='onDelete')
+      a-button(status='danger' type='text') 清空素材
+    a-button(type='text' @click='onAddClick') 上传素材
+  MaterialPreview(:data='photos')
+    template(#default='{ id }')
+      .cursor-pointer(title='警告:删除后不可恢复!' @click='onPhotoDelete(id)')
+        icon-park-outline:delete.text-red-500.text-xs
 </template>
 
 <script setup lang="ts">
 // import { PageService } from '@/http/extends/page.service'
+// import { LoadingService } from '@/http/extends/loading.service'
 import type { Material } from '@/http/models/Material'
 import { MaterialService } from '@/http/services/MaterialService'
 import { Message } from '@arco-design/web-vue'
 import { useModal } from '@gopowerteam/vue-modal'
-import AddMaterial from './components/add-material.vue'
-import MaterialPreview from './components/material-preview.vue'
+import AddMaterial from './add-material.vue'
+import MaterialPreview from './material-preview.vue'
 
-const route = useRoute()
-
-const { n } = route.query
-const { group } = route.params
+const props = defineProps<{
+  groupId: string
+}>()
 
 let photos = $ref<Material[]>([])
 
 // const pageService = new PageService(1, 999)
+// const loadingStatus = ref(false)
+// const loadingService = new LoadingService(loadingStatus)
 
 const materialService = new MaterialService()
-onMounted(() => {
-  materialService
-    .findMaterial(
-      {
-        group: group.toString(),
-      },
-      // [pageService],
-    )
-    .then((data) => (photos = data.data))
-})
+
+// Refresh during the value initial and changes
+watch(
+  () => props.groupId,
+  () => refreshData(),
+  { immediate: true },
+)
+
+function refreshData() {
+  const param: any = {}
+  if (props.groupId) param.group = props.groupId
+
+  materialService.findMaterial(param).then((data) => (photos = data.data))
+}
 
 // 清空改组下所有素材
 function onDelete() {
@@ -61,7 +65,7 @@ function onAddClick() {
     .open({
       component: AddMaterial,
       width: 550,
-      props: { groupId: group },
+      props: { groupId: props.groupId },
       title: '添加素材',
     })
     .then((keys: Material[] | null) => keys && photos.push(...keys))
@@ -74,13 +78,3 @@ function onPhotoDelete(id: string) {
   })
 }
 </script>
-
-<route lang="yaml">
-name: material-group
-meta:
-  layout: workspace
-  auth:
-    required: true
-    roles:
-      - ADMIN
-</route>

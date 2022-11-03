@@ -3,20 +3,20 @@
   a-empty(v-if='data.length == 0')
   .flex.flex-wrap(v-else)
     a-image-preview-group(infinite)
-      .material-preview_item.w-150px.h-120px.m-b-2.m-r-2.flex-center.opacity-90.bg-gray-50.relative(
+      .material-preview_item.w-160px.h-100px.m-b-2.m-r-2.flex-center.opacity-90.bg-gray-50.relative(
         v-for='item of data'
         :key='item.id')
         ImagePreview(
           v-if='item.type === "IMAGE"'
           :src='item.key'
-          width='150px'
-          height='120px')
+          width='160px'
+          height='100px')
         VideoPreview(v-else-if='item.type === "VIDEO"' :src='item.key')
         .w-150px.h-120px.flex.flex-center(v-else)
           icon-park-outline:file-tips-one.text-lg
         .material-preview_item__action.absolute.w-full.overflow-hidden.bottom-0(
           :class='{ hidden: alwaysShowAction != true }')
-          .action-container.p-1.bg-gray-200.bg-opacity-60.flex.justify-end.space-x-2
+          .action-container.p-1.bg-blue-100.bg-opacity-60.flex.justify-end.space-x-2
             slot(v-bind='item')
 </template>
 
