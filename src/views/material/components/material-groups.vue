@@ -1,5 +1,5 @@
 <template lang="pug">
-.flex.flex-nowrap
+.material-groups.flex.flex-nowrap
   a-tabs.flex-1(
     :active-key='modelValue'
     default-active-key='``'

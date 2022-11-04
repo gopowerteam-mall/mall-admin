@@ -29,11 +29,14 @@ const productService = new ProductService()
 
 const pageService = new PageService()
 
+let updateFun: any
+
 /**
  * 加载表格数据
  * @param param0
  */
 function loadData({ form, update }: LoadDataParams) {
+  updateFun = update
   productService.findProduct(form, [pageService]).then(({ data }) => {
     update(data)
   })
@@ -67,52 +70,52 @@ const forms: FormItemsOptions = [
  */
 const columns: TableColumnsOptions = [
   {
-    key: 'id',
-    title: '名称',
+    key: 'title',
+    title: '商品标题',
   },
   // 日期列配置
   // format 支持预置格式  date datetime week time
   // format 为函数类型则支持自定义格式如: ()=>"YYYY-MM-DD"
   {
     key: 'createdAt',
-    title: 'date',
+    title: '创建日期',
     render: (r) => r.date({ format: 'datetime' }),
   },
   // 手机号列配置
   // safe 手机号脱敏
   // callable 点击可以拨号
   // separator 号码分隔符
-  {
-    key: 'phone',
-    title: '手机号',
-    render: (r) => r.phone({ safe: true, callable: true, separator: '-' }),
-  },
+  // {
+  //   key: 'phone',
+  //   title: '手机号',
+  //   render: (r) => r.phone({ safe: true, callable: true, separator: '-' }),
+  // },
   // 文本列
   // 测试表单支持
   // 测试表单规则
-  {
-    key: 'username',
-    title: '用户名',
-    render: (r) =>
-      r.text({
-        color: 'red',
-        text: 'aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398',
-      }),
-    form: {
-      rules: [{ required: true, message: '请输入名称' }],
-      render: (r) => r.input({ placeholder: 'asd' }),
-    },
-  },
+  // {
+  //   key: 'username',
+  //   title: '用户名',
+  //   render: (r) =>
+  //     r.text({
+  //       color: 'red',
+  //       text: 'aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398',
+  //     }),
+  //   form: {
+  //     rules: [{ required: true, message: '请输入名称' }],
+  //     render: (r) => r.input({ placeholder: 'asd' }),
+  //   },
+  // },
   // 测试表单配置
   // columns中配置表单会使用对应列的key以及title
-  {
-    key: 'realname',
-    title: '真实姓名',
-    form: {
-      collapsed: true,
-      render: (r) => r.input({ placeholder: 'asd' }),
-    },
-  },
+  // {
+  //   key: 'realname',
+  //   title: '真实姓名',
+  //   form: {
+  //     collapsed: true,
+  //     render: (r) => r.input({ placeholder: 'asd' }),
+  //   },
+  // },
 ]
 
 const modal = useModal()
@@ -124,9 +127,7 @@ function onClickNew() {
       props: {},
       width: 800,
     })
-    .then(() => {
-      console.log(123)
-    })
+    .then((status) => status && loadData({ form: forms, update: updateFun }))
 }
 </script>
 

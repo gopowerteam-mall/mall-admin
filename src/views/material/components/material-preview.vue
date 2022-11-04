@@ -23,8 +23,10 @@
 <script setup lang="ts">
 import type { Material } from '@/http/models/Material'
 
+export type MaterialBaseType = Pick<Material, 'id' | 'key' | 'type'>
+
 defineProps<{
-  data: Material[]
+  data: MaterialBaseType[]
   alwaysShowAction?: boolean
 }>()
 </script>
