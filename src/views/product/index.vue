@@ -1,122 +1,97 @@
 <template lang="pug">
 page-container(title='产品列表')
-  data-table.p-2(
-    row-key='id'
-    :pagination='pageService'
-    :load-data='loadData'
-    :forms='forms'
-    :columns='columns')
-  .absolute.right-0.top-20
-    a-button.absolute.right-2(status='success' @click='onClickNew')
-      template(#icon)
-        icon-park-outline:add
-      template(#default)
-        span 添加新产品
+  .p-4
+    a-form(
+      ref='refForm'
+      layout='inline'
+      :model='form'
+      allow-clear
+      @submit='handleSubmit')
+      a-form-item(field='title' label='标题')
+        a-input(v-model='form.title')
+      a-form-item(field='category' label='分类')
+        CategorySelect(v-model='form.category')
+      a-form-item(field='recommended' label='是否推荐')
+        a-select(v-model='formRecommended' allow-clear)
+          a-option(value='true') 是
+          a-option(value='false') 否
+      a-form-item
+        a-space
+          a-button(@click='onResetClick') 重置
+          a-button(html-type='submit' type='primary') 查询
+    a-table.m-t-30px(:data='dataList' :columns='tableColumns')
+      template(#cover='{ record }')
+        ImagePreview(:src='record.cover' width='80px' height='80px')
+      template(#enable='{ record }')
+        span {{ record.enable ? '是' : '否' }}
+      template(#operatorTitle)
+        a-button(status='success' @click='onClickNew')
+          template(#icon)
+            icon-park-outline:add
+          template(#default)
+            span 添加新产品
+      template(#operatorCell)
+        a-button(type='text') 基础信息
+        a-button(type='text') 详情页面
+        a-button(type='text') 属性编辑
+        a-button(type='text') 预览
 </template>
 
 <script lang="ts" setup>
-import type {
-  LoadDataParams,
-  FormItemsOptions,
-  TableColumnsOptions,
-} from '@gopowerteam/vue-dynamic-table'
 import { PageService } from '@/http/extends/page.service'
 import { ProductService } from '@/http/services/ProductService'
 import { useModal } from '@gopowerteam/vue-modal'
 import ProductBase from './components/product-base.vue'
+import { LoadingService } from '@/http/extends/loading.service'
+import type { Product } from '@/http/models/Product'
+import ImagePreview from '@/shared/components/image-preview.vue'
+import { tableColumns, type FindProduct } from './product.composable'
+import CategorySelect from '../category/components/category-select.vue'
 
 const productService = new ProductService()
 
 const pageService = new PageService()
+const loadingStatus = ref(false)
 
-let updateFun: any
+const lodingService = new LoadingService(loadingStatus)
+
+const refForm = $ref<{ resetFields: Function }>()
+
+let dataList = $ref<Product[]>([])
+
+let form = $ref<FindProduct>({
+  title: '',
+  category: '',
+  recommended: undefined,
+})
+
+// 因为type.d 设计数据不含boolean，需要计算是否推荐
+const formRecommended = $computed({
+  get: () => (form.recommended != undefined ? form.recommended.toString() : ''),
+  set: (val: string) => {
+    if (val === 'true') {
+      form.recommended = true
+    } else if (val === 'false') {
+      form.recommended = false
+    } else {
+      form.recommended = undefined
+    }
+  },
+})
+
+onMounted(refreshData)
 
 /**
  * 加载表格数据
  * @param param0
  */
-function loadData({ form, update }: LoadDataParams) {
-  updateFun = update
-  productService.findProduct(form, [pageService]).then(({ data }) => {
-    update(data)
-  })
+function refreshData() {
+  productService
+    .findProduct({}, [pageService, lodingService])
+    .then(({ data }) => {
+      dataList = data
+    })
 }
-
-/**
- * 表格配置
- * 优先级高于columns form优先级
- * 会覆盖同key配置
- */
-const forms: FormItemsOptions = [
-  // Select列示例
-  // options支持Promise返回异步数据
-  {
-    key: 'test1',
-    title: 'test1',
-    render: (r) =>
-      r.select({
-        default: 'b',
-        options: new Map([
-          ['a', 'aaa'],
-          ['b', 'bbb'],
-        ]),
-        autoSumbit: true,
-      }),
-  },
-]
-
-/**
- * 表格列配置
- */
-const columns: TableColumnsOptions = [
-  {
-    key: 'title',
-    title: '商品标题',
-  },
-  // 日期列配置
-  // format 支持预置格式  date datetime week time
-  // format 为函数类型则支持自定义格式如: ()=>"YYYY-MM-DD"
-  {
-    key: 'createdAt',
-    title: '创建日期',
-    render: (r) => r.date({ format: 'datetime' }),
-  },
-  // 手机号列配置
-  // safe 手机号脱敏
-  // callable 点击可以拨号
-  // separator 号码分隔符
-  // {
-  //   key: 'phone',
-  //   title: '手机号',
-  //   render: (r) => r.phone({ safe: true, callable: true, separator: '-' }),
-  // },
-  // 文本列
-  // 测试表单支持
-  // 测试表单规则
-  // {
-  //   key: 'username',
-  //   title: '用户名',
-  //   render: (r) =>
-  //     r.text({
-  //       color: 'red',
-  //       text: 'aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398',
-  //     }),
-  //   form: {
-  //     rules: [{ required: true, message: '请输入名称' }],
-  //     render: (r) => r.input({ placeholder: 'asd' }),
-  //   },
-  // },
-  // 测试表单配置
-  // columns中配置表单会使用对应列的key以及title
-  // {
-  //   key: 'realname',
-  //   title: '真实姓名',
-  //   form: {
-  //     collapsed: true,
-  //     render: (r) => r.input({ placeholder: 'asd' }),
-  //   },
-  // },
-]
 
 const modal = useModal()
 function onClickNew() {
@@ -127,7 +102,14 @@ function onClickNew() {
       props: {},
       width: 800,
     })
-    .then((status) => status && loadData({ form: forms, update: updateFun }))
+    .then((status) => status && refreshData())
+}
+
+const onResetClick = () => refForm.resetFields()
+// 查询数据
+function handleSubmit() {
+  pageService.reset()
+  refreshData()
 }
 </script>
 

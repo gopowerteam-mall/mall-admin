@@ -6,13 +6,7 @@
     a-form-item(label='副标题' field='subtitle')
       a-input(v-model='model.subtitle' placeholder='请输入副标题(详情页展示)')
     a-form-item(label='所属分类' field='categoryId')
-      a-tree-select(
-        v-model='model.categoryId'
-        :data='categoryList'
-        :field-names='{ key: "id" }'
-        :selectable='treeSelectableSetting'
-        allow-clear
-        placeholder='请选择商品细分分类')
+      CategorySelect(v-model='model.categoryId' placeholder='请选择商品细分分类')
     a-form-item(label='关键字' field='keyword')
       ProductKeywords(v-model='model.keyword')
     a-form-item(label='是否推荐' field='recommended')
@@ -32,11 +26,10 @@
 
 <script lang="ts" setup>
 import ProductKeywords from './product-keywords.vue'
-import type { Category } from '@/http/models/Category'
-import { CategoryService } from '@/http/services/CategoryService'
 import ProductBasePhotos from './product-base-photos.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { ProductService } from '@/http/services/ProductService'
+import CategorySelect from '@/views/category/components/category-select.vue'
 
 const model = $ref({
   title: '',
@@ -58,21 +51,6 @@ const rules = {
   banners: { required: true, message: '请配置商品缩略图' },
   cover: { required: true, message: '请配置商品列表封面图' },
   categoryId: { required: true, message: '请选择商品细分类目' },
-}
-
-// 商品分类
-let categoryList = $ref<Category[]>([])
-
-onMounted(() => {
-  new CategoryService()
-    .findCategory({
-      recursion: true,
-    })
-    .then((data) => (categoryList = data))
-})
-
-function treeSelectableSetting(node: { id: string }) {
-  return node.id !== model.categoryId
 }
 
 const modal = useModal()

@@ -41,7 +41,8 @@ import { dateTimeFormat, yesNoFormat } from '~/shared/common'
 import CategoryEdit from './components/category-edit.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { DisplayScene } from '~/config/enum.config'
-import { dataList, refreshData } from './category.composable'
+import { CategoryService } from '@/http/services/CategoryService'
+import type { Category } from '@/http/models/Category'
 
 // 是否推荐分类
 const isRecommend = yesNoFormat('推荐', '')
@@ -49,6 +50,15 @@ const isRecommend = yesNoFormat('推荐', '')
 const categoryService = useRequest((service) => service.CategoryService)
 const loadingStatus = ref(false)
 const loadingService = new LoadingService(loadingStatus)
+const categroyService = new CategoryService()
+const dataList = ref<Category[]>([])
+function refreshData() {
+  categroyService
+    .findCategory({
+      recursion: true,
+    })
+    .then((data) => (dataList.value = data))
+}
 
 onMounted(refreshData)
 
