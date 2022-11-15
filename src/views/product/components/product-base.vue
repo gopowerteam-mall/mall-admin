@@ -30,8 +30,13 @@ import ProductBasePhotos from './product-base-photos.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { ProductService } from '@/http/services/ProductService'
 import CategorySelect from '@/views/category/components/category-select.vue'
+import type { ProductBaseType } from '../product.composable'
 
-const model = $ref({
+const props = defineProps<{ id?: string }>()
+
+let detailInfo: any = null
+
+const model = $ref<ProductBaseType>({
   title: '',
   subtitle: '',
   recommended: false,
@@ -53,18 +58,39 @@ const rules = {
   categoryId: { required: true, message: '请选择商品细分类目' },
 }
 
+const service = new ProductService()
 const modal = useModal()
+
+onBeforeMount(() => {
+  if (!props.id) return
+  service.getProduct(props.id).then((data) => {
+    detailInfo = data
+    model.title = data.title
+    model.subtitle = data.subtitle
+    model.recommended = data.recommended
+    model.keyword = data.keyword
+    model.banners = data.banners
+    model.cover = data.cover
+    model.categoryId = data.category.id
+  })
+})
 
 const onCancel = () => modal.close(false)
 
 function save() {
-  new ProductService()
-    .createProduct({
-      ...model,
-      attrs: [],
-      specs: [],
-      contents: [],
-    })
-    .then(() => modal.close(true))
+  if (props.id) {
+    service
+      .updateProduct(props.id, Object.assign(detailInfo, model))
+      .then(() => modal.close(true))
+  } else {
+    service
+      .createProduct({
+        ...model,
+        attrs: [],
+        specs: [],
+        contents: [],
+      })
+      .then(() => modal.close(true))
+  }
 }
 </script>

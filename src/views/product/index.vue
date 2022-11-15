@@ -10,7 +10,7 @@ page-container(title='产品列表')
       a-form-item(field='title' label='标题')
         a-input(v-model='form.title')
       a-form-item(field='category' label='分类')
-        CategorySelect(v-model='form.category')
+        CategorySelect(v-model='formCategory')
       a-form-item(field='recommended' label='是否推荐')
         a-select(v-model='formRecommended' allow-clear)
           a-option(value='true') 是
@@ -30,11 +30,8 @@ page-container(title='产品列表')
             icon-park-outline:add
           template(#default)
             span 添加新产品
-      template(#operatorCell)
-        a-button(type='text') 基础信息
-        a-button(type='text') 详情页面
-        a-button(type='text') 属性编辑
-        a-button(type='text') 预览
+      template(#operatorCell='{ record }')
+        ProductOperator(:id='record.id' @refresh='refreshData')
 </template>
 
 <script lang="ts" setup>
@@ -42,6 +39,7 @@ import { PageService } from '@/http/extends/page.service'
 import { ProductService } from '@/http/services/ProductService'
 import { useModal } from '@gopowerteam/vue-modal'
 import ProductBase from './components/product-base.vue'
+import ProductOperator from './components/product-operator.vue'
 import { LoadingService } from '@/http/extends/loading.service'
 import type { Product } from '@/http/models/Product'
 import ImagePreview from '@/shared/components/image-preview.vue'
@@ -60,8 +58,8 @@ const refForm = $ref<{ resetFields: Function }>()
 let dataList = $ref<Product[]>([])
 
 let form = $ref<FindProduct>({
-  title: '',
-  category: '',
+  title: undefined,
+  category: undefined,
   recommended: undefined,
 })
 
@@ -79,6 +77,17 @@ const formRecommended = $computed({
   },
 })
 
+const formCategory = $computed({
+  get: () => form.category || '',
+  set: (val: string) => {
+    if (val === '') {
+      form.category = undefined
+    } else {
+      form.category = val
+    }
+  },
+})
+
 onMounted(refreshData)
 
 /**
@@ -87,7 +96,7 @@ onMounted(refreshData)
  */
 function refreshData() {
   productService
-    .findProduct({}, [pageService, lodingService])
+    .findProduct(form, [pageService, lodingService])
     .then(({ data }) => {
       dataList = data
     })
