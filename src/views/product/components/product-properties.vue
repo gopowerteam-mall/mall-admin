@@ -1,13 +1,23 @@
 <template lang="pug">
 .product-properties
-  a-form.product-property-item(
-    v-for='(form, index) in propList'
-    :key='`form-${index}`'
-    layout='vertical'
-    :model='form')
-    a-form-item(label='属性名称' field='name')
-      a-input.w-180px(v-model='form.name' placeholder='请输入商品属性名称')
-      a-checkbox(v-model='form.primary') 主属性
+  .min-h-200px
+    a-empty.m-t-40px(v-if='propList.length == 0')
+    a-collapse(v-model='activedKey' :bordered='false')
+      a-collapse-item.product-property-item(
+        v-for='form in propList'
+        :key='form.name'
+        :header='form.name')
+  .flex.justify-between
+    a-button(type='dashed' status='success' @click='modifyData.dialog = true') 增加新属性
+    a-space
+      a-button(type='secondary' @click='onCancel') 取消
+      a-button(type='primary') 确定
+  a-modal(
+    v-model:visible='modifyData.dialog'
+    title='属性名称设置'
+    @before-ok='onDialogBeforOk'
+    @close='clearModifyData')
+    a-input(v-model.trim='modifyData.name' placeholder='请输入属性名称')
 </template>
 
 <script lang="ts" setup>
@@ -17,33 +27,36 @@ import type {
   PropertySpecification,
   ProductPropertyInfo,
 } from '../product.composable'
+import { Message } from '@arco-design/web-vue'
 
 const props = defineProps<{ id: string }>()
 
 let detailInfo: any = null
-
 let propList = $ref<ProductPropertyInfo[]>([])
 
 const service = new ProductService()
 const modal = useModal()
 
 onBeforeMount(() => {
-  service.getProduct(props.id).then((data) => {
-    detailInfo = data
-    if (data && data.attrs.length) {
-      propList = data.attrs as any
-    } else {
-      // 默认创建一条
-      propList = [createPropertyObj()]
-    }
+  service.getProduct(props.id).then((data: any) => {
+    if (data.attrs) propList = data.attr
   })
 })
 
+// 当前展开的折叠面板
+let activedKey = $ref('')
+// 修改属性名称
+const modifyData = $ref({
+  dialog: false,
+  name: '',
+})
+let editItem: ProductPropertyInfo | null = null
+
 /** 创建一条属性对象 */
-function createPropertyObj(): ProductPropertyInfo {
+function createPropertyObj(name?: string): ProductPropertyInfo {
   const specification = createSpecificationObj()
   return {
-    name: '',
+    name: name ?? '',
     primary: false,
     items: [specification],
   }
@@ -55,6 +68,33 @@ function createSpecificationObj(): PropertySpecification {
     name: '',
     image: '',
   }
+}
+
+// 表单清理
+function clearModifyData() {
+  modifyData.name = ''
+  modifyData.dialog = false
+  editItem = null
+}
+// 属性名称校验
+function onDialogBeforOk(done: Function) {
+  if (!modifyData.name) {
+    Message.info('请输入属性名称')
+    return done(false)
+  }
+  if (propList.some((x) => x.name === modifyData.name)) {
+    Message.error('已存在相同的属性名称')
+    return done(false)
+  }
+
+  if (!editItem) {
+    const newProperty = createPropertyObj(modifyData.name)
+    propList.push(newProperty)
+  } else {
+    editItem.name = modifyData.name
+    activedKey = modifyData.name
+  }
+  done()
 }
 
 const onCancel = () => modal.close(false)
