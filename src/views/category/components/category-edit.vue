@@ -1,12 +1,9 @@
 <template lang="pug">
 a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
   a-form-item(field='parentId' label='父级分类' :disabled='isDisabledTree')
-    a-tree-select(
+    CategorySelect(
       v-model='form.parentId'
-      :data='dataList'
-      :field-names='{ key: "id" }'
-      :selectable='treeSelectableSetting'
-      allow-clear
+      :disabled-keys='disabledCategory'
       placeholder='请选择父级分类')
   a-form-item(field='title' label='分类名称')
     a-input(v-model='form.title' allow-clear placeholder='请输入分类名称')
@@ -27,7 +24,7 @@ a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
 import { Message } from '@arco-design/web-vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { useRequest } from 'virtual:request'
-import { dataList } from '../category.composable'
+import CategorySelect from './category-select.vue'
 
 const props = defineProps<{
   id?: string
@@ -60,9 +57,11 @@ function onCancel() {
 }
 
 const service = useRequest((service) => service.CategoryService)
+let disabledCategory = $ref<string[]>([])
 
 onBeforeMount(() => {
   if (props.id) {
+    disabledCategory = [props.id]
     service.getCategory(props.id).then((data) => {
       form.title = data.title
       form.recommended = data.recommended
@@ -107,9 +106,5 @@ function updateCategory() {
 
 function onRecommandChange(val: boolean) {
   if (!val) uploadImages.value = []
-}
-
-function treeSelectableSetting(node: { id: string }) {
-  return node.id !== props.id
 }
 </script>
