@@ -46,6 +46,7 @@ export type PropertySpecification = {
   image: string
 }
 export type ProductPropertyInfo = {
+  id: string
   name: string
   primary: boolean
   items: PropertySpecification[]
