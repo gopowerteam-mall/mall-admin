@@ -1,4 +1,4 @@
-const prettierrc = require('./.prettierrc.js')
+const prettierrc = require('../.prettierrc.js')
 
 /**
  * @type {import('prettier').Options}
