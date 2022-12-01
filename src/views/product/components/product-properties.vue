@@ -36,7 +36,7 @@ onBeforeMount(() => {
   service.getProduct(props.id).then((data: any) => {
     // 商品原始信息
     detailInfo = data
-    if (data.attrs) propList = data.attr
+    if (data.attrs && data.attrs.length) propList = data.attrs
     else onAddNewClick()
     // No-nullable
     setCurrentTabData(propList[0])
@@ -114,8 +114,10 @@ const onCancel = () => modal.close(false)
 function onSubmit() {
   formRef.validate().then((r) => {
     if (!r) return
+    // 再次同步表单数据到数据集
+    syncSourceList()
     service
-      .updateProduct(props.id, Object.assign(detailInfo, { attr: propList }))
+      .updateProduct(props.id, Object.assign(detailInfo, { attrs: propList }))
       .then(() => modal.close(true))
   })
 }

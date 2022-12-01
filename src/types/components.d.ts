@@ -57,6 +57,7 @@ declare module '@vue/runtime-core' {
     'IconPark:sortAmountDown': typeof import('~icons/icon-park/sort-amount-down')['default']
     'IconParkOutline:add': typeof import('~icons/icon-park-outline/add')['default']
     'IconParkOutline:checkSmall': typeof import('~icons/icon-park-outline/check-small')['default']
+    'IconParkOutline:close': typeof import('~icons/icon-park-outline/close')['default']
     'IconParkOutline:closeOne': typeof import('~icons/icon-park-outline/close-one')['default']
     'IconParkOutline:colorFilter': typeof import('~icons/icon-park-outline/color-filter')['default']
     'IconParkOutline:completed': typeof import('~icons/icon-park-outline/completed')['default']

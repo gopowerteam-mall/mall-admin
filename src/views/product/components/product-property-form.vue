@@ -12,6 +12,7 @@
       :rules='[{ required: true, message: "请输入属性名称" }, { validator: validatorName }]')
       a-input(v-model='data.name' class='!w-220px' placeholder='请输入属性名称')
       a-checkbox.m-l-4(v-model='data.primary') 设为主要属性
+      a-checkbox.m-l-2(v-model='showImage') 有属性缩略图
       .flex-1.text-right(v-if='disableList.length')
         a-popconfirm(content='是否删除该属性' @ok='$emit("delete")')
           a-button(status='danger') 删除该属性
@@ -22,15 +23,18 @@
             template(#cell='{ record }')
               a-input(v-model.trim='record.name' placeholder='请输入属性值')
           a-table-column(title='封面图' data-index='image')
-            template(#cell='{ record }')
+            template(v-if='showImage' #cell='{ record }')
               ProductBasePhotos(v-model='record.image')
-          a-table-column(:width='80')
+          a-table-column(:width='80' align='center')
             template(#title)
               a-button(@click='addNewValue')
                 icon-park-outline:add.text-primary
             template(#cell='{ rowIndex }')
-              a-button(@click='data.items.splice(rowIndex, 1)')
-                icon-park-outline:delete.text-red
+              a-button(
+                shape='circle'
+                size='mini'
+                @click='data.items.splice(rowIndex, 1)')
+                icon-park-outline:close.text-xs
 </template>
 
 <script lang="ts" setup>
@@ -51,6 +55,8 @@ const refForm = $ref()
 defineExpose({
   validate: async () => (await (refForm as any).validate()) === undefined,
 })
+
+const showImage = $ref(false)
 
 // 验证规则
 const rules = {
