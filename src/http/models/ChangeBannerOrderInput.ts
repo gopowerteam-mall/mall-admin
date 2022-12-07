@@ -6,5 +6,5 @@ export type ChangeBannerOrderInput = {
   /**
    * 目标位置Id
    */
-  target: string
+  target: string;
 }

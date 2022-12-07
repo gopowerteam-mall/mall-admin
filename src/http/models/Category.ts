@@ -3,37 +3,37 @@
 /* eslint-disable */
 
 export type Category = {
-  id: string
+  id: string;
   /**
    * 创建日期
    */
-  createdAt: string
+  createdAt: string;
   /**
    * 更新日期
    */
-  updatedAt: string
+  updatedAt: string;
   /**
    * 排序
    */
-  sort: number
+  sort: number;
   /**
    * 标题
    */
-  title: string
+  title: string;
   /**
    * 图片
    */
-  image: string
+  image: string;
   /**
    * 推荐
    */
-  recommended: boolean
+  recommended: boolean;
   /**
    * 父节点
    */
-  parent: Category
+  parent: Category;
   /**
    * 子节点
    */
-  children: Category[]
+  children: Category[];
 }

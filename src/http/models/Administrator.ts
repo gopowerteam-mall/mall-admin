@@ -3,21 +3,22 @@
 /* eslint-disable */
 
 export type Administrator = {
-  id: string
+  id: string;
   /**
    * 创建日期
    */
-  createdAt: string
+  createdAt: string;
   /**
    * 更新日期
    */
-  updatedAt: string
+  updatedAt: string;
   /**
    * 用户名
    */
-  username: string
+  username: string;
   /**
    * 姓名
    */
-  realname: string
+  realname: string;
+  password: string;
 }

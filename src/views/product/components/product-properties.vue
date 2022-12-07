@@ -3,8 +3,11 @@
   a-tabs(:active-key='activedKey' hide-content @tab-click='onTabClick')
     a-tab-pane.product-property-item(
       v-for='propItem in propList'
-      :key='propItem.id'
-      :title='propItem.name')
+      :key='propItem.id')
+      template(#title)
+        .flex
+          span(:class='{ "font-blod": propItem.primary }') {{ propItem.name }}
+          icon-park:star.text-xs.m-l-2(v-if='propItem.primary')
   .min-h-300px.m-t-4
     ProductPropertyForm(
       v-if='tabData'
@@ -24,6 +27,8 @@ import { ProductService } from '@/http/services/ProductService'
 import type { ProductPropertyInfo } from '../product.composable'
 import ProductPropertyForm from './product-property-form.vue'
 import { useModal } from '@gopowerteam/vue-modal'
+import { Message } from '@arco-design/web-vue'
+import type { start } from 'nprogress'
 
 const props = defineProps<{ id: string }>()
 
@@ -116,6 +121,13 @@ function onSubmit() {
     if (!r) return
     // 再次同步表单数据到数据集
     syncSourceList()
+
+    // 检测主属性未设置或者重复
+    if (propList.filter((x) => x.primary).length > 1) {
+      Message.error('主属性只能有一个，请检查')
+      return
+    }
+
     service
       .updateProduct(props.id, Object.assign(detailInfo, { attrs: propList }))
       .then(() => modal.close(true))

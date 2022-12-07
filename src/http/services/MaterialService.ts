@@ -1,24 +1,24 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateMaterialInput } from '../models/CreateMaterialInput'
-import type { Material } from '../models/Material'
-import type { MaterialGroupResponse } from '../models/MaterialGroupResponse'
-import type { CreateMaterialGroupInput } from '../models/CreateMaterialGroupInput'
-import type { UpdateMaterialGroupInput } from '../models/UpdateMaterialGroupInput'
-import type { DeleteMaterialGroupInput } from '../models/DeleteMaterialGroupInput'
-import { RequestService, type RequestPlugin } from '@gopowerteam/request'
+import type { CreateMaterialInput } from '../models/CreateMaterialInput';
+import type { Material } from '../models/Material';
+import type { MaterialGroupResponse } from '../models/MaterialGroupResponse';
+import type { CreateMaterialGroupInput } from '../models/CreateMaterialGroupInput';
+import type { UpdateMaterialGroupInput } from '../models/UpdateMaterialGroupInput';
+import type { DeleteMaterialGroupInput } from '../models/DeleteMaterialGroupInput';
+import { RequestService, type RequestPlugin } from '@gopowerteam/request';
 
 export class MaterialService {
   // 请求实例
-  private request = RequestService.getInstance()
+  private request = RequestService.getInstance();
 
   /**
    * 创建素材
    */
   public createMaterial(
     requestBody: CreateMaterialInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Material[]> {
     // 请求数据
     const result = this.request.send(
@@ -27,19 +27,19 @@ export class MaterialService {
         method: 'post',
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 获取素材列表
    */
   public findMaterial(
     requestQuery: RequestQueryParams.FindMaterial,
-    requestPlugins: RequestPlugin[] = [],
-  ): Promise<{ total: number; data: Material[] }> {
+    requestPlugins: RequestPlugin[] = []
+  ): Promise<Material[]> {
     // 请求数据
     const result = this.request.send(
       {
@@ -47,18 +47,18 @@ export class MaterialService {
         method: 'get',
         paramsQuery: requestQuery,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 删除素材
    */
   public deleteMaterialBatch(
     requestQuery: RequestQueryParams.DeleteMaterialBatch,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -67,17 +67,17 @@ export class MaterialService {
         method: 'delete',
         paramsQuery: requestQuery,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 获取素材分组
    */
   public findMaterialGroup(
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<MaterialGroupResponse[]> {
     // 请求数据
     const result = this.request.send(
@@ -85,18 +85,18 @@ export class MaterialService {
         path: '/api/admin/material/group',
         method: 'get',
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 创建素材分组
    */
   public createMaterialGroup(
     requestBody: CreateMaterialGroupInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Material> {
     // 请求数据
     const result = this.request.send(
@@ -105,19 +105,19 @@ export class MaterialService {
         method: 'post',
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 更新素材分组
    */
   public updateMaterialGroup(
     id: string,
     requestBody: UpdateMaterialGroupInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Material> {
     // 请求数据
     const result = this.request.send(
@@ -129,19 +129,19 @@ export class MaterialService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 删除素材分组
    */
   public deleteMaterialGroup(
     id: string,
     requestBody: DeleteMaterialGroupInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Material> {
     // 请求数据
     const result = this.request.send(
@@ -153,18 +153,18 @@ export class MaterialService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 修改素材分组
    */
   public changeGroupBatch(
     requestQuery: RequestQueryParams.ChangeGroupBatch,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -173,21 +173,26 @@ export class MaterialService {
         method: 'patch',
         paramsQuery: requestQuery,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
+  
 }
+
 
 namespace RequestQueryParams {
   export type FindMaterial = {
-    group?: string
+    /**
+     * 分组ID
+     */
+    group?: string;
   }
   export type DeleteMaterialBatch = {
-    ids: string[]
+    ids: string[];
   }
   export type ChangeGroupBatch = {
-    ids: string[]
+    ids: string[];
   }
 }

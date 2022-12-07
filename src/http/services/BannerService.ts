@@ -1,22 +1,22 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateBannerInput } from '../models/CreateBannerInput'
-import type { Banner } from '../models/Banner'
-import type { UpdateBannerInput } from '../models/UpdateBannerInput'
-import type { ChangeBannerOrderInput } from '../models/ChangeBannerOrderInput'
-import { RequestService, type RequestPlugin } from '@gopowerteam/request'
+import type { CreateBannerInput } from '../models/CreateBannerInput';
+import type { Banner } from '../models/Banner';
+import type { UpdateBannerInput } from '../models/UpdateBannerInput';
+import type { ChangeBannerOrderInput } from '../models/ChangeBannerOrderInput';
+import { RequestService, type RequestPlugin } from '@gopowerteam/request';
 
 export class BannerService {
   // 请求实例
-  private request = RequestService.getInstance()
+  private request = RequestService.getInstance();
 
   /**
    * 创建Banner
    */
   public createBanner(
     requestBody: CreateBannerInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Banner> {
     // 请求数据
     const result = this.request.send(
@@ -25,18 +25,18 @@ export class BannerService {
         method: 'post',
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 查询Banner列表
    */
   public findBanner(
     requestQuery: RequestQueryParams.FindBanner,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Banner[]> {
     // 请求数据
     const result = this.request.send(
@@ -45,19 +45,19 @@ export class BannerService {
         method: 'get',
         paramsQuery: requestQuery,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 更新Banner
    */
   public updateBanner(
     id: string,
     requestBody: UpdateBannerInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Banner> {
     // 请求数据
     const result = this.request.send(
@@ -69,18 +69,18 @@ export class BannerService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 获取Banner
    */
   public getBanner(
     id: string,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Banner> {
     // 请求数据
     const result = this.request.send(
@@ -91,18 +91,18 @@ export class BannerService {
           id,
         },
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 删除Banner
    */
   public deleteBanner(
     id: string,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -113,19 +113,19 @@ export class BannerService {
           id,
         },
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 交换Banner位置
    */
   public changeBannerOrder(
     id: string,
     requestBody: ChangeBannerOrderInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -137,18 +137,20 @@ export class BannerService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
+  
 }
+
 
 namespace RequestQueryParams {
   export type FindBanner = {
     /**
      * Banner类型
      */
-    type?: 'URL' | 'PAGE' | 'PROJECT'
+    type?: 'URL' | 'PAGE' | 'PROJECT';
   }
 }

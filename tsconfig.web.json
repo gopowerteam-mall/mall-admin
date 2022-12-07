@@ -17,8 +17,7 @@
     ],
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "emitDecoratorMetadata": true
   },
   "vueCompilerOptions": {
     "plugins": ["@volar/vue-language-plugin-pug"]

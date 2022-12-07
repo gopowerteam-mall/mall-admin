@@ -22,6 +22,7 @@ a-dropdown.product-item-operator
 <script lang="ts" setup>
 import { useModal } from '@gopowerteam/vue-modal'
 import ProductBase from './product-base.vue'
+import ProductPrices from './product-prices.vue'
 import ProductProperties from './product-properties.vue'
 
 const props = defineProps<{
@@ -51,7 +52,14 @@ function onAttrClick() {
     width: 800,
   })
 }
-function onSkuClick() {}
+function onSkuClick() {
+  modal.open({
+    title: '配置产品特性价格',
+    component: ProductPrices,
+    props: { id: props.id },
+    width: 800,
+  })
+}
 function onDetailClick() {}
 
 const onPreviewClick = () => emits('preview', props.id)

@@ -55,5 +55,11 @@ export type ProductPropertyInfo = {
 // picks some properties which propduct type, to define the base type
 export type ProductBaseType = Pick<
   Product,
-  'title' | 'subtitle' | 'recommended' | 'keyword' | 'banners' | 'cover'
+  | 'title'
+  | 'subtitle'
+  | 'recommended'
+  | 'keyword'
+  | 'banners'
+  | 'cover'
+  | 'contents'
 > & { categoryId: string }

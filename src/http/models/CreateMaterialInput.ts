@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type CreateMaterialInput = {
-  keys: string[]
-  group?: string
+  keys: string[];
+  group?: string;
 }

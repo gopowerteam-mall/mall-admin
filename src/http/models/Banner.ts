@@ -3,33 +3,33 @@
 /* eslint-disable */
 
 export type Banner = {
-  id: string
+  id: string;
   /**
    * 创建日期
    */
-  createdAt: string
+  createdAt: string;
   /**
    * 更新日期
    */
-  updatedAt: string
+  updatedAt: string;
   /**
    * 排序
    */
-  sort: number
+  sort: number;
   /**
    * title
    */
-  title: string
+  title: string;
   /**
    * Banner图片
    */
-  image: string
+  image: string;
   /**
    * Banner类型
    */
-  type: 'URL' | 'PAGE' | 'PROJECT'
+  type: 'URL' | 'PAGE' | 'PROJECT';
   /**
    * 参数
    */
-  target: string
+  target: string;
 }

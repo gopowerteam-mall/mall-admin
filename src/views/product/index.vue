@@ -103,15 +103,17 @@ function refreshData() {
 }
 
 const modal = useModal()
+const router = useRouter()
 function onClickNew() {
-  modal
-    .open({
-      title: '添加产品基础信息',
-      component: ProductBase,
-      props: {},
-      width: 800,
-    })
-    .then((status) => status && refreshData())
+  // modal
+  //   .open({
+  //     title: '添加产品基础信息',
+  //     component: ProductBase,
+  //     props: {},
+  //     width: 800,
+  //   })
+  //   .then((status) => status && refreshData())
+  router.push('/product/new')
 }
 
 const onResetClick = () => refForm.resetFields()

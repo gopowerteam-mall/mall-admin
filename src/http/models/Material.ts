@@ -1,31 +1,32 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { MaterialGroup } from './MaterialGroup';
 
 export type Material = {
-  id: string
+  id: string;
   /**
    * 创建日期
    */
-  createdAt: string
+  createdAt: string;
   /**
    * 更新日期
    */
-  updatedAt: string
+  updatedAt: string;
   /**
    * 素材Key
    */
-  key: string
+  key: string;
   /**
    * 素材类型
    */
-  type: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'DOCUMENT' | 'OTHER'
+  type: 'IMAGE' | 'VIDEO' | 'AUDIO' | 'DOCUMENT' | 'OTHER';
   /**
    * 来源
    */
-  origin: 'admin' | 'weapp' | 'app'
+  origin: 'admin' | 'weapp' | 'app';
   /**
    * 分组
    */
-  group: 'admin' | 'weapp' | 'app'
+  group: MaterialGroup;
 }

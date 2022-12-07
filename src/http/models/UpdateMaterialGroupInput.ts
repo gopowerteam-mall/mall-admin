@@ -3,5 +3,8 @@
 /* eslint-disable */
 
 export type UpdateMaterialGroupInput = {
-  name: string
+  /**
+   * 素材名称
+   */
+  name: string;
 }

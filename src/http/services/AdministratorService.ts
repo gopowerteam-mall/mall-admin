@@ -1,24 +1,24 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateAdministratorInput } from '../models/CreateAdministratorInput'
-import type { Administrator } from '../models/Administrator'
-import type { PageAdministrator } from '../models/PageAdministrator'
-import type { UpdateAdministratorInput } from '../models/UpdateAdministratorInput'
-import type { AdministratorResetPasswordResponse } from '../models/AdministratorResetPasswordResponse'
-import type { UpdatePasswordInput } from '../models/UpdatePasswordInput'
-import { RequestService, type RequestPlugin } from '@gopowerteam/request'
+import type { CreateAdministratorInput } from '../models/CreateAdministratorInput';
+import type { Administrator } from '../models/Administrator';
+import type { PageAdministrator } from '../models/PageAdministrator';
+import type { UpdateAdministratorInput } from '../models/UpdateAdministratorInput';
+import type { AdministratorResetPasswordResponse } from '../models/AdministratorResetPasswordResponse';
+import type { UpdatePasswordInput } from '../models/UpdatePasswordInput';
+import { RequestService, type RequestPlugin } from '@gopowerteam/request';
 
 export class AdministratorService {
   // 请求实例
-  private request = RequestService.getInstance()
+  private request = RequestService.getInstance();
 
   /**
    * 创建管理员
    */
   public createAdministrator(
     requestBody: CreateAdministratorInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Administrator> {
     // 请求数据
     const result = this.request.send(
@@ -27,18 +27,18 @@ export class AdministratorService {
         method: 'post',
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 查询管理员列表
    */
   public findAdministrator(
     requestQuery: RequestQueryParams.FindAdministrator,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<PageAdministrator> {
     // 请求数据
     const result = this.request.send(
@@ -47,19 +47,19 @@ export class AdministratorService {
         method: 'get',
         paramsQuery: requestQuery,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 更新管理员
    */
   public updateAdministrator(
     id: string,
     requestBody: UpdateAdministratorInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Administrator> {
     // 请求数据
     const result = this.request.send(
@@ -71,18 +71,18 @@ export class AdministratorService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 获取管理员
    */
   public getAdministrator(
     id: string,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<Administrator> {
     // 请求数据
     const result = this.request.send(
@@ -93,18 +93,18 @@ export class AdministratorService {
           id,
         },
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 删除用户
    */
   public deleteAdministrator(
     id: string,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -115,18 +115,18 @@ export class AdministratorService {
           id,
         },
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 重置管理员密码
    */
   public resetAdministratorPassword(
     id: string,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<AdministratorResetPasswordResponse> {
     // 请求数据
     const result = this.request.send(
@@ -137,19 +137,19 @@ export class AdministratorService {
           id,
         },
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
-
+  
   /**
    * 更新管理员密码
    */
   public updateAdministratorPassword(
     id: string,
     requestBody: UpdatePasswordInput,
-    requestPlugins: RequestPlugin[] = [],
+    requestPlugins: RequestPlugin[] = []
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -161,22 +161,24 @@ export class AdministratorService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins,
-    )
-
+      requestPlugins
+    );
+  
     return result
   }
+  
 }
+
 
 namespace RequestQueryParams {
   export type FindAdministrator = {
     /**
      * 姓名(模糊查询)
      */
-    realname?: string
+    realname?: string;
     /**
      * 用户名(模糊查询)
      */
-    username?: string
+    username?: string;
   }
 }
