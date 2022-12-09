@@ -15,37 +15,33 @@
       :data='tabData'
       :disable-list='usedNames'
       @delete='onDeleteClick')
-  .flex.justify-between
-    a-button(type='dashed' status='success' @click='onAddNewClick') 增加新属性
+  .flex.justify-end
     a-space
-      a-button(type='secondary' @click='onCancel') 取消
+      a-button(type='dashed' status='success' @click='onAddNewClick') 增加新属性
       a-button(type='primary' @click='onSubmit') 保存
 </template>
 
 <script lang="ts" setup>
 import { ProductService } from '@/http/services/ProductService'
-import type { ProductPropertyInfo } from '../product.composable'
+import type {
+  ProductPropertyInfo,
+  PropertySpecification,
+} from '../product.composable'
 import ProductPropertyForm from './product-property-form.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { Message } from '@arco-design/web-vue'
-import type { start } from 'nprogress'
 
-const props = defineProps<{ id: string }>()
+const props = defineProps<{ id: string; attrs: ProductPropertyInfo[] }>()
 
-let detailInfo: any = null
 let propList = $ref<ProductPropertyInfo[]>([])
 
 const service = new ProductService()
 
-onBeforeMount(() => {
-  service.getProduct(props.id).then((data: any) => {
-    // 商品原始信息
-    detailInfo = data
-    if (data.attrs && data.attrs.length) propList = data.attrs
-    else onAddNewClick()
-    // No-nullable
-    setCurrentTabData(propList[0])
-  })
+onMounted(() => {
+  if (props.attrs.length) propList = props.attrs
+  else onAddNewClick()
+  // No-nullable
+  setCurrentTabData(propList[0])
 })
 
 let formRef = $ref<{ validate: () => Promise<boolean> }>()
@@ -112,25 +108,35 @@ function syncSourceList() {
   sourceItem.items = tabData.items
 }
 
-// 弹框控制
-const modal = useModal()
-const onCancel = () => modal.close(false)
+async function onSubmit() {
+  if (!(await formRef.validate())) return
 
-function onSubmit() {
-  formRef.validate().then((r) => {
-    if (!r) return
-    // 再次同步表单数据到数据集
-    syncSourceList()
+  // 再次同步表单数据到数据集
+  syncSourceList()
 
-    // 检测主属性未设置或者重复
-    if (propList.filter((x) => x.primary).length > 1) {
-      Message.error('主属性只能有一个，请检查')
-      return
-    }
+  // 检测主属性未设置或者重复
+  if (propList.filter((x) => x.primary).length > 1) {
+    Message.error('主属性只能有一个，请检查')
+    return
+  }
 
-    service
-      .updateProduct(props.id, Object.assign(detailInfo, { attrs: propList }))
-      .then(() => modal.close(true))
-  })
+  // setp1 保存attrNames
+  const param = propList.map((x) => ({ name: x.name, primary: x.primary }))
+  const attrResponse = await service.updateProductAttr(props.id, {
+    attr: param,
+  } as any)
+
+  // const valueList: PropertySpecification[]
+  // attrResponse.
+
+  // = ([] = propList.reduce(
+  //   (list: PropertySpecification[], attr) => {
+  //     const serverAttr = attrResponse.find((x) => x.name === attr.name)
+  //     if (!serverAttr) return list
+  //     attr.items.forEach((x) => list.push({ ...x, id: serverAttr.id }))
+  //     return attr
+  //   },
+  //   [],
+  // ))
 }
 </script>

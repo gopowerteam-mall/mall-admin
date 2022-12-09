@@ -65,7 +65,7 @@ import ProductDetailPhotos, {
   type ExposeType as PhotosRefType,
 } from './components/product-detail-photos.vue'
 import { LoadingService } from '@/http/extends/loading.service'
-import { Message } from '@arco-design/web-vue'
+import { Message, Modal } from '@arco-design/web-vue'
 import { ProductService } from '@/http/services/ProductService'
 import { MaterialService } from '@/http/services/MaterialService'
 
@@ -131,18 +131,39 @@ function onSave() {
 }
 
 const router = useRouter()
-function createNewData() {
-  new ProductService().createProduct(model, [loadingService]).then(() => {
-    Message.success('添加成功，请移步列表操作')
+async function createNewData() {
+  function toListPage() {
     setTimeout(() => {
       router.push('/product').then(onReset)
     }, 1000)
-  })
+  }
+
+  function toAttrEdit(vId: string) {
+    setTimeout(() => {
+      router
+        .push({ name: 'product-setting', params: { id: vId } })
+        .then(onReset)
+    }, 100)
+  }
+
+  const service = new ProductService()
+  try {
+    const product = await service.createProduct(model, [loadingService])
+    await service.createProductVersion(product.id)
+    Message.success('添加成功，请移步列表操作')
+    Modal.confirm({
+      content: '是否继续编辑属性?',
+      onOk: () => toAttrEdit(product.id),
+      onCancel: toListPage,
+    })
+  } catch (error: any) {
+    Message.error(error)
+  }
 }
 </script>
 
 <route lang="yaml">
-name: products-create
+name: product-create
 meta:
   layout: workspace
   auth:

@@ -14,6 +14,9 @@ a-dropdown.product-item-operator
     a-doption(@click='onSkuClick') 编辑商品特性
       template(#icon)
         icon-park-outline:color-filter
+    a-doption(@click='onSettingClick') 产品配置
+      template(#icon)
+        icon-park-outline:color-filter
     a-doption(@click='onDetailClick') 编辑详情页
       template(#icon)
         icon-park-outline:view-grid-detail
@@ -61,6 +64,10 @@ function onSkuClick() {
   })
 }
 function onDetailClick() {}
+
+const router = useRouter()
+const onSettingClick = () =>
+  router.push({ name: 'product-setting', params: { id: props.id } })
 
 const onPreviewClick = () => emits('preview', props.id)
 </script>
