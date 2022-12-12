@@ -2,21 +2,33 @@
 page-container(title='编辑产品特性')
   .product-setting.p-x-4
     a-descriptions(:data='productDesc')
-    .w-600px.m-30px
-      a-steps(:current='currentStep')
-        a-step 属性名称配置
-        a-step 属性项配置
-        a-step 属性-价格配置
-    ProductAttr(v-if='currentStep === 1' :id='productId')
+    .product-setting_version.flex.items-end.m-y-10px(v-if='!versionId')
+      a-button(@click='createNewVersion') 创建新版本
+      .m-l-4.text-xs.text-gray-300 设置新版本将开始重新设置所有属性
+    .product-setting_steps.w-800px.m-auto(v-if='versionId')
+      a-steps.m-a.m-y-40px(:current='currentStep')
+        a-step 设置商品属性名称
+        a-step 设置属性名称值
+        a-step 属性组合-价格
+      .product-setting_step_container
+        ProductAttrNames(v-if='currentStep === 1' @next='currentStep++')
+        ProductAttrValues(
+          v-if='currentStep === 2'
+          @before='currentStep--'
+          @next='currentStep++')
 </template>
 
 <script lang="ts" setup>
-import type { ProductVersion as ProductVersionType } from '@/http/models/ProductVersion'
 import { ProductService } from '@/http/services/ProductService'
-import ProductAttr from './components/product-attr.vue'
+import ProductAttrNames from './components/product-attr-names.vue'
+import ProductAttrValues from './components/product-attr-values.vue'
 
 const route = useRoute()
 const productId = route.params.id as string
+let versionId = ref('')
+
+provide('id', productId)
+provide('versionId', versionId)
 
 let currentStep = $ref(1)
 
@@ -34,16 +46,22 @@ const productDesc = $ref([
 // service
 const service = new ProductService()
 
-let versionList = $ref<ProductVersionType[]>([])
-
 // 初始化获取当前产品信息
 onBeforeMount(() =>
   service.getProduct(productId).then((data) => {
-    versionList = data.versions
     productDesc[0].value = data.title
     productDesc[1].value = data.subtitle
+
+    // 获取未编辑的versionId
+    versionId.value = data.versions.find((x) => x.attrs.length === 0)?.id ?? ''
   }),
 )
+
+function createNewVersion() {
+  service.createProductVersion(productId).then((data) => {
+    versionId.value = data.id
+  })
+}
 </script>
 <route lang="yaml">
 name: product-setting
