@@ -15,10 +15,9 @@
       :data='tabData'
       :disable-list='usedNames'
       @delete='onDeleteClick')
-  .flex.justify-end
-    a-space
-      a-button(type='dashed' status='success' @click='onAddNewClick') 增加新属性
-      a-button(type='primary' @click='onSubmit') 保存
+  .flex.justify-between.p-x-50px
+    a-button(type='dashed' status='success' @click='onAddNewClick') 增加新属性
+    a-button(type='primary' @click='onSubmit') 下一步
 </template>
 
 <script lang="ts" setup>
@@ -31,15 +30,17 @@ import ProductPropertyForm from './product-property-form.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { Message } from '@arco-design/web-vue'
 
-const props = defineProps<{ id: string; attrs: ProductPropertyInfo[] }>()
+// const props = defineProps<{ id: string; attrs: ProductPropertyInfo[] }>()
+const productId = inject<string>('id')
 
 let propList = $ref<ProductPropertyInfo[]>([])
 
 const service = new ProductService()
 
 onMounted(() => {
-  if (props.attrs.length) propList = props.attrs
-  else onAddNewClick()
+  // if (props.attrs.length) propList = props.attrs
+  // else
+  onAddNewClick()
   // No-nullable
   setCurrentTabData(propList[0])
 })
@@ -121,10 +122,10 @@ async function onSubmit() {
   }
 
   // setp1 保存attrNames
-  const param = propList.map((x) => ({ name: x.name, primary: x.primary }))
-  const attrResponse = await service.updateProductAttr(props.id, {
-    attr: param,
-  } as any)
+  const attrs = propList.map((x) => ({ name: x.name, primary: x.primary }))
+  const attrResponse = await service.setupProductAttrs(productId!, {
+    attrs,
+  })
 
   // const valueList: PropertySpecification[]
   // attrResponse.

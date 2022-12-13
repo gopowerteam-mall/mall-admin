@@ -1,4 +1,5 @@
 import type { Product } from '@/http/models/Product'
+import type { ProductAttr } from '@/http/models/ProductAttr'
 
 // table columns settings
 export const tableColumns = [
@@ -63,3 +64,11 @@ export type ProductBaseType = Pick<
   | 'cover'
   | 'contents'
 > & { categoryId: string }
+
+export type ProductAttrBase = Pick<ProductAttr, 'id' | 'name' | 'primary'>
+
+export type ProductAttrPrice = {
+  id: string
+  price: number | null
+  items: PropertySpecification[]
+}

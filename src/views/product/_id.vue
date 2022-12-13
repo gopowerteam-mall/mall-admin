@@ -11,17 +11,27 @@ page-container(title='编辑产品特性')
         a-step 设置属性名称值
         a-step 属性组合-价格
       .product-setting_step_container
-        ProductAttrNames(v-if='currentStep === 1' @next='currentStep++')
+        ProductAttrNames(v-if='currentStep === 1' @next='onNext')
         ProductAttrValues(
           v-if='currentStep === 2'
-          @before='currentStep--'
-          @next='currentStep++')
+          :attrs='attrList'
+          @before='onBefore'
+          @next='onNext')
+        ProductAttrPrices(
+          v-if='currentStep === 3'
+          :data='attrCombinedList'
+          @before='onBefore'
+          @next='onNext')
+        ProductAttrSuccess(v-if='currentStep === 4' @rest='onRest')
 </template>
 
 <script lang="ts" setup>
 import { ProductService } from '@/http/services/ProductService'
 import ProductAttrNames from './components/product-attr-names.vue'
 import ProductAttrValues from './components/product-attr-values.vue'
+import ProductAttrPrices from './components/product-attr-prices.vue'
+import type { ProductAttrBase, ProductAttrPrice } from './product.composable'
+import ProductAttrSuccess from './components/product-attr-success.vue'
 
 const route = useRoute()
 const productId = route.params.id as string
@@ -45,6 +55,8 @@ const productDesc = $ref([
 
 // service
 const service = new ProductService()
+let attrList = $ref<ProductAttrBase[]>([])
+let attrCombinedList = $ref<ProductAttrPrice[]>([])
 
 // 初始化获取当前产品信息
 onBeforeMount(() =>
@@ -61,6 +73,33 @@ function createNewVersion() {
   service.createProductVersion(productId).then((data) => {
     versionId.value = data.id
   })
+}
+
+function onBefore() {
+  if (currentStep === 2) {
+    // 返回第一步需要重置属性集合
+    attrList = []
+  } else if (currentStep === 3) {
+    attrCombinedList = []
+  }
+  currentStep--
+}
+
+function onNext(data?: Array<ProductAttrBase | ProductAttrPrice>) {
+  if (currentStep === 1) {
+    // 第一步会回传属性集合
+    attrList = data as Array<ProductAttrBase>
+  } else if (currentStep === 2) {
+    attrCombinedList = data as Array<ProductAttrPrice>
+  }
+  currentStep++
+}
+
+function onRest() {
+  currentStep = 1
+  attrList = []
+  attrCombinedList = []
+  versionId.value = ''
 }
 </script>
 <route lang="yaml">

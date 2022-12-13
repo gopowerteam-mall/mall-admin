@@ -270,6 +270,7 @@ export class ProductService {
    * 配置商品Specs
    */
   public setupProductSpecs(
+    id: string,
     requestBody: SetupProductSpecsInput,
     requestPlugins: RequestPlugin[] = [],
   ): Promise<ProductSpec[]> {
@@ -278,6 +279,9 @@ export class ProductService {
       {
         path: '/api/admin/product/{id}/product-specs',
         method: 'post',
+        paramsPath: {
+          id,
+        },
         paramsBody: requestBody,
       },
       requestPlugins,
