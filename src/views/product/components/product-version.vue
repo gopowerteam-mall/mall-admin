@@ -28,13 +28,16 @@
       :pagination='false'
       :show-header='false')
       template(#skuCombine='{ record }')
-        span {{ record.items.map((x: any) => x.name).join() }}
+        a-space
+          a-tag(v-for='item of record.items' :key='item.id') {{ item.name }}
 </template>
 
 <script lang="ts" setup>
 import type { ProductVersion } from '@/http/models/ProductVersion'
 
 defineProps<{ data: ProductVersion }>()
+
+const moneyFormat = (value?: number) => (value ? value.toFixed(2) + '元' : '--')
 
 const attrColumns = [
   {
@@ -56,6 +59,7 @@ const skuColumns = [
   {
     title: '价格',
     dataIndex: 'price',
+    render: ({ record }: any) => moneyFormat(record.price),
   },
 ]
 </script>

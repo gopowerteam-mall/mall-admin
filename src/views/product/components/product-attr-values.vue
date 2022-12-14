@@ -4,8 +4,7 @@
     :data='attrs'
     :columns='attrColumns'
     size='small'
-    :pagination='false'
-    :show-header='false')
+    :pagination='false')
     template(#valueItem='{ record }')
       a-space
         .attr-value-item.flex.flex-center(
@@ -17,21 +16,24 @@
             width='50px'
             height='50px')
           a-tag(closable @close='onDelVal(record.id, value.name)') {{ value.name }}
-  a-card
+  a-card.m-t-2(title='属性配置')
     a-form(
       ref='formRef'
       :model='model'
       :rules='rules'
       @submit-success='onInsert')
       a-form-item(field='attrId' label='属性名')
-        a-select(v-model='model.attrId' placeholder='请选择属性')
+        a-select(v-model='model.attrId' placeholder='请选择属性' allow-clear)
           a-option(
             v-for='item of attrs'
             :key='item.id'
             :label='item.name'
             :value='item.id')
       a-form-item(label='属性值' field='valueName')
-        a-input(v-model.trim='model.valueName')
+        a-input(
+          v-model.trim='model.valueName'
+          allow-clear
+          placeholder='请输入属性值')
       a-form-item(v-if='showImage' label='属性值关联图片' field='valueImage')
         ProductBasePhotos(v-model='model.valueImage')
       a-form-item
@@ -114,7 +116,8 @@ function onInsert() {
     name: model.valueName,
     image: model.valueImage,
   })
-  onResetClick()
+  model.valueImage = ''
+  model.valueName = ''
 }
 
 function onDelVal(attrId: string, valueName: string) {

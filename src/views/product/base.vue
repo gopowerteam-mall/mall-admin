@@ -3,17 +3,23 @@ page-container(title='创建新产品')
   a-form.min-w-1200px.p-x-10(
     ref='formRef'
     :model='model'
-    :rules='rules'
+    :rules='productFormBaseRule'
     @submit-success='onSave')
     .flex
       a-form-item(class='w-500px!' label='标题' field='title')
-        a-input(v-model='model.title' placeholder='请输入商品标题')
+        a-input(
+          v-model='model.title'
+          :disabled='!!productId'
+          placeholder='请输入商品标题')
       a-form-item.flex-1(
         label='副标题'
         field='subtitle'
         :label-col-style='{ "flex-basis": "120px" }'
         :wrapper-col-style='{ flex: 1 }')
-        a-input(v-model='model.subtitle' placeholder='请输入副标题(详情页展示)')
+        a-input(
+          v-model='model.subtitle'
+          :disabled='!!productId'
+          placeholder='请输入副标题(详情页展示)')
     .flex
       a-form-item(class='w-500px!' label='所属分类' field='categoryId')
         CategorySelect(v-model='model.categoryId' placeholder='请选择商品细分分类')
@@ -68,6 +74,20 @@ import { LoadingService } from '@/http/extends/loading.service'
 import { Message, Modal } from '@arco-design/web-vue'
 import { ProductService } from '@/http/services/ProductService'
 import { MaterialService } from '@/http/services/MaterialService'
+import { productFormBaseRule } from './product.composable'
+
+const router = useRouter()
+const route = useRoute()
+let productId = route.query.id as string
+// service
+const service = new ProductService()
+
+const saving = ref(false)
+const loadingService = new LoadingService(saving)
+
+// form control handle
+const photosRef = $ref<PhotosRefType>()
+const formRef = $ref<any>()
 
 const model = $ref<ProductBaseType>({
   title: '',
@@ -80,29 +100,23 @@ const model = $ref<ProductBaseType>({
   contents: [],
 })
 
-const rules = {
-  title: { required: true, message: '请输入商品标题' },
-  subtitle: { required: true, message: '请输入商品副标题' },
-  keyword: [
-    { required: true, message: '请输入关键字' },
-    { maxLength: 10, message: '关键字最多有10个' },
-  ],
-  banners: { required: true, message: '请配置商品缩略图' },
-  cover: { required: true, message: '请配置商品列表封面图' },
-  categoryId: { required: true, message: '请选择商品细分类目' },
-  contents: [
-    { required: true, message: '请选择商品详情图片' },
-    { minLength: 1, message: '最少选择1个图片详情' },
-    { maxLength: 20, message: '最多选择20个图片详情' },
-  ],
-}
+onBeforeMount(() => {
+  if (!productId) return
 
-const photosRef = $ref<PhotosRefType>()
-const formRef = $ref<any>()
-const saving = ref(false)
-const loadingService = new LoadingService(saving)
+  service.getProduct(productId).then((data) => {
+    model.title = data.title
+    model.subtitle = data.subtitle
+    model.recommended = data.recommended
+    model.keyword = data.keyword
+    model.banners = data.banners
+    model.cover = data.cover
+    model.categoryId = data.category?.id ?? ''
+    model.contents = data.contents
+  })
+})
 
 function onReset() {
+  productId = ''
   photosRef.reset()
   // 重置表单
   formRef.resetFields()
@@ -124,36 +138,39 @@ function onSave() {
         },
         [loadingService],
       )
-      .then(createNewData)
+      .then(saveData)
   } else {
-    createNewData()
+    saveData()
   }
 }
 
-const router = useRouter()
-async function createNewData() {
+async function saveData() {
   function toListPage() {
     setTimeout(() => {
       router.push('/product').then(onReset)
     }, 1000)
   }
 
-  function toAttrEdit(vId: string) {
+  function toAttrEdit() {
     setTimeout(() => {
       router
-        .push({ name: 'product-setting', params: { id: vId } })
+        .push({ name: 'product-attr', query: { id: productId } })
         .then(onReset)
     }, 100)
   }
 
-  const service = new ProductService()
   try {
-    const product = await service.createProduct(model, [loadingService])
-    await service.createProductVersion(product.id)
-    Message.success('添加成功，请移步列表操作')
+    if (productId) {
+      await service.updateProduct(productId, model, [loadingService])
+    } else {
+      const product = await service.createProduct(model, [loadingService])
+      productId = product.id
+      await service.createProductVersion(product.id)
+      Message.success('添加成功，请移步列表操作')
+    }
     Modal.confirm({
       content: '是否继续编辑属性?',
-      onOk: () => toAttrEdit(product.id),
+      onOk: toAttrEdit,
       onCancel: toListPage,
     })
   } catch (error: any) {
@@ -163,7 +180,7 @@ async function createNewData() {
 </script>
 
 <route lang="yaml">
-name: product-create
+name: product-base
 meta:
   layout: workspace
   auth:

@@ -3,10 +3,10 @@
   a-table(:data='data' :columns='attrColumns' size='small' :pagination='false')
     template(#attrCombind='{ record }')
       a-space
-        .product-attr-value.flex.flex-center.space-x-2(
+        .product-attr-value.flex.flex-center(
           v-for='item of record.items'
           :key='item.id')
-          ImagePreview(
+          ImagePreview.m-r-2(
             v-if='item.image'
             :src='item.image'
             width='50px'
