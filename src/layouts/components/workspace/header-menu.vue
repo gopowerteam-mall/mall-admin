@@ -2,11 +2,13 @@
   <a-menu
     mode="horizontal"
     :selected-keys="selectedKeys"
-    @menu-item-click="onMenuSelect">
+    @menu-item-click="onMenuSelect"
+  >
     <MenuItem
       v-for="menu in headerMenus"
       :key="menu.key"
-      :menu="menu"></MenuItem>
+      :menu="menu"
+    ></MenuItem>
   </a-menu>
 </template>
 

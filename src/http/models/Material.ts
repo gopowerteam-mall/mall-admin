@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { MaterialGroup } from './MaterialGroup'
 
 export type Material = {
   id: string
@@ -27,5 +28,5 @@ export type Material = {
   /**
    * 分组
    */
-  group: 'admin' | 'weapp' | 'app'
+  group: MaterialGroup
 }

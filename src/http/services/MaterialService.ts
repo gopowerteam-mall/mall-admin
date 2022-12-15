@@ -39,7 +39,7 @@ export class MaterialService {
   public findMaterial(
     requestQuery: RequestQueryParams.FindMaterial,
     requestPlugins: RequestPlugin[] = [],
-  ): Promise<{ total: number; data: Material[] }> {
+  ): Promise<Material[]> {
     // 请求数据
     const result = this.request.send(
       {
@@ -182,6 +182,9 @@ export class MaterialService {
 
 namespace RequestQueryParams {
   export type FindMaterial = {
+    /**
+     * 分组ID
+     */
     group?: string
   }
   export type DeleteMaterialBatch = {

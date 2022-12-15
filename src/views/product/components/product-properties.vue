@@ -3,8 +3,11 @@
   a-tabs(:active-key='activedKey' hide-content @tab-click='onTabClick')
     a-tab-pane.product-property-item(
       v-for='propItem in propList'
-      :key='propItem.id'
-      :title='propItem.name')
+      :key='propItem.id')
+      template(#title)
+        .flex
+          span(:class='{ "font-blod": propItem.primary }') {{ propItem.name }}
+          icon-park:star.text-xs.m-l-2(v-if='propItem.primary')
   .min-h-300px.m-t-4
     ProductPropertyForm(
       v-if='tabData'
@@ -12,35 +15,34 @@
       :data='tabData'
       :disable-list='usedNames'
       @delete='onDeleteClick')
-  .flex.justify-between
+  .flex.justify-between.p-x-50px
     a-button(type='dashed' status='success' @click='onAddNewClick') 增加新属性
-    a-space
-      a-button(type='secondary' @click='onCancel') 取消
-      a-button(type='primary' @click='onSubmit') 保存
+    a-button(type='primary' @click='onSubmit') 下一步
 </template>
 
 <script lang="ts" setup>
 import { ProductService } from '@/http/services/ProductService'
-import type { ProductPropertyInfo } from '../product.composable'
+import type {
+  ProductPropertyInfo,
+  PropertySpecification,
+} from '../product.composable'
 import ProductPropertyForm from './product-property-form.vue'
 import { useModal } from '@gopowerteam/vue-modal'
+import { Message } from '@arco-design/web-vue'
 
-const props = defineProps<{ id: string }>()
+// const props = defineProps<{ id: string; attrs: ProductPropertyInfo[] }>()
+const productId = inject<string>('id')
 
-let detailInfo: any = null
 let propList = $ref<ProductPropertyInfo[]>([])
 
 const service = new ProductService()
 
-onBeforeMount(() => {
-  service.getProduct(props.id).then((data: any) => {
-    // 商品原始信息
-    detailInfo = data
-    if (data.attrs && data.attrs.length) propList = data.attrs
-    else onAddNewClick()
-    // No-nullable
-    setCurrentTabData(propList[0])
-  })
+onMounted(() => {
+  // if (props.attrs.length) propList = props.attrs
+  // else
+  onAddNewClick()
+  // No-nullable
+  setCurrentTabData(propList[0])
 })
 
 let formRef = $ref<{ validate: () => Promise<boolean> }>()
@@ -107,18 +109,35 @@ function syncSourceList() {
   sourceItem.items = tabData.items
 }
 
-// 弹框控制
-const modal = useModal()
-const onCancel = () => modal.close(false)
+async function onSubmit() {
+  if (!(await formRef.validate())) return
 
-function onSubmit() {
-  formRef.validate().then((r) => {
-    if (!r) return
-    // 再次同步表单数据到数据集
-    syncSourceList()
-    service
-      .updateProduct(props.id, Object.assign(detailInfo, { attrs: propList }))
-      .then(() => modal.close(true))
+  // 再次同步表单数据到数据集
+  syncSourceList()
+
+  // 检测主属性未设置或者重复
+  if (propList.filter((x) => x.primary).length > 1) {
+    Message.error('主属性只能有一个，请检查')
+    return
+  }
+
+  // setp1 保存attrNames
+  const attrs = propList.map((x) => ({ name: x.name, primary: x.primary }))
+  const attrResponse = await service.setupProductAttrs(productId!, {
+    attrs,
   })
+
+  // const valueList: PropertySpecification[]
+  // attrResponse.
+
+  // = ([] = propList.reduce(
+  //   (list: PropertySpecification[], attr) => {
+  //     const serverAttr = attrResponse.find((x) => x.name === attr.name)
+  //     if (!serverAttr) return list
+  //     attr.items.forEach((x) => list.push({ ...x, id: serverAttr.id }))
+  //     return attr
+  //   },
+  //   [],
+  // ))
 }
 </script>

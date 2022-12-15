@@ -8,19 +8,23 @@
       destroy-on-hide
       hide-content
       @change="onTabChange"
-      @delete="onTabDelete">
+      @delete="onTabDelete"
+    >
       <a-tab-pane
         v-for="tab of tabs"
         :key="tab.key"
-        :closable="tabs.length !== 1">
+        :closable="tabs.length !== 1"
+      >
         <template #title>
           <a-dropdown
             trigger="contextMenu"
-            @select="(action) => onTabClose(tab, action as number)">
+            @select="(action) => onTabClose(tab, action as number)"
+          >
             <div>{{ tab.title }}</div>
             <template
               v-if="tabs.length > 1"
-              #content>
+              #content
+            >
               <a-doption :value="TabAction.CLOSE_RIGHT">关闭右侧</a-doption>
               <a-doption :value="TabAction.CLOSE_OTHER">关闭其他</a-doption>
             </template>

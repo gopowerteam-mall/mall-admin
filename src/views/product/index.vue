@@ -37,8 +37,6 @@ page-container(title='产品列表')
 <script lang="ts" setup>
 import { PageService } from '@/http/extends/page.service'
 import { ProductService } from '@/http/services/ProductService'
-import { useModal } from '@gopowerteam/vue-modal'
-import ProductBase from './components/product-base.vue'
 import ProductOperator from './components/product-operator.vue'
 import { LoadingService } from '@/http/extends/loading.service'
 import type { Product } from '@/http/models/Product'
@@ -102,17 +100,8 @@ function refreshData() {
     })
 }
 
-const modal = useModal()
-function onClickNew() {
-  modal
-    .open({
-      title: '添加产品基础信息',
-      component: ProductBase,
-      props: {},
-      width: 800,
-    })
-    .then((status) => status && refreshData())
-}
+const router = useRouter()
+const onClickNew = () => router.push({ name: 'product-base' })
 
 const onResetClick = () => refForm.resetFields()
 // 查询数据

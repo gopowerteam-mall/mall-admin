@@ -50,7 +50,7 @@ function onInputed() {
 }
 
 // 获取删除的tag，并更新vmodel
-function onRemove(e: PointerEvent) {
+function onRemove(e: MouseEvent) {
   let el: HTMLElement | null = e.target as HTMLElement
   do {
     if (el.classList.contains('arco-tag')) {
