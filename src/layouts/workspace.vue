@@ -1,7 +1,7 @@
 <template>
-  <a-layout class="workspace"
-    ><component :is="layout"><Content></Content></component
-  ></a-layout>
+  <a-layout class="workspace">
+    <component :is="layout"><Content></Content></component>
+  </a-layout>
 </template>
 
 <script setup lang="ts">

@@ -5,15 +5,18 @@
       class="absolute inset-0 overflow-auto"
       :style="{
         'margin-top': appConfig.workspace.tabsFixed ? '50px' : '0px',
-      }">
+      }"
+    >
       <Tabs v-if="appConfig.workspace.tabs && !appConfig.workspace.tabsFixed" />
       <RouterView
         v-if="appConfig.workspace.tabs"
-        v-slot="{ Component }">
+        v-slot="{ Component }"
+      >
         <RouterKeepAlive :include="keepAliveInclude">
           <component
             :is="Component"
-            :key="$route.fullPath"></component>
+            :key="$route.fullPath"
+          ></component>
         </RouterKeepAlive>
       </RouterView>
       <RouterView v-else></RouterView>
