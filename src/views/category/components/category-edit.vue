@@ -104,7 +104,7 @@ function updateCategory() {
     .catch(() => (saving = false))
 }
 
-function onRecommandChange(val: boolean) {
+function onRecommandChange(val: string | number | boolean) {
   if (!val) uploadImages.value = []
 }
 </script>

@@ -22,12 +22,8 @@
 
 <script lang="ts" setup>
 import { ProductService } from '@/http/services/ProductService'
-import type {
-  ProductPropertyInfo,
-  PropertySpecification,
-} from '../product.composable'
+import type { ProductPropertyInfo } from '../product.composable'
 import ProductPropertyForm from './product-property-form.vue'
-import { useModal } from '@gopowerteam/vue-modal'
 import { Message } from '@arco-design/web-vue'
 
 // const props = defineProps<{ id: string; attrs: ProductPropertyInfo[] }>()
@@ -85,7 +81,7 @@ function onDeleteClick() {
 }
 
 // 点击tab时校验属性，并切换tab
-async function onTabClick(key: string) {
+async function onTabClick(key: string | number) {
   const result = await formRef.validate()
   if (!result) return
   syncSourceList()
@@ -123,7 +119,7 @@ async function onSubmit() {
 
   // setp1 保存attrNames
   const attrs = propList.map((x) => ({ name: x.name, primary: x.primary }))
-  const attrResponse = await service.setupProductAttrs(productId!, {
+  const _attrResponse = await service.setupProductAttrs(productId!, {
     attrs,
   })
 

@@ -106,11 +106,11 @@ const attrs = [
   },
 ]
 
-const propertiesList = $computed(() =>
+const _propertiesList = $computed(() =>
   attrs.map((x) => ({ label: x.name, value: x.id })),
 )
 
-let skuColumns = $ref<ProductPropertyInfo[]>([])
+let _skuColumns = $ref<ProductPropertyInfo[]>([])
 let skuList = $ref<any[]>([])
 
 const service = new ProductService()
@@ -122,9 +122,9 @@ onBeforeMount(() => {
   })
 })
 
-const onCancel = () => modal.close(false)
+const _onCancel = () => modal.close(false)
 
-function save() {
+function _save() {
   service
     .updateProduct(props.id, Object.assign(detailInfo, model))
     .then(() => modal.close(true))

@@ -46,14 +46,14 @@ const attrColumns = [
   },
 ]
 
-const attrValues = $ref<ProductAttrItemInput[]>([])
+const _attrValues = $ref<ProductAttrItemInput[]>([])
 
 const emits = defineEmits(['before', 'next'])
 
 const service = new ProductService()
 
 const formRef = $ref<{ resetFields: () => void }>()
-const onResetClick = () => formRef.resetFields()
+const _onResetClick = () => formRef.resetFields()
 
 // 点击下一步验证数据完整性
 function onNext() {
@@ -73,8 +73,6 @@ function onNext() {
   }
 
   const specs = props.data.map((x) => ({ id: x.id, price: x.price! }))
-  service
-    .setupProductSpecs(versionId.value, { specs })
-    .then(() => emits('next'))
+  service.setupProductSpecs({ specs }).then(() => emits('next'))
 }
 </script>

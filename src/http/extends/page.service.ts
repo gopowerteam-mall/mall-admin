@@ -48,7 +48,7 @@ export class PageService implements RequestPlugin, PaginationOptions {
     }
   }
 
-  after(response: AdapterResponse, options: RequestSendOptions) {
+  after(response: AdapterResponse, _options: RequestSendOptions) {
     this.total.value = response.data?.total
   }
 }

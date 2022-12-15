@@ -45,7 +45,8 @@ function refreshData() {
 // initial
 onMounted(refreshData)
 
-const onTabpaneChange = (key: string) => emits('update:modelValue', key)
+const onTabpaneChange = (key: string | number) =>
+  emits('update:modelValue', key)
 
 // 删除
 function onDeleteClick() {

@@ -4,8 +4,7 @@
     :pagination="pageService"
     :load-data="loadData"
     :forms="forms"
-    :columns="columns"
-  >
+    :columns="columns">
     <template #actions>
       <div>测试自定义Action</div>
     </template>

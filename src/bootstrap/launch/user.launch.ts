@@ -9,7 +9,7 @@ import type { PageMeta } from '@/types/common'
 /**
  * 检测用户菜单权限
  */
-function checkUserMenuRole(menu: Menu) {
+function checkUserMenuRole(_menu: Menu) {
   // TODO: 用户菜单权限检测
   return true
 }
@@ -104,7 +104,7 @@ function generateUserMenu(router: Router) {
  */
 function updateCurrentToken() {
   // TODO： update token
-  const appService = useRequest((service) => service.AppService)
+  const _appService = useRequest((service) => service.AppService)
   const accessToken = userQuery.safeAccessToken
   const refreshToken = userQuery.select((state) => state.refreshToken)
 
