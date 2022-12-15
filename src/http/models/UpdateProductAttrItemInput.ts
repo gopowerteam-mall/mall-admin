@@ -6,9 +6,9 @@ export type UpdateProductAttrItemInput = {
   /**
    * 属性项名称
    */
-  name?: string;
+  name?: string
   /**
    * 属性项图片
    */
-  image?: string;
+  image?: string
 }

@@ -6,17 +6,17 @@ export type UpdateBannerInput = {
   /**
    * Banner标题
    */
-  title?: string;
+  title?: string
   /**
    * Banner图片
    */
-  image?: string;
+  image?: string
   /**
    * Banner类型
    */
-  type?: 'URL' | 'PAGE' | 'PROJECT';
+  type?: 'URL' | 'PAGE' | 'PROJECT'
   /**
    * 参数
    */
-  target?: string;
+  target?: string
 }

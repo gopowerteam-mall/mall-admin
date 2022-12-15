@@ -1,21 +1,21 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreateCategoryInput } from '../models/CreateCategoryInput';
-import type { Category } from '../models/Category';
-import type { UpdateCategoryInput } from '../models/UpdateCategoryInput';
-import { RequestService, type RequestPlugin } from '@gopowerteam/request';
+import type { CreateCategoryInput } from '../models/CreateCategoryInput'
+import type { Category } from '../models/Category'
+import type { UpdateCategoryInput } from '../models/UpdateCategoryInput'
+import { RequestService, type RequestPlugin } from '@gopowerteam/request'
 
 export class CategoryService {
   // 请求实例
-  private request = RequestService.getInstance();
+  private request = RequestService.getInstance()
 
   /**
    * 创建分类
    */
   public createCategory(
     requestBody: CreateCategoryInput,
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<Category> {
     // 请求数据
     const result = this.request.send(
@@ -24,18 +24,18 @@ export class CategoryService {
         method: 'post',
         paramsBody: requestBody,
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
+
   /**
    * 查询分类
    */
   public findCategory(
     requestQuery: RequestQueryParams.FindCategory,
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<Category[]> {
     // 请求数据
     const result = this.request.send(
@@ -44,19 +44,19 @@ export class CategoryService {
         method: 'get',
         paramsQuery: requestQuery,
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
+
   /**
    * 更新分类
    */
   public updateCategory(
     id: string,
     requestBody: UpdateCategoryInput,
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<Category> {
     // 请求数据
     const result = this.request.send(
@@ -68,18 +68,18 @@ export class CategoryService {
         },
         paramsBody: requestBody,
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
+
   /**
    * 获取分类
    */
   public getCategory(
     id: string,
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<Category> {
     // 请求数据
     const result = this.request.send(
@@ -90,18 +90,18 @@ export class CategoryService {
           id,
         },
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
+
   /**
    * 删除分类
    */
   public deleteCategory(
     id: string,
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<void> {
     // 请求数据
     const result = this.request.send(
@@ -112,28 +112,26 @@ export class CategoryService {
           id,
         },
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
 }
-
 
 namespace RequestQueryParams {
   export type FindCategory = {
     /**
      * 标题
      */
-    title?: string;
+    title?: string
     /**
      * 是否推荐
      */
-    recommended?: boolean;
+    recommended?: boolean
     /**
      * 是否包含子元素
      */
-    recursion?: boolean;
+    recursion?: boolean
   }
 }

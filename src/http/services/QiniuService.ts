@@ -1,15 +1,15 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GetUploadTokenResponse } from '../models/GetUploadTokenResponse';
-import { RequestService, type RequestPlugin } from '@gopowerteam/request';
+import type { GetUploadTokenResponse } from '../models/GetUploadTokenResponse'
+import { RequestService, type RequestPlugin } from '@gopowerteam/request'
 
 export class QiniuService {
   // 请求实例
-  private request = RequestService.getInstance();
+  private request = RequestService.getInstance()
 
   public getUploadToken(
-    requestPlugins: RequestPlugin[] = []
+    requestPlugins: RequestPlugin[] = [],
   ): Promise<GetUploadTokenResponse> {
     // 请求数据
     const result = this.request.send(
@@ -17,14 +17,11 @@ export class QiniuService {
         path: '/api/qiniu/upload-token',
         method: 'get',
       },
-      requestPlugins
-    );
-  
+      requestPlugins,
+    )
+
     return result
   }
-  
 }
 
-
-namespace RequestQueryParams {
-}
+namespace RequestQueryParams {}

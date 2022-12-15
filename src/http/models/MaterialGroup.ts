@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 export type MaterialGroup = {
-  id: string;
+  id: string
   /**
    * 素材分组名称
    */
-  name: string;
+  name: string
 }

@@ -6,13 +6,13 @@ export type ProductAttrItemInput = {
   /**
    * 属性ID
    */
-  attrId: string;
+  attrId: string
   /**
    * 属性项名称
    */
-  name: string;
+  name: string
   /**
    * 图片
    */
-  image: string;
+  image: string
 }

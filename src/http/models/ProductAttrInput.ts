@@ -6,9 +6,9 @@ export type ProductAttrInput = {
   /**
    * 属性名称
    */
-  name: string;
+  name: string
   /**
    * 是否是主属性
    */
-  primary: boolean;
+  primary: boolean
 }

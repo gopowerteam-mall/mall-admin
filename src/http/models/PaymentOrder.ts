@@ -1,28 +1,28 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ProductOrder } from './ProductOrder';
+import type { ProductOrder } from './ProductOrder'
 
 export type PaymentOrder = {
-  id: string;
+  id: string
   /**
    * 创建日期
    */
-  createdAt: string;
+  createdAt: string
   /**
    * 更新日期
    */
-  updatedAt: string;
+  updatedAt: string
   /**
    * 商品订单
    */
-  productOrder: ProductOrder;
+  productOrder: ProductOrder
   /**
    * 订单金额
    */
-  price: number;
+  price: number
   /**
    * 支付订单状态
    */
-  state: 'PENDING' | 'PAID' | 'EXPIRED' | 'REFUNDED';
+  state: 'PENDING' | 'PAID' | 'EXPIRED' | 'REFUNDED'
 }

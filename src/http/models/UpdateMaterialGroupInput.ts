@@ -6,5 +6,5 @@ export type UpdateMaterialGroupInput = {
   /**
    * 素材名称
    */
-  name: string;
+  name: string
 }

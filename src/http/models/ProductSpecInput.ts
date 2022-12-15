@@ -6,6 +6,6 @@ export type ProductSpecInput = {
   /**
    * SpecId
    */
-  id: string;
-  price: number;
+  id: string
+  price: number
 }

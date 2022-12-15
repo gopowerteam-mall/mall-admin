@@ -6,33 +6,33 @@ export type CreateProductInput = {
   /**
    * 标题
    */
-  title: string;
+  title: string
   /**
    * 副标题
    */
-  subtitle: string;
+  subtitle: string
   /**
    * 关键字
    */
-  keyword: string[];
+  keyword: string[]
   /**
    * 推荐
    */
-  recommended: boolean;
+  recommended: boolean
   /**
    * Bannner
    */
-  banners: string[];
+  banners: string[]
   /**
    * 封面
    */
-  cover: string;
+  cover: string
   /**
    * 内容图
    */
-  contents: string[];
+  contents: string[]
   /**
    * 分类
    */
-  categoryId: string;
+  categoryId: string
 }

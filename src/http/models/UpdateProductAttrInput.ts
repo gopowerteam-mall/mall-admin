@@ -6,5 +6,5 @@ export type UpdateProductAttrInput = {
   /**
    * 属性名称
    */
-  name: string;
+  name: string
 }
