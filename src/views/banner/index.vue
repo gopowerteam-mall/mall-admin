@@ -42,13 +42,13 @@ page-container(title='Banner管理')
 
 <script setup lang="ts">
 import { useRequest } from 'virtual:request'
-import { PageService } from '~/http/extends/page.service'
-import { LoadingService } from '~/http/extends/loading.service'
-import { dateTimeFormat } from '~/shared/common'
-import { BannerTypeDict } from '~/config/dict.config'
+import { PageService } from '@/http/extends/page.service'
+import { LoadingService } from '@/http/extends/loading.service'
+import { dateTimeFormat } from '@/shared/common'
+import { BannerTypeDict } from '@/config/dict.config'
 import BannerEdit from './components/banner-edit.vue'
 import { useModal } from '@gopowerteam/vue-modal'
-import { DisplayScene } from '~/config/enum.config'
+import { DisplayScene } from '@/config/enum.config'
 import BannerSortIcon from './components/banner-sort-icon.vue'
 import type { Banner } from '@/http/models/Banner'
 

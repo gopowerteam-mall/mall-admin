@@ -22,8 +22,8 @@ a-form(:model='form' :rules='formRules' @submit-success='handleSubmit')
 import { Message } from '@arco-design/web-vue'
 import { useModal } from '@gopowerteam/vue-modal'
 import { useRequest } from 'virtual:request'
-import { BannerTypeDict } from '~/config/dict.config'
-import type { UploadTask } from '~/shared/utils/upload.service'
+import { BannerTypeDict } from '@/config/dict.config'
+import type { UploadTask } from '@/shared/utils/upload.service'
 
 const props = defineProps({
   id: {

@@ -1,5 +1,5 @@
 import type { RequestPlugin, RequestSendOptions } from '@gopowerteam/request'
-import { userQuery } from '~/store/user.store'
+import { userQuery } from '@/store/user.store'
 
 export class TokenService implements RequestPlugin {
   public before(options: RequestSendOptions) {

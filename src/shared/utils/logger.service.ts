@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { userQuery } from '~/store/user.store'
+import { userQuery } from '@/store/user.store'
 
 export enum LogType {
   info = 1,

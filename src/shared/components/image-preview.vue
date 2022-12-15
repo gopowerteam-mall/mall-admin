@@ -4,29 +4,30 @@
 </template>
 
 <script setup lang="ts">
-import { DisplayScene } from '~/config/enum.config'
+import { DisplayScene } from '@/config/enum.config'
 import { asyncComputed } from '@vueuse/core'
-import { appQuery } from '~/store/app.store'
+import { appQuery } from '@/store/app.store'
 
-interface Props {
-  src?: string
-  scene?: DisplayScene
-  width?: string | number
-  height?: number | string
-  preview?: boolean
-  rotate?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  preview: true,
-  rotate: false,
-  width: 'auto',
-  height: 'auto',
-  src: '',
-  scene: DisplayScene.Normal,
-  title: '',
-  description: '',
-})
+const props = withDefaults(
+  defineProps<{
+    src?: string
+    scene?: DisplayScene
+    width?: string | number
+    height?: number | string
+    preview?: boolean
+    rotate?: boolean
+  }>(),
+  {
+    preview: true,
+    rotate: false,
+    width: 'auto',
+    height: 'auto',
+    src: '',
+    scene: DisplayScene.Normal,
+    title: '',
+    description: '',
+  },
+)
 
 function getImageSuffix(scene: DisplayScene) {
   // TODO:获取图片样式
@@ -73,7 +74,6 @@ const url = asyncComputed(
   position: relative;
   display: inline-block;
   font-size: 0;
-
   :deep(img.arco-image-img) {
     max-width: v-bind(width);
     max-height: v-bind(height);

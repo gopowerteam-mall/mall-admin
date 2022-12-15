@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { appAction, appQuery } from '~/store/app.store'
+import { appAction, appQuery } from '@/store/app.store'
 import { useStore } from '../hooks/use-store'
 
 const route = useRoute()

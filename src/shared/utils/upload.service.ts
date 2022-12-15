@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid/non-secure'
 import { useLogger } from '../hooks/use-logger'
 import * as qiniu from 'qiniu-js'
-import { FileType } from '~/config/enum.config'
+import { FileType } from '@/config/enum.config'
 import { QiniuService } from '@/http/services/QiniuService'
 
 // 七牛服务

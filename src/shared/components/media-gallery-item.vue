@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { FileType } from '~/config/enum.config'
-import { UploadTask } from '../utils/upload.service'
+import { FileType } from '@/config/enum.config'
+import type { UploadTask } from '../utils/upload.service'
 
 const props = defineProps<{
   width?: string
@@ -60,29 +60,25 @@ function getRootCompoent() {
 .media-gallery-item {
   position: relative;
   font-size: 0;
-
   .action {
     position: absolute;
     top: 0;
     right: 0;
     display: none;
-
     & > * {
       cursor: pointer;
     }
   }
-
   &:hover {
     .action {
       display: block;
     }
   }
 }
-
 .media-wrapper {
+  overflow: hidden;
   width: v-bind(width);
   height: v-bind(height);
-  overflow: hidden;
   background-color: rgb(0 0 0 / 10%);
 }
 </style>

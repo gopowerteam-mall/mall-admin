@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileType } from '~/config/enum.config'
+import { FileType } from '@/config/enum.config'
 
 const props = withDefaults(
   defineProps<{
@@ -63,7 +63,6 @@ const onFileChange = (event: Event) => {
 <style lang="less" scoped>
 .upload-wrapper {
   z-index: 100;
-
   .upload-input {
     opacity: 0;
   }

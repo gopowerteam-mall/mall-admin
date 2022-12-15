@@ -2,22 +2,20 @@
   <a-menu
     mode="horizontal"
     :selected-keys="selectedKeys"
-    @menu-item-click="onMenuSelect"
-  >
+    @menu-item-click="onMenuSelect">
     <MenuItem
       v-for="menu in headerMenus"
       :key="menu.key"
-      :menu="menu"
-    ></MenuItem>
+      :menu="menu"></MenuItem>
   </a-menu>
 </template>
 
 <script setup lang="ts">
 import MenuItem from './menu-item.vue'
-import { useStore } from '~/shared/hooks/use-store'
-import { appAction, appQuery } from '~/store/app.store'
-import { Menu } from '~/types/workspace'
-import { appConfig } from '~/config/app.config'
+import { useStore } from '@/shared/hooks/use-store'
+import { appAction, appQuery } from '@/store/app.store'
+import type { Menu } from '@/types/workspace'
+import { appConfig } from '@/config/app.config'
 
 const router = useRouter()
 const route = useRoute()

@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { FileType } from '~/config/enum.config'
+import { FileType } from '@/config/enum.config'
 import type { UploadTask } from '../utils/upload.service'
 
 const props = withDefaults(
@@ -104,7 +104,6 @@ export default defineComponent({
 .upload-gallery {
   position: relative;
 }
-
 .upload-button-wrapper {
   width: v-bind(width);
   height: v-bind(height);

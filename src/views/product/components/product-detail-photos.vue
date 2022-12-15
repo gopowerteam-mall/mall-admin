@@ -35,7 +35,7 @@
 import type { UploadTask } from '@/shared/utils/upload.service'
 import { useModal } from '@gopowerteam/vue-modal'
 import MaterialPicker from './material-picker.vue'
-import { FileType } from '~/config/enum.config'
+import { FileType } from '@/config/enum.config'
 
 export type ExposeType = {
   // 获取当前组件临时上传资源任务
@@ -125,7 +125,6 @@ function onChooseClick() {
 .product-detail-photos {
   &_item {
     font-size: 0;
-
     &--del {
       position: absolute;
       top: 0;
@@ -138,7 +137,6 @@ function onChooseClick() {
       border-bottom-left-radius: 2rem;
       opacity: 0.9;
     }
-
     &:hover {
       background-color: rgb(251 251 251 / 30%);
 

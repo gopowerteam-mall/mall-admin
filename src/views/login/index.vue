@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { useRequest } from 'virtual:request'
-import { userAction } from '~/store/user.store'
+import { userAction } from '@/store/user.store'
 import { assets } from 'virtual:assets'
 const appService = useRequest((service) => service.AppService)
 const model = $ref({

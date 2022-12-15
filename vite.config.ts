@@ -104,7 +104,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/],
     }),
     request({
-      alias: '~',
+      alias: '@',
       dir: 'src/http/services',
       dts: 'src/types/request.d.ts',
     }),

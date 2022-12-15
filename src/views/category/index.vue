@@ -36,11 +36,11 @@ page-container(title='分类管理')
 
 <script setup lang="ts">
 import { useRequest } from 'virtual:request'
-import { LoadingService } from '~/http/extends/loading.service'
-import { dateTimeFormat, yesNoFormat } from '~/shared/common'
+import { LoadingService } from '@/http/extends/loading.service'
+import { dateTimeFormat, yesNoFormat } from '@/shared/common'
 import CategoryEdit from './components/category-edit.vue'
 import { useModal } from '@gopowerteam/vue-modal'
-import { DisplayScene } from '~/config/enum.config'
+import { DisplayScene } from '@/config/enum.config'
 import { CategoryService } from '@/http/services/CategoryService'
 import type { Category } from '@/http/models/Category'
 

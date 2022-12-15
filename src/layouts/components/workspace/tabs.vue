@@ -8,23 +8,19 @@
       destroy-on-hide
       hide-content
       @change="onTabChange"
-      @delete="onTabDelete"
-    >
+      @delete="onTabDelete">
       <a-tab-pane
         v-for="tab of tabs"
         :key="tab.key"
-        :closable="tabs.length !== 1"
-      >
+        :closable="tabs.length !== 1">
         <template #title>
           <a-dropdown
             trigger="contextMenu"
-            @select="(action) => onTabClose(tab, action as number)"
-          >
+            @select="(action) => onTabClose(tab, action as number)">
             <div>{{ tab.title }}</div>
             <template
               v-if="tabs.length > 1"
-              #content
-            >
+              #content>
               <a-doption :value="TabAction.CLOSE_RIGHT">关闭右侧</a-doption>
               <a-doption :value="TabAction.CLOSE_OTHER">关闭其他</a-doption>
             </template>
@@ -36,10 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import { TabAction } from '~/config/enum.config'
-import { useStore } from '~/shared/hooks/use-store'
-import { appQuery, appAction } from '~/store/app.store'
-import type { Menu, Tab } from '~/types/workspace'
+import { TabAction } from '@/config/enum.config'
+import { useStore } from '@/shared/hooks/use-store'
+import { appQuery, appAction } from '@/store/app.store'
+import type { Menu, Tab } from '@/types/workspace'
 
 const title = $(useStore(appQuery, (state) => state.title))
 const menus = $(useStore(appQuery, (state) => state.menus))

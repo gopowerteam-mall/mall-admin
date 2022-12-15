@@ -1,12 +1,11 @@
 import type { Router } from 'vue-router'
-import { appConfig } from '~/config/app.config'
-import menus from '~/config/menu.config'
-import { appAction } from '~/store/app.store'
-import { userAction, userQuery } from '~/store/user.store'
-import type { Menu } from '~/types/workspace'
+import { appConfig } from '@/config/app.config'
+import menus from '@/config/menu.config'
+import { appAction } from '@/store/app.store'
+import { userAction, userQuery } from '@/store/user.store'
+import type { Menu } from '@/types/workspace'
 import { useRequest } from 'virtual:request'
-import { lastValueFrom } from 'rxjs'
-import type { PageMeta } from '~/types/common'
+import type { PageMeta } from '@/types/common'
 /**
  * 检测用户菜单权限
  */

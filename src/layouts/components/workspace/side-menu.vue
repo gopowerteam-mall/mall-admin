@@ -5,22 +5,20 @@
     :collapsed="collapsed"
     :collapsed-width="appConfig.workspace.sideCollapsedWidth"
     :selected-keys="selectedKeys"
-    @menu-item-click="onMenuSelect"
-  >
+    @menu-item-click="onMenuSelect">
     <MenuItem
       v-for="menu in sideMenus"
       :key="menu.key"
-      :menu="menu"
-    ></MenuItem>
+      :menu="menu"></MenuItem>
   </a-menu>
 </template>
 
 <script setup lang="ts">
 import MenuItem from './menu-item.vue'
-import { useStore } from '~/shared/hooks/use-store'
-import { appQuery } from '~/store/app.store'
-import { appConfig } from '~/config/app.config'
-import { Menu } from '~/types/workspace'
+import { useStore } from '@/shared/hooks/use-store'
+import { appQuery } from '@/store/app.store'
+import { appConfig } from '@/config/app.config'
+import type { Menu } from '@/types/workspace'
 
 const router = useRouter()
 const route = useRoute()

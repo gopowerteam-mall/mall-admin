@@ -22,7 +22,7 @@ page-container(title='管理员列表')
 <script setup lang="ts">
 import { useTable } from '@gopowerteam/vue-dynamic-table'
 import { useRequest } from 'virtual:request'
-import { PageService } from '~/http/extends/page.service'
+import { PageService } from '@/http/extends/page.service'
 import { Message } from '@arco-design/web-vue'
 import AddAdmin from './components/add-admin.vue'
 import type { Administrator } from '@/http/models/Administrator'

@@ -5,18 +5,15 @@
       class="absolute inset-0 overflow-auto"
       :style="{
         'margin-top': appConfig.workspace.tabsFixed ? '50px' : '0px',
-      }"
-    >
+      }">
       <Tabs v-if="appConfig.workspace.tabs && !appConfig.workspace.tabsFixed" />
       <RouterView
         v-if="appConfig.workspace.tabs"
-        v-slot="{ Component }"
-      >
+        v-slot="{ Component }">
         <RouterKeepAlive :include="keepAliveInclude">
           <component
             :is="Component"
-            :key="$route.fullPath"
-          ></component>
+            :key="$route.fullPath"></component>
         </RouterKeepAlive>
       </RouterView>
       <RouterView v-else></RouterView>
@@ -26,10 +23,10 @@
 
 <script setup lang="ts">
 import Tabs from './tabs.vue'
-import RouterKeepAlive from '~/shared/components/router-keep-alive'
-import { useStore } from '~/shared/hooks/use-store'
-import { appQuery } from '~/store/app.store'
-import { appConfig } from '~/config/app.config'
+import RouterKeepAlive from '@/shared/components/router-keep-alive'
+import { useStore } from '@/shared/hooks/use-store'
+import { appQuery } from '@/store/app.store'
+import { appConfig } from '@/config/app.config'
 
 const tabs = $(useStore(appQuery, (state) => state.tabs))
 

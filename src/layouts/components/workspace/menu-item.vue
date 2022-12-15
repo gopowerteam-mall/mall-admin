@@ -12,14 +12,13 @@
       <MenuItem
         v-for="child in menu.children"
         :key="child.key"
-        :menu="child"
-      ></MenuItem>
+        :menu="child"></MenuItem>
     </a-sub-menu>
   </template>
 </template>
 
 <script setup lang="ts">
-import type { Menu } from '~/types/workspace'
+import type { Menu } from '@/types/workspace'
 
 defineProps<{
   menu: Menu

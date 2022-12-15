@@ -1,5 +1,5 @@
 import { isObservable, Observable } from 'rxjs'
-import { StoreQuery } from '~/store'
+import { StoreQuery } from '@/store'
 import type { Ref } from 'vue'
 import { select } from '@ngneat/elf'
 

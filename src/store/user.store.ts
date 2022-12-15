@@ -6,8 +6,8 @@ import {
 } from '@ngneat/elf-persist-state'
 import dayjs from 'dayjs'
 import { map } from 'rxjs'
-import { Administrator } from '~/http/model'
-import { StoreAction, StoreQuery } from '~/store'
+import type { Administrator } from '@/http/models/Administrator'
+import { StoreAction, StoreQuery } from '@/store'
 
 interface State {
   accessToken: string

@@ -21,7 +21,7 @@
 import { MaterialService } from '@/http/services/MaterialService'
 import { Message, Modal } from '@arco-design/web-vue'
 import { useModal } from '@gopowerteam/vue-modal'
-import type { MaterialGroupResponse } from '~/http/models/MaterialGroupResponse'
+import type { MaterialGroupResponse } from '@/http/models/MaterialGroupResponse'
 import MaterialGroupEdit from './material-group-edit.vue'
 
 type GroupTabsProp = {

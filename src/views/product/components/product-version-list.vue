@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import type { ProductVersion as ProductVersionType } from '@/http/models/ProductVersion'
 import ProductVersion from './product-version.vue'
-import { dateTimeFormat } from '~/shared/common'
+import { dateTimeFormat } from '@/shared/common'
 import { useModal } from '@gopowerteam/vue-modal'
 
 defineProps<{ data: ProductVersionType[] }>()

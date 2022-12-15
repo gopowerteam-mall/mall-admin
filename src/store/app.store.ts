@@ -1,7 +1,7 @@
 import { createStore, withProps, setProp, setProps } from '@ngneat/elf'
 import { localStorageStrategy, persistState } from '@ngneat/elf-persist-state'
-import { includeKeys, StoreAction, StoreQuery } from '~/store'
-import type { Menu, Tab } from '~/types/workspace'
+import { includeKeys, StoreAction, StoreQuery } from '@/store'
+import type { Menu, Tab } from '@/types/workspace'
 
 interface AppBase {
   // 时间戳
