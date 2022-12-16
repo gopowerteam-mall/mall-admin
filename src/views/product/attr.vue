@@ -10,6 +10,7 @@ page-container(title='编辑产品特性')
           @click='onVersionHistoryClick') 历史版本
         a-button(
           v-if='!versionId'
+          type='primary'
           title='设置新版本将开始重新设置所有属性'
           @click='createNewVersion') 创建新版本
     .product-setting_steps.w-800px.m-auto(v-if='versionId')
