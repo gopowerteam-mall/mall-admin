@@ -30,7 +30,7 @@ page-container(title='编辑产品特性')
           @before='onBefore'
           @next='onNext')
         ProductAttrSuccess(v-if='currentStep === 4' @rest='onRest')
-    a-empty.m-t-200px(else description='请选择或创建产品版本')
+    a-empty.m-t-200px(v-else description='请选择或创建产品版本')
       template(#image)
         icon-park-outline:arrow-right-up.m-a
 </template>

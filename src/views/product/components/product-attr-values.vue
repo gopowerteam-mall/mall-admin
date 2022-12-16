@@ -150,6 +150,6 @@ function onNext() {
   }
   service
     .setupProductAttrItems(versionId.value, { items: attrValues })
-    .then(() => emits('next'))
+    .then((data) => emits('next', data))
 }
 </script>
