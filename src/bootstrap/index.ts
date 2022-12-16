@@ -1,5 +1,5 @@
-import { App } from 'vue'
-import { Router } from 'vue-router'
+import type { App } from 'vue'
+import type { Router } from 'vue-router'
 import appLaunch from './launch/app.launch'
 import userLaunch from './launch/user.launch'
 import setup from './setup'

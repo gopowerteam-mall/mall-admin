@@ -1,5 +1,5 @@
-import { select, Store, StoreDef, StoreValue } from '@ngneat/elf'
-import { OperatorFunction, pipe, map } from 'rxjs'
+import { select, Store, type StoreDef, type StoreValue } from '@ngneat/elf'
+import { type OperatorFunction, pipe, map } from 'rxjs'
 
 export abstract class StoreAction<T> {
   protected store!: Store<StoreDef, T>
