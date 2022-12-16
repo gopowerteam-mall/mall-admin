@@ -1,9 +1,10 @@
 .modal-container {
+  position: absolute;
+  z-index: 10000 !important;
   .modal {
     &-wrapper {
       z-index: 999;
     }
-
     &-content {
       padding: 0 !important;
     }
@@ -11,22 +12,19 @@
     /* header */
     &-header {
       padding: 5px 0;
-      color: #666;
-      text-indent: 2em;
-      background-color: #fdfdfd;
       border-radius: 5px 5px 0 0;
-
+      text-indent: 2em;
+      color: #666666;
+      background-color: #fdfdfd;
       .title {
         height: 40px;
         line-height: 40px;
       }
-
       .action {
-        padding-top: 10px;
         margin-right: 10px;
+        padding-top: 10px;
       }
     }
-
     &-body {
       padding: 15px 30px;
     }

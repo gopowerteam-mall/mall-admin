@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { UploadTask } from '../utils/upload.service'
+import type { UploadTask } from '../utils/upload.service'
 
 defineProps<{
   task?: UploadTask
@@ -19,7 +19,6 @@ defineProps<{
   display: inline-block;
   font-size: 0;
 }
-
 .progress {
   position: absolute;
   right: 0;
@@ -28,18 +27,16 @@ defineProps<{
   width: 50px;
   height: 30px;
   font-size: 10px;
-  color: #fff;
-  background-color: rgb(0 0 0 / 50%);
   border-radius: 15px 0 0;
+  color: #ffffff;
+  background-color: rgb(0 0 0 / 50%);
   transform: scale(0.8);
   transform-origin: 100% 100%;
 }
-
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
 }
-
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
