@@ -155,7 +155,7 @@ export default function userLaunch(router: Router) {
   router.beforeEach(async (to, from, next) => {
     const meta = to.meta as PageMeta
     // 非必要授权页面直接进入
-    if (!meta?.auth?.required) {
+    if (meta?.auth?.required === false) {
       return next()
     }
 
