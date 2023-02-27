@@ -2,7 +2,7 @@ import type { AppConfig } from '@/types/app.config'
 
 export const appConfig: AppConfig = {
   app: 'mall-admin',
-  title: '商城后台管理',
+  title: '商城管理端',
   logo: '/favicon.ico',
   http: {
     gateway: import.meta.env.VITE_HTTP_GATEWAY,

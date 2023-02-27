@@ -62,6 +62,8 @@ function handleSubmit() {
 <route lang="yaml">
 name: login
 meta:
+  auth:
+    required: false
   menu:
     key: root1.page1
     icon: xxx
