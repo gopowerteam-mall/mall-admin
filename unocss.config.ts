@@ -27,7 +27,10 @@ export default defineConfig({
     ],
     ['flex-center', 'flex justify-center items-center'],
   ],
-
+  safelist: [
+    ...Array.from({ length: 10 }, (_, i) => `space-x-${i + 1}`),
+    ...Array.from({ length: 10 }, (_, i) => `space-y-${i + 1}`),
+  ],
   presets: [
     presetAttributify({
       prefix: 'css:',

@@ -14,7 +14,7 @@
         :task='task'
         :type='type'
         @delete='onDeleteTask')
-      .upload-button(v-if='uploadButton')
+      .upload-button(v-if='uploadButton && tasks.length < limit')
         upload-container.m-5px(
           :multiple='multiple'
           :filetype='type'
@@ -34,7 +34,8 @@ const props = withDefaults(
     uploadButton?: boolean
     multiple?: boolean
     type?: FileType
-    modelValue: string[]
+    modelValue: string[] | string
+    limit?: number
   }>(),
   {
     multiple: false,
@@ -42,12 +43,17 @@ const props = withDefaults(
     width: '150px',
     height: '150px',
     type: FileType.Image,
+    limit: 9,
   },
 )
 
 const uploader = useUploader()
 let tasks = $shallowRef<UploadTask[]>([])
-let medias = $ref<string[]>([...props.modelValue])
+let medias = $ref<string[]>(
+  typeof props.modelValue === 'string'
+    ? [props.modelValue]
+    : [...props.modelValue],
+)
 
 // 需要导出tasks的所有上传状态
 defineExpose({
@@ -65,7 +71,7 @@ const height = toRef(props, 'height')
  */
 function onAddMedia(files: FileList) {
   // 添加任务
-  tasks = [...tasks, ...uploader.upload(files)]
+  tasks = [...tasks, ...uploader.upload(files)].slice(0, props.limit)
   updateVModel()
 }
 
@@ -90,7 +96,13 @@ function onDeleteTask(key: string) {
  * 更新VModel
  */
 function updateVModel() {
-  emit('update:modelValue', [...medias, ...tasks.map((x) => x.key)])
+  const values = [...medias, ...tasks.map((x) => x.key)]
+
+  if (typeof props.modelValue === 'string') {
+    emit('update:modelValue', values.length ? values[0] : '')
+  } else {
+    emit('update:modelValue', values)
+  }
 }
 </script>
 

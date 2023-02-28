@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
+import jsx from '@vitejs/plugin-vue-jsx'
 import autoImport from 'unplugin-auto-import/vite'
 import components from 'unplugin-vue-components/vite'
 import pages from 'vite-plugin-pages'
@@ -24,7 +25,7 @@ const themeVaribles = lessToJs(readFileSync(globalLessTheme, 'utf8'), {
   resolveVariables: true,
   stripPrefix: true,
 })
-
+console.log(themeVaribles)
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -48,6 +49,7 @@ export default defineConfig({
   plugins: [
     // Vue语法支持配置
     vue({ include: [/\.vue$/], reactivityTransform: true }),
+    jsx(),
     // 自动导入插件配置
     autoImport({
       imports: [
@@ -91,6 +93,7 @@ export default defineConfig({
       resolvers: [
         ArcoResolver({
           sideEffect: true,
+          importStyle: 'less',
         }),
         iconsResolver({
           prefix: 'icon',

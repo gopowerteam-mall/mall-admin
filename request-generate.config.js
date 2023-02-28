@@ -2,7 +2,7 @@
  * @type {import('@gopowerteam/request-generate').GenerateOptions}
  */
 module.exports = {
-  gateway: 'https://mall-service.gopowerteam.cn',
+  gateway: 'http://127.0.0.1:3000',
   openapi: '/admin/api-docs',
   output: './src/http',
   exportModels: true,

@@ -3,7 +3,14 @@
 /* eslint-disable */
 
 export type Administrator = {
+  /**
+   * ID
+   */
   id: string
+  /**
+   * 启用状态
+   */
+  enable: boolean
   /**
    * 创建日期
    */
@@ -20,5 +27,4 @@ export type Administrator = {
    * 姓名
    */
   realname: string
-  password: string
 }

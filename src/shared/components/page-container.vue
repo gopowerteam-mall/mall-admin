@@ -1,21 +1,74 @@
-<template>
-  <slot></slot>
+<template lang="pug">
+.page-container(:style='styles')
+  .page-header.flex.justify-end
+    .page-actions.mb-2
+      slot(name='action')
+  .page-body(:class='pageBodyClass')
+    slot
 </template>
 
 <script lang="ts" setup>
-import { appAction, appQuery } from '@/store/app.store'
-import { useStore } from '../hooks/use-store'
+import { appQuery, appAction } from '@/store/app.store'
+import { useStore } from '@/shared/hooks/use-store'
+import type { CSSProperties } from 'vue'
+import { appConfig } from '@/config/app.config'
+import type { ClassName } from '@arco-design/web-vue/es/_utils/types'
+import { useModal } from '@gopowerteam/vue-modal'
 
-const route = useRoute()
 const tabs = $(useStore(appQuery, (state) => state.tabs))
-const props = defineProps<{ title: string }>()
+const modal = useModal()
+const route = useRoute()
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    layout?: 'flex-row' | 'flex-column' | 'block'
+    absolute?: boolean
+    padding?: boolean
+    space?: boolean | number
+    backgroundColor?: string
+  }>(),
+  {
+    title: '',
+    layout: 'block',
+    absolute: false,
+    padding: true,
+    space: true,
+  },
+)
 
+const styles = computed<CSSProperties>(() => {
+  return Object.assign(
+    props.absolute ? ({ position: 'absolute', inset: 0 } as CSSProperties) : {},
+    props.absolute && !appConfig.workspace.tabsFixed
+      ? { marginTop: '50px' }
+      : {},
+    props.padding === false ? {} : { padding: '10px' },
+    props.backgroundColor ? { backgroundColor: props.backgroundColor } : {},
+  )
+})
+
+const pageBodyClass = computed<ClassName>(() => {
+  const space_direction =
+    props.layout === 'block' || props.layout === 'flex-column' ? 'y' : 'x'
+  const space_number = typeof props.space === 'number' ? props.space : 2
+
+  return Object.assign(
+    { [`space-${space_direction}-${space_number}`]: !!props.space },
+    props.layout === 'flex-row'
+      ? ({ flex: true, flexRow: true } as ClassName)
+      : {},
+    props.layout === 'flex-column'
+      ? ({ display: true, flexCol: true } as ClassName)
+      : {},
+  )
+})
 /**
  * 更新页面标题
  */
 function updatePageTitle() {
-  if (props.title) {
-    appAction.updateTitle(props.title)
+  const title = props.title || route.meta.title
+  if (title) {
+    appAction.updateTitle(title as string)
   }
 }
 
@@ -24,9 +77,9 @@ function updatePageTitle() {
  */
 function updateTabTitle() {
   const tab = tabs.find((x) => x.key === route.fullPath)
-
-  if (tab) {
-    tab.title = props.title
+  const title = props.title || route.meta.title
+  if (tab && title) {
+    tab.title = title as string
   }
 }
 
@@ -35,8 +88,10 @@ onActivated(() => {
 })
 
 onBeforeMount(() => {
-  updatePageTitle()
-  updateTabTitle()
+  if (props.title) {
+    updatePageTitle()
+    updateTabTitle()
+  }
 })
 </script>
 
@@ -46,3 +101,10 @@ export default {
   inheritAttrs: false,
 }
 </script>
+
+<style lang="less" scoped>
+.page-container {
+  overflow: auto;
+  min-height: calc(100vh - 159px);
+}
+</style>

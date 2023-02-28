@@ -117,13 +117,13 @@ onBeforeMount(() => {
 
 function onReset() {
   productId = ''
-  photosRef.reset()
+  photosRef!.reset()
   // 重置表单
   formRef.resetFields()
 }
 
 function onSave() {
-  const tasks = photosRef.getTasks()
+  const tasks = photosRef!.getTasks()
   if (tasks.length) {
     // 检测图片上传状态
     if (tasks.some((x) => !x.completed)) {

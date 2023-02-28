@@ -53,7 +53,7 @@ const emits = defineEmits(['before', 'next'])
 const service = new ProductService()
 
 const formRef = $ref<{ resetFields: () => void }>()
-const _onResetClick = () => formRef.resetFields()
+const _onResetClick = () => formRef!.resetFields()
 
 // 点击下一步验证数据完整性
 function onNext() {

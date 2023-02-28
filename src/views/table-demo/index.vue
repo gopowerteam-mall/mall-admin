@@ -28,9 +28,9 @@ const pageService = new PageService(1, 1)
  * 加载表格数据
  * @param param0
  */
-function loadData({ form, update }: LoadDataParams) {
+function loadData({ search, update }: LoadDataParams) {
   administratorService
-    .findAdministrator(form, [pageService])
+    .findAdministrator(search, [pageService])
     .then(({ data }) => {
       // TEST: phone column显示
       data.forEach((row: any) => (row['phone'] = '18899992222'))
@@ -64,7 +64,7 @@ const forms: FormItemsOptions = [
 /**
  * 表格列配置
  */
-const columns: TableColumnsOptions = [
+const columns: TableColumnsOptions<any> = [
   {
     key: 'id',
     title: '名称',
@@ -97,9 +97,9 @@ const columns: TableColumnsOptions = [
         color: 'red',
         text: 'aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398aa123123123123120389012830120398',
       }),
-    form: {
+    search: {
       rules: [{ required: true, message: '请输入名称' }],
-      render: (r) => r.input({ placeholder: 'asd' }),
+      render: (r: any) => r.input({ placeholder: 'asd' }),
     },
   },
   // 测试表单配置
@@ -107,7 +107,7 @@ const columns: TableColumnsOptions = [
   {
     key: 'realname',
     title: '真实姓名',
-    form: {
+    search: {
       collapsed: true,
       render: (r) => r.input({ placeholder: 'asd' }),
     },
