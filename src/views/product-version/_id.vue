@@ -1,11 +1,12 @@
 <template lang="pug">
 page-container(title='创建商品属性')
   step-container(@submit='onSubmit')
-    step-item(title='1') 
+    step-item(title='1' step-key='product1') 
       .a 890890890890
-    step-item(title='2')
+      a-input
+    step-item(title='2' step-key='product2')
       .b 2354
-    step-item(title='3')
+    step-item(title='3' step-key='product3')
       .c 455
 </template>
 

@@ -5,6 +5,7 @@
 
 <script setup lang="ts">
 defineProps<{
+  stepKey: string
   title: string
 }>()
 </script>

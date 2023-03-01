@@ -19,17 +19,21 @@
 </template>
 
 <script setup lang="tsx">
+import type { FunctionalComponent } from 'vue'
+
 let stepIndex = $ref(1)
 
 const instance = getCurrentInstance()
+let current: any
 
 let dataSource = $ref<any>({})
 
 let steps = $ref<
   {
+    key: string
     title: string
     description: string
-    component: Component
+    component: VNode
   }[]
 >([])
 
@@ -39,8 +43,6 @@ let steps = $ref<
 const StepContent = () => {
   if (steps.length) {
     return steps[stepIndex - 1]?.component
-  } else {
-    return <div></div>
   }
 }
 
@@ -52,12 +54,14 @@ function initSteps() {
   const nodes = (slot && slot()) || []
 
   steps = nodes.map((node, index) => {
-    node.key = index
+    const key = (node.props?.['stepKey'] || node.props?.['step-key']) as string
+    const vnode = h(node, { key })
 
     return {
-      title: node.props?.['title'],
-      description: node.props?.['description'],
-      component: node,
+      key,
+      title: node.props?.['title'] as string,
+      description: node.props?.['description'] as string,
+      component: vnode,
     }
   })
 }
