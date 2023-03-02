@@ -25,7 +25,6 @@ const themeVaribles = lessToJs(readFileSync(globalLessTheme, 'utf8'), {
   resolveVariables: true,
   stripPrefix: true,
 })
-console.log(themeVaribles)
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {

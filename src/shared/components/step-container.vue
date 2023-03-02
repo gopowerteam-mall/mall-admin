@@ -10,23 +10,39 @@
   .step-content
     StepContent
   .step-actions.space-x-4.text-center
-    a-button(type='primary' @click='onPrevStep' v-if='stepIndex > 1') 上一步
+    a-button(v-if='stepIndex > 1' type='primary' @click='onPrevStep') 上一步
     a-button(
+      v-if='stepIndex < steps.length'
       type='primary'
-      @click='onNextStep'
-      v-if='stepIndex < steps.length') 下一步
-    a-button(type='primary' v-if='stepIndex === steps.length') 提交
+      @click='onNextStep') 下一步
+    a-button(
+      v-if='stepIndex === steps.length'
+      type='primary'
+      @click='onNextStep') 提交
 </template>
 
 <script setup lang="tsx">
-import type { FunctionalComponent } from 'vue'
+import { providers } from '@/config/provider.config'
+import { Message } from '@arco-design/web-vue'
 
 let stepIndex = $ref(1)
 
 const instance = getCurrentInstance()
-let current: any
+const dataSource = new Map<string, any>()
 
-let dataSource = $ref<any>({})
+const emits = defineEmits({
+  submit: (data: Record<string, any>) => data,
+})
+
+let currentStepValidator =
+  $ref<
+    (
+      resolve: (
+        value: boolean | void | Record<string, any> | undefined,
+      ) => void,
+      reject: (reason?: string | undefined) => void,
+    ) => void
+  >()
 
 let steps = $ref<
   {
@@ -53,7 +69,7 @@ function initSteps() {
   const slot = instance?.slots.default
   const nodes = (slot && slot()) || []
 
-  steps = nodes.map((node, index) => {
+  steps = nodes.map((node) => {
     const key = (node.props?.['stepKey'] || node.props?.['step-key']) as string
     const vnode = h(node, { key })
 
@@ -70,9 +86,33 @@ function onPrevStep() {
   stepIndex -= 1
 }
 
-function onNextStep() {
-  stepIndex += 1
+async function onNextStep() {
+  if (!currentStepValidator) {
+    return
+  }
+
+  new Promise(currentStepValidator)
+    .then((data) => {
+      if (data && typeof data === 'object') {
+        dataSource.set(steps[stepIndex - 1].key, data)
+      }
+
+      if (stepIndex < steps.length) {
+        currentStepValidator = undefined
+        stepIndex += 1
+      } else {
+        emits('submit', Object.fromEntries(dataSource))
+      }
+    })
+    .catch((message) => {
+      Message.error(message)
+    })
 }
+
+provide(providers.step, {
+  dataSource,
+  onNextStep: (validate) => (currentStepValidator = validate),
+})
 
 onMounted(() => {
   initSteps()
